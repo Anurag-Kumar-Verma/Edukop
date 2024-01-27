@@ -1,0 +1,37 @@
+.icon-cls {
+    font-size: 22px !important;
+    padding-left: 8px !important;
+}
+.toolbar {
+    --background: #df1744;
+    color: #fff !important;
+}
+.heading {
+    font-size: 18px !important;
+    text-align: left;
+}
+ion-content div {
+    font-size: 18px !important;
+    text-align: justify !important;
+    padding: 20px !important;
+}
+p {
+    font-size: 14px !important;
+}
+ion-content div ol {
+    padding-inline-start: 20px !important;
+}
+// ion-content div ol li{
+//  font-weight: 600 !important;
+// }
+// ul{
+//     padding-inline-start: 0px !important;
+// }
+ul {
+    padding-inline-start: 15px !important;
+    font-weight: normal !important;
+    margin-bottom: 20px;
+}
+ul li {
+    font-size: 16px;
+}

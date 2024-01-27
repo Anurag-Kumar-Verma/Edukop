@@ -1,0 +1,286 @@
+.product-name {
+    font-size: 17px;
+}
+.toolbar {
+    --background: #df1744;
+    --color: #fff !important;
+}
+.heading {
+    font-size: 18px !important;
+    text-align: left !important;
+}
+.product-row {
+    margin: 3px 10px !important;
+}
+.relevent-img {
+    background-size: cover !important;
+    background: url('../../assets/images/default-image.jpg') center no-repeat !important;
+    width: 60% !important;
+    height: 125px !important;
+    text-align: center;
+}
+.pro-img {
+    background-size: cover !important;
+    background: url('../../assets/images/default-image.jpg') center no-repeat !important;
+    width: 80% !important;
+    height: auto !important;
+    margin: auto !important;
+    max-height: 170px !important;
+    text-align: center;
+}
+.pro-img-digital {
+    background-size: cover !important;
+    background: url('../../assets/images/default-image.jpg') center no-repeat !important;
+    width: 60% !important;
+    height: auto !important;
+    margin: auto !important;
+    max-height: 170px !important;
+    text-align: center;
+}
+.product-col {
+    margin: 5px 5px;
+    text-align: center;
+    padding: 0px !important;
+}
+
+.filter-badge {
+    padding: 3px 5px !important;
+}
+.filter-icon {
+    padding-right: 5px !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+.filter-text {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+.div-image {
+    width: 100% !important;
+    height: 90% !important;
+    padding: 0px !important;
+    display: table-cell !important;
+    vertical-align: middle !important;
+}
+.img-bg {
+    width: 100% !important;
+    display: table !important;
+    height: 200px !important;
+    padding: 8px 0px !important;
+    border: 1px solid #efefef;
+}
+.product-info {
+    padding: 5px 10px !important;
+    background-color: #fff !important;
+}
+p {
+    font-size: 14px !important;
+    overflow: hidden;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    font-size: inherit;
+    // text-overflow: ellipsis;
+    // white-space: nowrap;
+
+    margin: 5px 5px;
+    text-align: left;
+}
+.back-icon {
+    padding-left: 8px !important;
+    font-size: 22px !important;
+}
+.search-icon {
+    margin-right: 10px !important;
+    font-size: 22px !important;
+}
+.cart-icon {
+    font-size: 25px;
+    margin-right: 15px !important;
+}
+.sort-filter-bar {
+    height: 50px !important;
+    text-align: center;
+}
+ion-header {
+    & ion-toolbar.sort-filter-bar {
+        --background: #fff !important;
+    }
+}
+.filter {
+    margin-left: 8px;
+    margin-top: 3px;
+}
+.filter-col {
+    border-right: 1px solid #efefef;
+    cursor: pointer;
+}
+.select-icon button {
+    display: none !important;
+}
+.select-icon-inner {
+    display: none !important;
+}
+.sort-card {
+    margin: 10px 0px !important;
+}
+.pro-price {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+}
+.striked {
+    color: #000 !important;
+    font-size: 13px !important;
+}
+.ofr {
+    font-size: 14px !important;
+    font-weight: 600;
+    color: #df1744 !important;
+    padding-left: 3px !important;
+}
+.pro-name {
+    font-size: 15px !important;
+}
+ion-fab-button {
+    width: 30px !important;
+    height: 30px !important;
+    margin: 0px !important;
+}
+
+.no-products {
+    margin-top: 30px !important;
+    text-align: center !important;
+}
+.no-products p {
+    font-size: 20px !important;
+    text-align: center !important;
+}
+.relevent-price {
+    color: #000 !important;
+    font-weight: 400 !important;
+    font-size: 13px !important;
+}
+.price {
+    color: #000 !important;
+    font-weight: 400 !important;
+    font-size: 16px !important;
+}
+
+.proName {
+    color: #000 !important;
+    text-align: left !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    overflow: hidden;
+    margin: 4px auto !important;
+}
+.badge-one {
+    border-radius: 50% !important;
+    position: absolute;
+    top: 0px !important;
+    right: -5px;
+    font-size: 0.6em;
+    margin-right: 5px !important;
+    --padding-start: 5px;
+    --padding-end: 5px;
+    background: #fff !important;
+    color: #df1744 !important;
+}
+.price-details {
+    color: #000 !important;
+    text-align: left !important;
+    margin: 0px;
+}
+.offer {
+    font-size: 14px !important;
+    color: #df1744 !important;
+    font-weight: 500 !important;
+}
+.noData {
+    min-height: 20px !important;
+}
+.section-div {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.relevant-head {
+    margin-top: 5px !important;
+    font-size: 20px !important;
+    border-bottom: 1px Solid #000 !important;
+    margin-bottom: 10px !important;
+}
+
+.filter-badge {
+    border-radius: 50% !important;
+    background-color: #df1744 !important;
+    font-size: x-small;
+    position: absolute;
+    margin-left: 80px;
+    float: right;
+    top: 0;
+    margin-top: 3px;
+}
+.offer-image {
+    display: block;
+    margin: 0px auto !important;
+    width: 100% !important ;
+    height: 180px !important;
+    border-radius: 0px !important;
+}
+.image-div {
+    margin-bottom: 4px !important;
+    border-radius: 100% !important;
+    padding: 10px !important;
+    text-align: center !important;
+}
+.relevant-image-div {
+    border-radius: 100% !important;
+    padding: 10px !important;
+    text-align: center !important;
+}
+.option-row {
+    height: 100% !important;
+    overflow-x: scroll !important;
+    width: 100% !important;
+    margin: 10px !important;
+
+    // margin-top: 10px !important;
+}
+.wrape {
+    margin-top: 10px !important;
+    white-space: nowrap !important;
+}
+.circle-col {
+    border: 1px solid #efefef !important;
+    margin: 5px !important;
+    display: inline-block !important;
+    width: 35% !important;
+    white-space: nowrap;
+    text-align: center !important;
+}
+.avatar-cls {
+    text-align: center;
+    margin: 0px auto !important;
+}
+
+ion-label {
+    color: #000 !important;
+    font-size: 15px !important;
+}
+ion-item-divider {
+    --padding-start: 0px !important;
+
+    margin-bottom: 5px !important;
+}
+.img {
+    height: 120px !important;
+    width: 100% !important;
+}
+.square-section {
+    //box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.free-price {
+    margin: 0px !important;
+    font-size: 17px !important;
+    color: #df1744 !important;
+}

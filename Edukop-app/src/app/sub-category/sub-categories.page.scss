@@ -1,0 +1,132 @@
+.header {
+    --background: #df1744;
+    color: #fff !important;
+}
+.board-name {
+    color: #df1744;
+    font-size: 18px !important;
+}
+.uni-name {
+    color: #df1744;
+    font-size: 18px !important;
+    margin: 0px !important;
+}
+.board-img {
+    background-size: cover !important;
+    background: url('../../assets/images/default-image.jpg') center no-repeat !important;
+    margin: 0px auto;
+    height: 85px !important;
+}
+.image-col {
+    text-align: center !important;
+}
+.board-type {
+    height: 30px !important;
+    margin: 5px 0px !important;
+    overflow: hidden !important;
+}
+.exam-type {
+    height: 50px !important;
+    margin: 5px 0px !important;
+    overflow: hidden !important;
+}
+.chip {
+    float: right !important;
+}
+.heading {
+    font-size: 18px !important;
+    text-align: left !important;
+}
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: #efefef;
+    padding: 0px;
+    font-size: 20px;
+}
+.sticky-col-left {
+    border-right: 1px solid #a9a9a9;
+    font-size: 15px !important;
+    color: #a9a9a9 !important;
+    text-align: center;
+}
+.sticky-col-right {
+    font-size: 15px !important;
+    color: #a9a9a9 !important;
+    text-align: center;
+}
+.select-icon {
+    color: #efefef !important;
+    font-size: 0px !important;
+    display: none !important;
+}
+.select-icon-inner {
+    display: none !important;
+    color: #efefef !important;
+}
+.select {
+    --padding-bottom: 0px;
+    --padding-end: 0px;
+}
+.back-icon {
+    padding-left: 8px !important;
+    font-size: 22px !important;
+}
+.search-icon {
+    margin-right: 10px !important;
+    font-size: 22px !important;
+}
+.no-Data-found {
+    margin-top: 30px !important;
+    text-align: center !important;
+}
+.forms-link {
+    background-color: #df1744;
+    font-weight: 500 !important;
+    color: #fff !important;
+    padding: 10px !important;
+    font-size: 18px !important;
+}
+.left-form {
+    margin: 8px 0px !important;
+    font-size: 15px !important;
+    color: red !important;
+    font-weight: 600 !important;
+}
+ion-row {
+    margin: 10px !important;
+}
+.book-card {
+    background-color: #df174205;
+    width: 100% !important;
+    display: table !important;
+
+    height: 50px !important;
+    border-radius: 6px !important;
+    margin: 0px !important;
+    padding: 5px 7px !important;
+}
+.book-name {
+    width: 80% !important;
+    display: table-cell;
+    vertical-align: middle !important;
+    color: #df1744;
+    text-align: left;
+    font-size: 17px !important;
+}
+.book-icon {
+    display: table-cell;
+    vertical-align: middle !important;
+    color: #df1744 !important;
+    font-size: 10px !important;
+    padding-right: 8px !important;
+}
+.forms-link {
+    background-color: #df1744;
+    font-weight: 500 !important;
+    color: #fff !important;
+    padding: 10px !important;
+    font-size: 18px !important;
+    text-align: center !important;
+}

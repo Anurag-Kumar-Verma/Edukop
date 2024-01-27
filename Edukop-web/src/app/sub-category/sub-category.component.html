@@ -1,0 +1,136 @@
+<section class="py-3" infinite-scroll [infiniteScrollDistance]="scrollDistance" [infiniteScrollThrottle]="throttle"
+    (scrolled)="onScrollDown()">
+    <h3 *ngIf="subData">
+        <span class="pointer backBtn" (click)="back()">
+            <i class="mdi mdi-home mdi-18px"></i>
+        </span>
+        <small class="px-2">
+            <i class="mdi mdi-chevron-right"></i>
+        </small>
+
+        <span style="text-transform: capitalize;">{{subData ? categoryType : catFound.name}}</span>
+    </h3>
+
+    <h3 *ngIf="schoolData.length != 0">
+        <span class="pointer backBtn" (click)="back()">
+            <i class="mdi mdi-home mdi-18px"></i>
+        </span>
+        <small class="px-2">
+            <i class="mdi mdi-chevron-right"></i>
+        </small>
+
+        <span style="text-transform: capitalize;">{{categoryType}}</span>
+    </h3>
+
+
+    <button class="btn btn-danger downloadBtn" *ngIf="categoryType.toLowerCase() === 'school' || categoryType.toLowerCase() === 'board' || categoryType.toLowerCase() === 'university' || categoryType.toLowerCase() === 'competition'" (click)="downloadToggle()">Download Books here</button>
+
+    <div class="itemList" *ngIf="subData">
+        <div class="card rounded-0 schoolCard pointer" *ngFor="let info of subData?.categoryData; let i = index;">
+            <div class="card-content" (click)="viewChild(info.uuid, info.name, info.abbreviation)">
+                <div class="d-flex flex-wrap">
+                    <div class="img_div">
+                        <img *ngIf="info?.imageUrl" [src]="imageApi + info.imageUrl" alt="{{ info.name }}">
+                        <img *ngIf="!info?.imageUrl" src="../../assets/images/default-image.jpg" alt="{{ info.name }}">
+                    </div>
+                    <div class="item_detail">
+                        <p class="item_name fw-5 danger">{{ info.name }}</p>
+                        <p class="item_sub_title" *ngIf="subData.type == 'school'">{{ info.address }}</p>
+                        <p class="item_sub_title" *ngIf="subData.type == 'School Uniform'">{{ info.address }}</p>
+                        <p class="item_sub_title" *ngIf="subData.type == 'board'">{{ info.type }}</p>
+                        <p class="item_sub_title board-type mb-0" *ngIf="subData.type == 'university'">{{ info.address }}</p>
+                        <p class="item_sub_title city-board-type" *ngIf="subData.type == 'university'">{{ info.city }}</p>
+                        <p class="item_sub_title exam-type" *ngIf="subData.type == 'competition'">{{ info.description }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-end border-0 py-0" *ngIf="isDownload">
+                <button type="button" class="btn btn-danger btn-sm downloadSmBtn" (click)="downloadAction($event, info)">Download</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ------------------------ for novels like ---------------------- -->
+    <div class="others" *ngIf="catFound">
+        <div class="card item_card border-0 mb-2" *ngFor="let category of catFound.childs; let i = index;">
+            <div class="card-header border-0 rounded-2 d-flex justify-content-between align-items-center pointer" (click)="category.childs.length > 0 ? openSubChild(i) : ''">
+                <span class="fw-5 cat_name danger">{{ category.name }}</span>
+                <span class="pointer expand_btn" *ngIf="category.childs.length > 0">
+                    <i *ngIf="activeChild != i" class="mdi mdi-chevron-right mdi-18px"></i>
+                    <i *ngIf="activeChild === i" class="mdi mdi-chevron-down mdi-18px"></i>
+                </span>
+            </div>
+
+            <div class="card-content py-2" *ngIf="category.childs.length > 0 && activeChild === i">
+                <div class="card subItem_card border-0 mb-2" *ngFor="let subChild of category.childs; let j = index;" (click)="viewProducts(subChild.id)">
+                    <div class="card-header border-0 rounded-2 pointer">
+                        <p class="mb-0">{{subChild.name}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- --------------------- for enrollment -------------------- -->
+    <p class="text-center pt-3" *ngIf="enrollmentData && schoolData.length === 0">No Enrollment Form found</p>
+
+    <div class="schoolData_section" *ngIf="enrollments.length != 0">
+        <button type="button" class="btn btn-danger btn-block d-flex justify-content-between align-items-center" (click)="formList()">
+            <span>See you forms</span>
+            <span><i class="mdi mdi-arrow-right mdi-18px"></i></span>
+        </button>
+
+        <div class="dataList mt-3">
+            <ng-container *ngFor="let enrollment of enrollments; let i = index;">
+                <div class="card rounded-0 schoolCard pointer" *ngIf="enrollment.orgType.toLowerCase() == 'school'">
+                    <div class="card-content" (click)="OpenForm(enrollment.uuid)">
+                        <div class="d-flex flex-wrap">
+                            <div class="img_div">
+                                <img *ngIf="enrollment.schoolDetail?.imageUrl" [src]="imageApi + enrollment.schoolDetail.imageUrl" alt="{{ enrollment.schoolDetail.name }}">
+                                <img *ngIf="!enrollment.schoolDetail?.imageUrl" src="../../assets/images/default-image.jpg" alt="{{ enrollment.schoolDetail.name }}">
+                            </div>
+                            <div class="item_detail">
+                                <p class="item_name fw-5 danger">{{ enrollment.schoolDetail.name }}</p>
+                                <p class="item_sub_title mb-1">{{ enrollment.schoolDetail.address }}</p>
+                                <p class="left-form danger mb-0">{{ enrollment.inventory }} Forms Left</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card rounded-0 schoolCard pointer" *ngIf="enrollment.orgType.toLowerCase() == 'coaching'">
+                    <div class="card-content" (click)="OpenForm(enrollment.uuid)">
+                        <div class="d-flex flex-wrap">
+                            <div class="img_div">
+                                <img *ngIf="enrollment.coachingDetails?.imageUrl" [src]="imageApi + enrollment.coachingDetails.imageUrl" alt="{{ enrollment.coachingDetails.name }}">
+                                <img *ngIf="!enrollment.coachingDetails?.imageUrl" src="../../assets/images/default-image.jpg" alt="{{ enrollment.coachingDetails.name }}">
+                            </div>
+                            <div class="item_detail">
+                                <p class="item_name fw-5 danger">{{ enrollment.coachingDetails.name }}</p>
+                                <p class="item_sub_title mb-1">{{ enrollment.coachingDetails.address }}</p>
+                                <p class="left-form danger mb-0">{{ enrollment.inventory }} Forms Left</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <!-- <ng-container *ngIf="enrollment.universityDetails">
+                        <div class="card-content" (click)="OpenForm(enrollment.uuid)">
+                            <div class="d-flex flex-wrap">
+                            <div class="img_div">
+                                <img *ngIf="enrollment.universityDetails?.imageUrl" [src]="imageApi + enrollment.universityDetails.imageUrl" alt="{{ enrollment.universityDetails.name }}">
+                                <img *ngIf="!enrollment.universityDetails?.imageUrl" src="../../assets/images/default-image.jpg" alt="{{ enrollment.universityDetails.name }}">
+                            </div>
+                            <div class="item_detail">
+                                <p class="item_name fw-5 danger">{{ enrollment.universityDetails.name }}</p>
+                                <p class="item_sub_title mb-1">{{ enrollment.universityDetails.address }}</p>
+                                <p class="left-form danger mb-0">{{ enrollment.inventory }} Forms Left</p>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container> -->
+            </ng-container>
+        </div>
+    </div>
+</section>
+
+<ngx-spinner type="ball-scale-multiple" [fullScreen]="true"></ngx-spinner>

@@ -1,0 +1,90 @@
+<ion-header mode="md">
+    <ion-toolbar class="toolbar">
+        <ion-icon
+            slot="start"
+            name="arrow-back-outline"
+            (click)="goback()"
+            class="back-icon"
+        ></ion-icon>
+        <ion-title class="heading">My Address</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card class="item-info-card" *ngFor="let item of myAddressess">
+        <ion-card-header
+            [ngClass]="item.isSelect == true ? 'item-info-card-select' : 'no-class'"
+        >
+            <ion-card-title class="add-title">
+                <ion-text class="color1">{{item.fullName}}</ion-text>
+                <ion-icon
+                    (click)="editAddress(item, false)"
+                    name="create-outline"
+                    class="edit"
+                ></ion-icon>
+            </ion-card-title>
+            <ion-card-subtitle
+                >{{item.address}}, {{item.landmark}}, {{item.city}}
+                {{item.state}},{{item.pincode}}</ion-card-subtitle
+            >
+            <ion-card-subtitle>Mobile: +91-{{item.phone}}</ion-card-subtitle>
+            <!-- <div class="btn-div">
+                <ion-button
+                    shape="round"
+                    class="buy-now"
+                    (click)="removeAddress(item.uuid)"
+                    >Remove</ion-button
+                >
+                <ion-button
+                    shape="round"
+                    class="buy-now"
+                    (click)="addAddress(item.uuid)"
+                    >Select</ion-button
+                >
+            </div> -->
+            <br>
+            <div class="d-flex btns-group2">
+                <ion-button
+                    fill="clear"
+                    shape="round"
+                    class="color1 cancel-btn"
+                    (click)="removeAddress(item.uuid)"
+                >Remove</ion-button>
+                <ion-button
+                    shape="round"
+                    class="buy-now select-btn"
+                    (click)="addAddress(item.uuid)"
+                >Select</ion-button>
+            </div>
+        </ion-card-header>
+    </ion-card>
+    <!-- <div class="btn-position">
+        <ion-button
+            shape="round"
+            class="buy-now"
+            expand="full"
+            (click)="addNewAddress()"
+            >Add New Address</ion-button
+        >
+    </div>
+    <p style="text-align: center !important">OR</p>
+    <div class="btn-position">
+        <ion-button
+            shape="round"
+            class="buy-now"
+            expand="full"
+            (click)="selectLiveLocation()"
+            >Select Current Location
+            <ion-icon slot="end" name="location-outline"></ion-icon
+        ></ion-button>
+    </div> -->
+
+    <div class="group-btns">
+        <ion-button shape="round" class="btn" expand="full" (click)="addNewAddress()">Add New Address</ion-button>
+        <ion-text style="text-align: center !important">OR</ion-text>
+        <ion-button shape="round" class="btn" expand="full" (click)="selectLiveLocation()">
+            Select From Map
+            <ion-icon slot="end" name="location-outline"></ion-icon>
+        </ion-button>
+    </div>
+</ion-content>

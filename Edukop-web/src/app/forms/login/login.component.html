@@ -1,0 +1,98 @@
+<div class="container-fluid">
+    <div class="login-sec py-1">
+        <div class="section row">
+            <div class="col-12 col-md-6 back_cover d-none d-md-grid">
+                <img src="../../../assets/images/edukop.png" alt="Edukop">
+            </div>
+            <div class="loginForm col-12 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+                <form [formGroup]="loginForm" class="mt-3" *ngIf="!isOTPLogin && !showOTPInput">
+                    <div class="small_logo d-md-none mx-auto mb-3">
+                        <img src="../../../assets/images/edukop.png" alt="Edukop" class="img-fluid">
+                    </div>
+                    <h1 class="danger fw-6 text-center text-md-start">Login</h1>
+                    <div class="row loginDetail">
+                        <div class="col-12 pb-3">
+                            <label for="fullName" class="mb-1">Email or Mobile <sup class="danger">*</sup></label>
+                            <input type="text" id="fullName" name="fullName" class="form-control" (keyup)="onInputEmailTime($event)" placeholder="Email or Mobile" formControlName="email" required>
+                            <app-form-input-validation [form]="loginForm" class="textSmal" formInput="email" [errorMsg]="'Please enter your mobile number'"></app-form-input-validation>
+                        </div>
+                        <div class="col-12 pb-3">
+                            <label for="password" class="mb-1">Password <sup class="danger">*</sup></label>
+                            <div class="form-control d-flex">
+                                <input [type]="showPassword ? 'text' : 'password'" id="password" class="password_input border-0 w-100" name="password" placeholder="Password" formControlName="password" required>
+                                <span class="eye_toggle pointer" (click)="togglePassword()">
+                                    <i class="mdi mdi-eye-off" *ngIf="!showPassword"></i>
+                                    <i class="mdi mdi-eye" *ngIf="showPassword"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-end">
+                        <a href="/forgot-password" class="btn_link">Forgot Password?</a>
+                    </p>
+
+                    <div class="d-flex align-items-center justify-content-around mx-auto btn_group">
+                        <button type="submit" mat-button class="btn btn-danger submit_btn" [disabled]="loginForm.invalid" (click)="emailPassword()">Login</button>
+                    </div>
+                </form>
+
+                <div class="otpLogin mt-3" [formGroup]="otpLoginForm" *ngIf="!showOTPInput && isOTPLogin">
+                    <h1 class="danger fw-6 text-start">Login</h1>
+
+                    <div class="row loginDetail">
+                        <div class="col-12 pb-3">
+                            <label for="email" class="mb-1">Email or Mobile <sup class="danger">*</sup></label>
+                            <input type="text" id="email" name="email" class="form-control" (keyup)="onInputTime($event)" placeholder="Email or Mobile" formControlName="email" required>
+                            <app-form-input-validation [form]="otpLoginForm" class="textSmal" formInput="email" [errorMsg]="'Please enter your mobile number'"></app-form-input-validation>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-around mx-auto my-3">
+                        <button type="submit" mat-button class="btn btn-danger submit_btn" [disabled]="otpLoginForm.invalid" (click)="logInViaOTP()">Login</button>
+                    </div>
+                </div>
+
+                <ng-container *ngIf="!showOTPInput">
+                    <a class="mt-2 btn_link" href="javascript:;" *ngIf="isOTPLogin" (click)="otpPassToggle()">Login By Password</a>
+                    <a class="mt-2 btn_link" href="javascript:;" *ngIf="!isOTPLogin" (click)="otpPassToggle()">Login By OTP</a>
+                    <span class="mt-2 btn_link pointer" (click)="guestLogin()">Guest Login</span>
+                    <p class="top_row mt-1 mb-1">You have no account? <a class="btn_link" href="/signup">Register</a></p>
+                    <div class="divider legend_div">
+                        <span class="mx-auto">Or Continue With</span>
+                    </div>
+                </ng-container>
+                <div class="otp-section d-flex flex-column" *ngIf="showOTPInput">
+                    <h1 class="danger fw-6">Verify OTP</h1>
+                    <p>{{OTPmessage}}</p>
+
+                    <div class="d-flex alogn-items-center justify-content-center mb-3">
+                        <div class="otp-input-div my-3">
+                            <ngx-otp-input [config]="otpInputConfig" (otpChange)="handleOtpChange($any($event))" (fill)="handleFillEvent($any($event))">
+                            </ngx-otp-input>
+                            <!-- <input type="number" pattern="[0-9]{6}" id="emainMobileForOTP" title="emainMobileForOTP" class="form-control" (keyup)="enterOTP($event)" [(ngModel)]="OTP"> -->
+
+                            <app-form-input-validation [form]="otpLoginForm" class="textSmal" formInput="email" [errorMsg]="'Please enter your mobile number'"></app-form-input-validation>
+                        </div>
+                    </div>
+
+                    <p *ngIf="timeLeft > 0" [ngClass]="timeLeft < 10 ? 'danger' : ''">Resend OTP after: {{formatTime(timeLeft)}}</p>
+                    <a class="btn_link mb-2" href="javascript:;" *ngIf="!timeLeft || timeLeft < 1" (click)="resendOTP()">Resend OTP</a>
+                    <div class="text-center d-flex flex-column justify-content-center">
+                        <button type="button" class="btn backLogin btn-light mb-2" (click)="backLogin()">Back</button>
+                        <button type="button" class="btn verify_otp_btn btn-danger" [disabled]="OTP.length != 6" (click)="ValidateOTP()">Validate</button>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-center mt-3" *ngIf="!showOTPInput">
+                    <div class="social_div pointer">
+                        <img src="../../../assets/icons/google.png" alt="google icon" class="social_icons" (click)="googleAuth()">
+                    </div>
+                    <!-- <div class="social_div pointer">
+                        <img src="../../../assets/icons/fb.png" alt="fb icon" class="social_icons" (click)="facebookAuth()">
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

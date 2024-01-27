@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Edukop</title>
+
+    <base href="/" />
+    <allow-intent href="*" />
+    <!-- <allow-navigation href="*" /> -->
+    <!-- <allow-navigation href="*://*.raywenderlich.com/*" />
+        <allow-navigation href="http://192.168.0.112:8100" /> -->
+    <meta name="color-scheme" content="light dark" />
+    <meta name="viewport"
+        content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="google-signin-client_id"
+        content="417760524574-hcikj4idscun7g3u6dki88n23els9qsc.apps.googleusercontent.com">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' https://*.razorpay.com data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *" />
+
+    <!--<meta http-equiv="Content-Security-Policy"
+    content="default-src *; https://*.razorpay.com data: gap: https://ssl.gstatic.com 'safe-eval'; style-src 'self' 'safe-inline'; media-src *"> -->
+    <!-- <meta http-equiv="Content-Security-Policy"
+    <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
+
+    <!-- add to homescreen for ios -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="yes" />
+    <link rel="icon" type="image/x-icon" href="./assets/icon/Edkop.png">
+    <script src="https://apis.google.com/js/platform.js?onload=onLoad"></script>
+
+    <script src="assets/fbbrowser.js"></script>
+    <!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
+    <script type="module">
+        import mime from "https://cdn.skypack.dev/mime";
+    </script>
+</head>
+
+<body>
+    <!-- <div
+            style="text-align: center !important; margin-top: 200px !important"
+            id="bookz-logo"
+        > -->
+
+    <div style="text-align: center !important" id="bookz-logo">
+        <!-- <img src="assets/images/edukop_splash.png" 
+        style="
+                    width: 100%;
+                    height: 100vh;
+                    align-items: center !important;
+                    margin: 0px auto !important;
+                    vertical-align: middle;
+                " /> -->
+    </div>
+    <script>
+        gapi.load("client:auth2", function () {
+            gapi.auth2.init({
+                client_id: "417760524574-hcikj4idscun7g3u6dki88n23els9qsc.apps.googleusercontent.com"
+            });
+        });
+    </script>
+    <app-root></app-root>
+</body>
+<script>
+    function init() {
+        FB.api(
+            "/l214.animaux",
+            { fields: "fan_count" },
+            function (response) { }
+        );
+    }
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: 5101584633234492,
+            cookie: true, // enable cookies to allow the server to access the session
+            xfbml: true, // parse social plugins on this page
+            version: 'v5.0' // use graph api current version
+        });
+    };
+
+    // Load the SDK asynchronously
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+</html>

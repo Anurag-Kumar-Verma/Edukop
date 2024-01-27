@@ -1,0 +1,266 @@
+<div class="container-fluid">
+  <div class="row mt-2" *ngIf="gProduct" >
+    <div class="col-12 col-md-5 col-lg-4 pb-2">
+      <div class="secDiv p-2">
+        <!-- <carousel [cellsToScroll]="1" [loop]="true" [cellWidth]="'100%'" [autoplay]="false" [style.zIndex]="1"
+            [autoplayInterval]="5000" [arrowsTheme]="'dark'" [lightDOM]="true" [style.height]="'430px'"
+            [transitionTimingFunction]="'linear'" [arrows]="mediaLiength.length > 1 ? true : false">
+            <div class="carousel-cell" *ngFor="let item of mediaLiength">
+                <img [src]="item ? item : '../../../assets/images/linsero_logo_gif.gif'" alt="Product Image">
+            </div>
+            <ng-container *ngIf="mediaVideos.length > 0">
+                <div class="carousel-cell" *ngFor="let video of mediaVideos">
+                    <video controls controlsList="nodownload">
+                        <source [src]="video.signedVideoUrl" type="video/mp4"/>
+                    </video>
+                </div>
+            </ng-container>
+        </carousel> -->
+        <div class="product_img_div" *ngIf="!gProduct.isDigital && gProduct?.images?.length">
+          <div class="d-flex flex-column justify-content-center align-items-center product_img_slider position-relative">
+            <div class="slider_controlor d-flex justify-content-between w-100 h-100 position-absolute align-items-center" *ngIf="gProduct?.images && gProduct.images.length > 1">
+              <span class="mdi mdi-chevron-left controls" (click)="changeSlide('prev', gProduct.images)"></span>
+              <span class="mdi mdi-chevron-right controls"  (click)="changeSlide('next', gProduct.images)"></span>
+            </div>
+            <ng-container *ngFor="let image of gProduct.images; let i = index;">
+              <img [src]="image ? imageApi + image : '../../assets/images/download-png.png'" alt="Product" *ngIf="i === activatedImage">
+            </ng-container>
+          </div>
+          <!-- <mdb-carousel [isControls]="true" class="product_img_slider" [interval]="10000">
+            <mdb-carousel-item class="slider_item" *ngFor="let image of gProduct.images; let i = index;">
+              <img [src]="image ? imageApi + image : '../../assets/images/download-png.png'" alt="Product">
+            </mdb-carousel-item>
+          </mdb-carousel> -->
+        </div>
+
+        <div class="product_img_div" *ngIf="gProduct.isDigital || gProduct?.images?.length == 0">
+          <img [src]="'../../assets/images/default-image.png'" alt="Product" *ngIf="!gProduct.isDigital">
+          <img [src]="'../../assets/images/download-png.png'" alt="Product" *ngIf="gProduct.isDigital">
+        </div>
+
+        <div class="d-flex btn-group align-items-center justify-content-center py-3">
+          <button type="button" class="btn btn-outline-danger" (click)="addCart()">
+            <i class="mdi mdi-cart-outline"></i>
+            {{!isInCart ? 'Add to cart' : 'Go to cart'}}
+          </button>
+          <button type="button" class="btn btn-danger buy-now" (click)="BuyNow()">Buy Now</button>
+        </div>
+
+        <span class="likeBtn pointer danger" (click)="isWishListed(gProduct.uuid) ? addWishList(gProduct.uuid, 'remove') : addWishList(gProduct.uuid, 'add')">
+          <i *ngIf="isWishListed(gProduct.uuid)" class="mdi mdi-heart"></i>
+          <i *ngIf="!isWishListed(gProduct.uuid)" class="mdi mdi-heart-outline"></i>
+        </span>
+      </div>
+    </div>
+
+
+    <div class="col-12 col-md-7 col-lg-8 pannel-height custom-scrollbar-y pb-2">
+      <div class="secDiv detail py-2 px-sm-3">
+        <p class="product_name text3 fw-5 mb-1" *ngIf="gProduct?.name">{{gProduct.name}}</p>
+        <p class="stock" *ngIf="gProduct?.metaData?.type !== 'DigitalProduct'">In Stock</p>
+        <h5 class="authorName color-gray mb-0" *ngIf="selectVendorProduct">Sold By: 
+          <span class="danger">{{selectVendorProduct.vendorName}}</span>
+        </h5>
+
+        <div class="d-flex justify-content-between pb-3">
+          <div>
+            <div class="py-2" *ngIf="averageRate">
+              <div class="badge me-2">
+                <i class="mdi mdi-star mdi-18px"></i>
+                <span class="textSmall2 fw-5" style="font-size: 15px;">&nbsp; {{averageRate.average_stars}}</span>
+              </div>
+    
+              <span class="textSmall2 px-1 fw-5 revieCount"> {{0}} Reviews</span>
+            </div>
+    
+            <p class="productPrice fw-5 mt-2" *ngIf="isGroupProduct && gProduct?.metaData?.type !== 'DigitalProduct'">
+              <span class="sellingPrice fw-5" *ngIf="gProduct?.sellingprice">₹ {{isGrouped ? gProduct.sellingprice *
+                gProductSet : totalSellingPrice}}</span> &nbsp;
+              <!-- <s class="striked-per color-gray" *ngIf="gProduct?.mrp">{{gProduct.mrp}} </s> &nbsp; -->
+              <s class="striked color-gray" *ngIf="gProduct?.mrp && gProduct?.sellingprice && gProduct.mrp > gProduct.sellingprice">{{productSum}}</s>&nbsp;
+              <span class="offRate danger" *ngIf="gProduct?.mrp && gProduct?.sellingprice">{{calculateOfferPercentage(gProduct.mrp, gProduct.sellingprice)}}% off</span>
+            </p>
+
+            <p class="productPrice fw-5 mt-2" *ngIf="!isGroupProduct">
+              <span class="sellingPrice fw-5">₹ {{totalSellingPrice}}</span> &nbsp;
+            </p>
+          </div>
+
+          <div class="productQty d-flex align-items-center border rounded-2 align-self-start py-1 px-2 mt-2" *ngIf="!isGrouped && gProduct?.metaData?.type !== 'DigitalProduct'">
+            <span>Qty: </span>
+            <mat-select class="qty-select text-gray ms-2" (selectionChange)="onChangeQuantity($event.value, gProduct.uuid, 0)" [(ngModel)]="selectedArray[0].quantity" aria-placeholder="Select">
+              <mat-option class="qty_txt" *ngFor="let quantity of quantityArray[0]"
+              [value]="quantity">{{quantity}}</mat-option>
+          </mat-select>
+          </div>
+        </div>
+
+        <div class="groupedProductSec" *ngIf="productList && isGrouped">
+          <!-- <mat-slide-toggle class="example-margin" [checked]="isGroupProduct" (change)="toggle($event)">
+            Buy Book Set
+          </mat-slide-toggle> -->
+
+          <p class="mt-2">Set includes:</p>
+
+          <div class="productsList mt-3" [ngClass]="{'disabled':isGroupProduct}">
+            <!-- <div class="d-flex mb-2 groupItem" *ngFor="let product of productList; let i = index;" [ngClass]="{'disabled': isGroupedProduct}"></div> -->
+            <div class="d-flex mb-2 groupItem" *ngFor="let product of productList; let i = index;">
+              <!-- <mat-checkbox class="groupedItemCheck" [checked]="isChecked(product.product, i)" (change)="selectProduct($event.checked, product.product)"></mat-checkbox> -->
+              <div class="item_detail d-flex">
+                <div>
+                  <p class="itemName" *ngIf="product?.product?.name">{{product.product.name}}</p>
+                  <p class="productPrice fw-5 mt-2">
+                    <span class="sellingPrice fw-5" *ngIf="product?.product?.sellingprice">₹ {{product.product.sellingprice}}</span> &nbsp;
+                    <s class="striked-per color-gray" *ngIf="product?.product?.mrp > product?.product?.sellingprice">{{product.product.mrp}} </s> &nbsp;&nbsp;
+                    <span class="offRate danger" *ngIf="product?.product?.mrp > product?.product?.sellingprice">{{calculateOfferPercentage(product.product.mrp, product.product.sellingprice)}}% off</span>
+                    <span *ngIf="product?.product.quantity > 1">
+                      (₹ {{product.product.sellingprice * product.product.quantity}})
+                    </span>
+                  </p>
+                </div>
+                <div class="quantity d-flex">
+                  <!-- <span>Qty:</span> -->
+                  <mat-select class="qty-select text-gray ms-2" (selectionChange)="onChangeQuantity($event.value, product.product.uuid, i)" [(ngModel)]="product.quantity" aria-placeholder="Select">
+                      <mat-option class="qty_txt" *ngFor="let quantity of quantityArray[i]"
+                      [value]="quantity">{{quantity}}</mat-option>
+                  </mat-select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="title1 fw-5" *ngIf="!isGrouped">Product Details</p>
+        <table class="table mb-3" *ngIf="!isGrouped">
+          <tbody>
+            <ng-container *ngIf="attributes.length != 0">
+              <tr *ngFor="let attr of attributes;">
+                <td>{{attr.attributeName}}</td>
+                <td class="das">-</td>
+                <td>
+                  <span *ngIf="attr.attributeType === 'Single-select' || attr.attributeType != 'Date'">{{attr.attributeValues[0].attributeKey}}</span>
+                  <span *ngIf="attr.attributeType != 'Single-select' && attr.attributeType != 'Date'">{{attr.attributeValues[0].attributeValue}}</span>
+                  <span *ngIf="attr.attributeType == 'Date'">{{attr.attributeValues[0].attributeValue | date}}</span>
+                </td>
+              </tr>
+            </ng-container>
+            <tr *ngIf="gProduct?.height_in_cm && gProduct?.length_in_cm && gProduct?.width_in_cm">
+              <td><span>Size (LxWxH)</span></td>
+              <td class="das"><span>-</span></td>
+              <td>
+                <span>{{gProduct.length_in_cm}} cm X {{gProduct.width_in_cm}} cm X {{gProduct.height_in_cm}} cm</span>
+              </td>
+            </tr>
+            <tr *ngIf="gProduct?.weight_in_kg">
+              <td><span>Weight</span></td>
+              <td class="das"><span>-</span></td>
+              <td><span>{{gProduct.weight_in_kg}} kg</span></td>
+            </tr>
+          </tbody>
+        </table>
+        
+
+        <div class="productDesc" *ngIf="gProduct?.longDescription">
+          <span class="title1 fw-5">Description</span>
+          <p Class= 'text-gray mt-2 text-modify'>{{gProduct.longDescription}}</p>
+          <!-- <p class="text-right" *ngIf="productDetail.description_Benefit.length > 500 && !expandDesc">
+              <span class="pointer textSmall2 text-gray fw-5 viewMoreBtn" (click)="viewMoreDesc()">View More</span>
+          </p> -->
+        </div>
+
+        
+
+
+        <div class="reviews my-3 pt-md-3">
+          <p class="title1 fw-5">Reviews & Ratings</p>
+
+          <div class="d-flex justify-content-between align-items-center py-2">
+            <div class="ratings" *ngIf="averageRate">
+              <span class="bigStar">
+                <i class="mdi mdi-star"></i>
+              </span>
+
+              <div>
+                <span class="ratingCount fw-5">{{averageRate.average_stars}}</span>
+                <!-- <p class="mb-0 textSmall2">{{ratingData.totalReviews}} Reviews</p> -->
+              </div>
+            </div>
+
+            <div class="card cardBtn border-0 py-1 px-3 pointer" (click)="rateProduct(gProduct)">
+              <button class="addReviewBtn danger">Rate Product</button>
+            </div>
+          </div>
+          
+          <div class="ratings-mid my-3" *ngIf="sortedRating">
+            <div class="d-flex align-items-center mb-2" *ngFor="let ratingItem of sortedRating">
+              <p class="mb-0 px-1 d-flex">
+                <span>{{ratingItem._id}}</span>
+                <span class="px-1"><i class="mdi mdi-star mdi-18px"></i></span>
+              </p>
+              <mat-progress-bar mode="determinate" class="ratingBar_{{ratingItem._id}}" value="{{ratingItem.numberOfRating}}"></mat-progress-bar>
+              <span class="px-2">{{ratingItem.numberOfRating}}</span>
+            </div>
+          </div>
+          
+          <!-- ---------------------- review list ----------------------- -->
+          <!-- <ul class="reviews-list p-0 my-3" *ngIf="reviews.length > 0">
+              <li class="review-item px-2 py-1 mb-2" *ngFor="let review of reviews">
+                  <div class="d-flex align-items-center mb-1">
+                      <div class="badge">
+                          <i class="material-icons badge-star-icon">star</i>
+                          <span>{{review.rating || '--'}}</span>
+                      </div>
+                      <p class="userName textSmall2 fw-5 mx-2 my-0">{{review.userDetails?.firstName || review.merchantDetails?.companyName || review.insuranceDetails?.companyName || review.studentDetails?.firstName || review.recruiterDetails?.companyName || review.healthCareDetails?.firstName}} {{review.userDetails?.lastName||review.studentDetails?.lastName || review.healthCareDetails?.lastName}}</p>
+                  </div>
+                  <p class="review_txt textSmall2 text-modify">{{review.comment}}</p>
+              </li>     
+          </ul>
+          <p class="text-right">
+              <button class="seeAllBtn textSmall2 fw-5 color-primary2 formatBtn" *ngIf="reviews.length > 0" (click)="allReviews()">See All Reviews</button>
+          </p> -->
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-12" *ngIf="faqList.length != 0">
+      <div class="px-md-3 pt-2 pt-md-3">
+        <p class="title1 fw-5">FAQs</p>
+        <div class="faqsList">
+          <div class="faqItem mb-2" *ngFor="let faq of faqList; index as i;">
+            <p class="faqQues mb-1"><span>{{i+1}}.</span>&nbsp; {{faq.question}}</p>
+            <p class="faqAns"><span>Ans.</span>&nbsp; <span class="fw-3">{{faq.answer}}</span></p>
+          </div>
+        </div>
+        <button type="button" class="btn btn-outline-danger btn-sm my-2" (click)="allFaqs()">Read All FAQs</button>
+      </div>
+    </div>
+  </div>
+  
+  <br>
+  <!-- ---------------------------- Similar Products ------------ -->
+
+  <div class="similarProducts px-lg-3 px-xs-2 py-2" *ngIf="Suggestedproduct.length != 0">
+    <p class="text3 title1 fw-5">You may also like</p>
+    <br>
+
+    <div class="simillar_products d-flex custom-scrollbar-x">
+      <div class="card similarProductCard pointer" *ngFor="let product of Suggestedproduct"
+        (click)="suggestedProductPage(product.uuid)">
+        <div class="card-header">
+          <img [src]="product?.images.length ? imageApi + product?.images[0] : '../../assets/images/default-image.jpg'" alt="item 1">
+        </div>
+        <div class="card-content p-2">
+          <span class="productName fw-5"*ngIf="product?.name">{{product?.name}}</span>
+          <p class="productPrice mt-2">
+            <span class="itme_price fw-5"*ngIf="product?.sellingprice">₹ {{product.sellingprice}}</span> &nbsp;
+            <s class="striked-per color-gray" *ngIf="product?.mrp">{{product.mrp}} </s> &nbsp;&nbsp;
+            <span class="offRate danger">{{calculateOfferPercentage(product.mrp, product.sellingprice)}}% off</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ----------------------------- similar product section end --------------------- -->
+  <br>
+</div>

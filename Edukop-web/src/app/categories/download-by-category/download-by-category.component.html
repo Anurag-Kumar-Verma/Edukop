@@ -1,0 +1,65 @@
+<section infinite-scroll [infiniteScrollDistance]="scrollDistance"
+[infiniteScrollUpDistance]="scrollUpDistance" [infiniteScrollThrottle]="throttle"
+(scrolled)="scrollPage()">
+
+    <h3 class="schoolName pt-2 fw-5">
+        <span class="pointer backBtn" (click)="back()">
+            <i class="mdi mdi-home mdi-18px"></i>
+        </span>
+        <small class="px-2">
+            <i class="mdi mdi-chevron-right"></i>
+        </small>
+        <span>{{itemName}}'s {{itemType != 'university' && itemType != 'competition' ? 'Standard List' : 'Course List'}}</span> 
+    </h3>
+
+    <div class="child_sections">
+        
+        <!-- ---------------------------- school section ------------------------- -->
+        <div class="schoolSec" *ngIf="ChildData?.type !== 'university' && ChildData?.type !== 'competition'">
+            <div class="row standad_row">
+                <div class="col-4 col-sm-3 col-md-2 mb-2" *ngFor="let standard of ChildData?.list">
+                    <div class="circle {{standard.name | lowercase}} pointer rounded-1" (click)="productPage(standard)">
+                        {{standard.name | standardToNumber}}
+                    </div>
+                    <!-- <p class="fw-3 standardName text-center">{{standard.name}}</p> -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- ---------------------------- univercity section ------------------------- -->
+        <div class="schoolSec" *ngIf="ChildData?.type == 'university'">
+            <div class="row standad_row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 pb-2" *ngFor="let standard of ChildData?.list">
+                    <div class="card course_Card pointer border-0 h-100" (click)="productPage(standard)">
+                        <div class="card-header pointer h-100">
+                            <p class="fw-5 mb-0 standardName">{{standard.name}}</p>
+                            <small class="fw-3 standard_abbr">({{standard.abbreviation}})</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ---------------------------- competition section ------------------------- -->
+        <div class="schoolSec" *ngIf="examData?.type == 'competition'">
+            <div class="row standad_row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 pb-2" *ngFor="let exam of examData.exam">
+                    <div class="d-flex pointer" (click)="productPage(exam)">
+                        <!-- <div class="img_div">
+                            <img [src]="exam.imageUrl ? imageApi + exam.imageUrl: '../../assets/images/default-image.jpg'" alt="">
+                        </div> -->
+                        <div class="data-content circle w-100">
+                            <p class="fw-5 mb-0 standardName">{{exam.name}}</p>
+                            <small class="fw-3 standard_abbr">({{exam.authority}})</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-3 mt-lg-5 mb-3">
+        <button type="button" class="btn btn-block btn-large btn-danger" (click)="downloadAll()">Purchase {{itemName}}'s Books here</button>
+    </div>
+    <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" type = "ball-scale-multiple" [fullScreen] = "true"></ngx-spinner>
+</section>

@@ -1,0 +1,123 @@
+.wishlist-section {
+    margin-top: 20px;
+    width: 100%;
+}
+
+h1 {
+    margin-bottom: 0;
+}
+img {
+    width: 100%;
+}
+
+
+// list section 
+
+.item_list {
+    margin-top: 20px;
+    height: fit-content;
+}
+.item_card {
+    margin-inline: 5px;
+    margin-bottom: 10px;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    box-shadow: 0 0 20px -2px rgba($color: #000000, $alpha: 0.09);
+}
+.item_card .card-header {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    background-color: #fff;
+    position: relative;
+}
+.item_card .card-header img {
+    aspect-ratio: 1;
+    object-fit: contain;
+    border-radius: 7px 7px 0 0;
+}
+
+.closeBtn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #fff;
+    width: 25px;
+    height: 25px;
+    display: grid;
+    place-items: center;
+    border-radius: 20px;
+}
+
+.item_name {
+    margin-bottom: 7px;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: inherit;
+    display: -webkit-box;
+}
+.product-price {
+    font-size: 13px;
+    margin-right: 10px;
+}
+
+.card-footer {
+    background-color: #fff;
+    border-color: #eee;
+    margin-top: auto;
+}
+.addBtn {
+    border: 0;
+    outline: none;
+    background-color: #fff;
+    display: block;
+    width: 100%;
+}
+.addBtn i {
+    font-size: 14px;
+}
+
+
+@media screen and (min-width: 540px) {
+    .product-price {
+        font-size: 1.1rem;
+    }
+}
+@media screen and (min-width: 768px) {
+    // .item_list {
+    //     width: calc(100% - 270px);
+    // }
+    .addBtn i {
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .user_content {
+        margin-left: 15px;
+    }
+    // .item_list {
+    //     width: calc(100% - 300px);
+    // }
+}
+
+
+@media screen and (max-width: 767px) and (min-width: 360px) {
+    .item_list > div {
+        width: calc(100% / 2 - 5px);
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    p, span, address {
+        font-size: 12px;
+    }
+}
+@media screen and (max-width: 359px) {
+    .item_list > div {
+        width: calc(100% - 20px);
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

@@ -1,0 +1,92 @@
+.downloadBtn {
+    width: 100%;
+    max-width: 400px;
+}
+
+.itemList {
+    margin-top: 20px;
+}
+.schoolCard {
+    border: 0;
+    // box-shadow: 0 2px 2px rgba($color: #000000, $alpha: 0.25);
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    transition: all 0.3s ease;
+}
+.schoolCard:not(:last-child) {
+    border-bottom: 1px solid rgba($color: #000000, $alpha: 0.25);
+}
+.schoolCard:hover {
+    transform: scale(1.01);
+    transition: all 0.3s ease;
+}
+.schoolCard:hover:active {
+    transform: scale(0.97);
+    transition: all 0.3s ease;
+}
+
+.img_div {
+    max-width: 80px;
+    aspect-ratio: 1;
+    margin-right: 20px;
+}
+
+img {
+    width: 100%;
+}
+
+.item_detail {
+    width: 100%;
+    max-width: calc(100% - 100px);
+}
+.item_sub_title {
+    color: #282828;
+}
+.schoolCard .card-footer {
+    background-color: #fff;
+    border-color: #eee;
+}
+
+@media screen and (min-width: 540px) {
+    .img_div {
+        max-width: 130px;
+    }
+
+    .item_detail {
+        max-width: calc(100% - 150px);
+    }
+    .cat_name,
+    .item_name {
+        font-size: 1rem;
+    }
+}
+
+// @media screen and (min-width: 768px) {
+//     .img_div {
+//         max-width: 160px;
+//     }
+
+//     .item_detail {
+//         max-width: calc(100% - 180px);
+//     }
+// }
+
+@media screen and (min-width: 992px) {
+    .img_div {
+        max-width: 100px;
+    }
+
+    .item_detail {
+        max-width: calc(100% - 120px);
+    }
+    .item_name {
+        font-size: 1.3rem;
+        margin-top: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .downloadSmBtn {
+        font-size: 12px;
+    }
+}

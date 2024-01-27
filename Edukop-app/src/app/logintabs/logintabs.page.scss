@@ -1,0 +1,90 @@
+ion-content{
+    --ion-background-color:#FF8217;
+   
+}
+.form-div{
+    margin:30px auto;
+}
+.form{
+    display: table-cell;
+    vertical-align:middle;
+    text-align: center;
+    color:"#fff";
+    margin-bottom:50px;
+} 
+.label{
+    color: #fff;
+}
+.input-wrapper{
+    color:"#fff"
+}
+.item-inner-highlight{
+    color:#fff !important;
+}
+.input-col{
+    background:#fff;
+    width: 100%;
+    padding: 0px 10px;
+    margin: 8px auto;
+    display: inline-block;
+    border: 2px solid #fff;
+    border-radius: 12px;
+    box-sizing: border-box;
+    text-align: left;
+    color: #fff !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.input{
+    --background:#fff;
+    --color:#FF8217;
+}
+.input-row{
+    width:80%;
+    margin: 0px auto;
+}
+.input-btn{
+    text-align: left;
+    padding: 0px !important;
+    --color:#FF8217 !important;
+    border-radius: 12px;
+}
+.login-btn{
+    --color:#FF8217 !important;
+    --border-radius:12px !important;
+}
+.heading{
+    margin:20px auto 50px;
+    color:#fff;
+    font-size: 26px;
+}
+.for-signin{
+    text-align: center;
+    padding-top: 30px;
+    color:#fff;
+}
+.input-col-forgot-pass{
+    text-align: right;
+    color:#fff;
+    margin:0px !important;
+}
+.forgot-pass{
+    margin:0px !important;
+    font-size: 14px;
+    word-spacing: 1.5px;
+}
+.icon-col{
+    text-align: center;
+    margin-top: 20px !important;
+}
+.icon-google{
+    color: #fff !important;
+    font-size: 26px;
+}
+.icon-fb{
+    color:#fff;
+    font-size: 26px;
+}
+.login-tab-btns{
+    --background: #fff !important;
+}
+

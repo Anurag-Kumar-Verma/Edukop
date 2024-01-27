@@ -1,0 +1,373 @@
+<ion-header mode="md">
+    <div id="main-content">
+        <ion-toolbar class="toolbar">
+            <ion-buttons slot="start">
+                <ion-menu-button color="light"></ion-menu-button>
+                <img
+                    src="../../assets/images/Edukop_logo3.png"
+                    class="app-logo" alt="Edukop"
+                />
+            </ion-buttons>
+            <!-- <img src="./assets/images/rsz_logo.jpg" width="40px" height="28px" (click) = "home()"> -->
+            <ion-buttons slot="end">
+                <!-- <ion-icon color="light" name="notifications-outline" class="header-icon-notification"></ion-icon> -->
+                <ion-icon
+                    color="light"
+                    class="header-icon-notification"
+                    name="share-social-outline"
+                    (click)="shareApp()"
+                >
+                </ion-icon>
+                <ion-icon
+                    color="light"
+                    (click)="presentModal()"
+                    name="search-outline"
+                    class="header-icon-notification"
+                >
+                </ion-icon>
+                <ion-icon
+                    color="light"
+                    (click)="wishList()"
+                    name="heart-outline"
+                    class="header-icon-notification"
+                >
+                </ion-icon>
+                <ion-icon
+                    color="light"
+                    name="cart-outline"
+                    slot="end"
+                    class="header-icon-cart"
+                    (click)="myCart()"
+                >
+                </ion-icon>
+                <ion-badge *ngIf="cartBadge > 0" class="badge-one"
+                    >{{cartBadge}}</ion-badge
+                >
+                <!-- <ion-icon
+                    *ngIf="isGuest"
+                    color="light"
+                    name="log-in-outline"
+                    slot="end"
+                    class="header-icon-right"
+                    (click)="login()"
+                >
+                </ion-icon>
+                <ion-icon
+                    *ngIf="!isGuest"
+                    color="light"
+                    name="person-outline"
+                    slot="end"
+                    class="header-icon-right-user"
+                    (click)="myAccount()"
+                >
+                </ion-icon> -->
+            </ion-buttons>
+        </ion-toolbar>
+    </div>
+    <!-- <ion-searchbar class="search-bar" > </ion-searchbar> -->
+</ion-header>
+
+<ion-content>
+    <div class="wrapper">
+        <div class="scrollbar"></div>
+    </div>
+
+    <ion-card class="card-offers" *ngFor="let section of dynamicSection;">
+        <app-scrollable-circle-section
+            *ngIf="section.viewType == 'scrollable-circle-section'"
+            [section]="section.data"
+            (openCategoryEmit)="openCategoryEvent($event)"
+        >
+        </app-scrollable-circle-section>
+        <app-banner-section
+            [section]="section.data"
+            *ngIf="section.viewType == 'banner-section'"
+            (openSectionProductEmit)="openSectionProductEvent($event)"
+        >
+        </app-banner-section>
+        <app-two-column-section
+            [section]="section.data"
+            *ngIf="section.viewType == 'two-column-section'"
+            (openSectionProductEmit)="openSectionProductEvent($event)"
+        ></app-two-column-section>
+        <app-single-image
+            [section]="section.data"
+            *ngIf="section.viewType == 'single-image'"
+            (openSectionProductEmit)="openSectionProductEvent($event)"
+        ></app-single-image>
+        <app-scrollable-square-section
+            [section]="section.data"
+            *ngIf="section.viewType == 'scrollable-square-section'"
+        >
+        </app-scrollable-square-section>
+    </ion-card>
+
+    <div
+        *ngIf="recentProducts?.products"
+        style="background-color: #fff !important; margin-top: 6px !important"
+    >
+        <ion-row>
+            <ion-col size="12" class="recently-heading">
+                Recently Viewed Products
+            </ion-col>
+        </ion-row>
+        <ion-segment class="segment" scrollable value="heart">
+            <div
+                class="recent-div"
+                *ngFor="let recent of recentProducts?.products"
+            >
+            <ion-card (click)="recentlyViewedProducts($event, recent?.product)">
+                <ion-card-header>
+                    <div class="img-div">
+                        <img [src]="(recent?.product?.images != null && recent?.product?.images?.length > 0 ) ? thumbApi + recent?.product.images[0] : 'assets/images/default-image.jpg' "
+                            class="recent-product-img" alt="Product cover" />
+                    </div>
+                    <div class="wish-icon">
+                        <ion-icon *ngIf="!isWishListed(recent?.product?.uuid)" class="icon-heart" color="medium" name="heart-outline"
+                            (click)="addWishList($event, recent.product.uuid, 'add')"></ion-icon>
+                        <ion-icon *ngIf="isWishListed(recent?.product?.uuid)" class="icon-heart" color="primary" name="heart"
+                            (click)="addWishList($event, recent.product.uuid, 'remove')"></ion-icon>
+                    </div>
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-label class="ion-text-start">{{recent?.product?.name}}</ion-label>
+                    <ion-card-subtitle class="ion-text-start">
+                        <span class="price">
+                            ₹{{recent?.product?.sellingprice}}
+                        </span>
+                        <s class="striked" *ngIf="recent?.product?.mrp > recent?.product?.sellingprice">
+                            {{recent?.product.mrp}}
+                        </s>
+                        
+                        <span class="ofr-text" *ngIf="recent?.product?.mrp > recent?.product?.sellingprice">
+                            {{calculateOfferPercentage(recent.product.mrp,recent.product.sellingprice)}}%
+                            off
+                        </span>
+                    </ion-card-subtitle>
+                </ion-card-content>
+            </ion-card>
+                <!-- <ion-segment-button
+                    class="segment-btn"
+                    (click)="recentlyViewedProducts($event, recent?.product)"
+                >
+                    <div class="recent_item"
+                    (click)="recentlyViewedProducts($event, recent?.product)">
+                        <div class="img-div">
+                            <img [src]="recent?.product?.images != null ? thumbApi + recent?.product.images[0] : 'assets/images/default-image.jpg' "
+                                class="recent-product-img" alt="Product cover" />
+                        </div>
+                        <div class="price-info">
+                            <ion-title mode="md" class="pro-name">{{recent?.product?.name}}
+                            </ion-title>
+                            <ion-label (click)="recentlyViewedProducts($event, recent?.product)" class="price-text">
+                                <span class="price">
+                                    ₹{{recent?.product?.sellingprice}}
+                                </span>
+                                <s class="striked" *ngIf="recent?.product?.mrp > recent?.product?.sellingprice">
+                                    {{recent?.product.mrp}}
+                                </s>
+                        
+                                <span class="ofr-text" *ngIf="recent?.product?.mrp > recent?.product?.sellingprice">
+                                    {{calculateOfferPercentage(recent.product.mrp,recent.product.sellingprice)}}%
+                                    off
+                                </span>
+                            </ion-label>
+                        </div>
+                        <div class="wish-icon">
+                            <ion-icon *ngIf="!isWishListed(recent?.product?.uuid)" class="icon-heart" color="medium" name="heart-outline"
+                                (click)="addWishList($event, recent.product.uuid, 'add')"></ion-icon>
+                            <ion-icon *ngIf="isWishListed(recent?.product?.uuid)" class="icon-heart" color="primary" name="heart"
+                                (click)="addWishList($event, recent.product.uuid, 'remove')"></ion-icon>
+                        </div>
+                    </div>
+                </ion-segment-button> -->
+            </div>
+        </ion-segment>
+    </div>
+    <div class="load-more">
+        <ion-infinite-scroll
+            threshold="100px"
+            (ionInfinite)="doInfinite($event)"
+        >
+            <ion-infinite-scroll-content
+                loadingSpinner="bubbles"
+                loadingText="Loading more data..."
+            >
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+    </div>
+</ion-content>
+
+<ion-menu side="start" content-id="main-content" menuClose>
+    <ion-header>
+        <ion-toolbar translucent mode="md">
+            <ion-row>
+                <ion-col size="12" class="avatar-cls" *ngIf="userInfo">
+                    <ion-avatar class="avatar">
+                        <img alt="User Pic"
+                            [src]="userInfo.imageUrl? imageApi + userInfo.imageUrl : './assets/images/avatar.png'"
+                        />
+                    </ion-avatar>
+
+                    <ion-title class="user-name" *ngIf="isGuest">
+                        Hii Guest
+                    </ion-title>
+                    <ion-title class="user-name" *ngIf="!isGuest">
+                        {{userInfo.firstName}} {{userInfo.lastName}}
+                    </ion-title>
+                </ion-col>
+            </ion-row>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list>
+            <ion-item button class="menu-item item-padding-0" lines="none" (click)="closeMenu()">
+                <ion-icon
+                    name="home-outline"
+                    slot="start"
+                    class="menu-list-icon"
+                ></ion-icon>
+
+                <ion-label class="nav-item">Home</ion-label>
+            </ion-item>
+            <ion-item button class="menu-item item-padding-0" lines="none" (click)="myAccount()">
+                <ion-icon
+                    name="person-circle-outline"
+                    slot="start"
+                    class="menu-list-icon"
+                ></ion-icon>
+                <ion-label class="nav-item">My Account</ion-label>
+            </ion-item>
+            <ion-item button class="menu-item item-padding-0" lines="none" (click)="categoryPage()">
+                <ion-icon
+                    name="grid-outline"
+                    slot="start"
+                    class="menu-list-icon"
+                ></ion-icon>
+                <ion-label class="nav-item">Shop By Category</ion-label>
+            </ion-item>
+            <ion-item button class="menu-item item-padding-0" lines="none" (click)="openEnrollmentForms()">
+                <ion-icon
+                    name="document-text-outline"
+                    slot="start"
+                    class="menu-list-icon"
+                ></ion-icon>
+                <ion-label class="nav-item">My Enrollment Forms</ion-label>
+            </ion-item>
+            <ion-item button class="menu-item item-padding-0" lines="none" (click)="myOrders()">
+                <ion-icon
+                    name="library-outline"
+                    slot="start"
+                    class="menu-list-icon"
+                ></ion-icon>
+                <ion-label class="nav-item">My Orders</ion-label>
+            </ion-item>
+            <ion-item button class="menu-item item-padding-0" lines="none" (click)="wishList()">
+                <ion-icon
+                    name="heart-outline"
+                    slot="start"
+                    class="menu-list-icon"
+                ></ion-icon>
+                <ion-label class="nav-item">Wishlist</ion-label>
+            </ion-item>
+            <ion-item button class="menu-item item-padding-0" lines="none" (click)="openDownloadedPage()">
+                <ion-icon
+                    name="download-outline"
+                    slot="start"
+                    class="menu-list-icon"
+                ></ion-icon>
+                <ion-label class="nav-item">Downloads</ion-label>
+            </ion-item>
+            <ion-item
+                button
+                class="menu-item ripple-parent item-padding-0" lines="none"
+                *ngIf="!isGuest"
+                (click)="requestProduct()"
+            >
+                <ion-icon
+                    name="add-circle-outline"
+                    slot="start"
+                    class="menu-list-icon"
+                ></ion-icon>
+                <ion-label class="nav-item">Request Product</ion-label>
+            </ion-item>
+            <ion-item
+                button
+                class="menu-item ripple-parent item-padding-0" lines="none"
+                (click)="newsFeed()"
+            >
+                <ion-icon
+                    slot="start"
+                    class="menu-list-icon"
+                    name="newspaper-outline"
+                ></ion-icon>
+                <ion-label class="nav-item">News Feed</ion-label>
+            </ion-item>
+            <ion-item
+                button
+                class="menu-item ripple-parent item-padding-0" lines="none"
+                *ngIf="!isGuest"
+                (click)="support()"
+            >
+                <ion-icon
+                    name="call-outline"
+                    slot="start"
+                    class="menu-list-icon"
+                ></ion-icon>
+                <ion-label class="nav-item">Support</ion-label>
+            </ion-item>
+            <ion-item
+                button
+                class="menu-item ripple-parent item-padding-0" lines="none"
+                (click)="termsOfUse()"
+            >
+                <ion-icon
+                    name="documents-outline"
+                    slot="start"
+                    class="menu-list-icon"
+                ></ion-icon>
+                <ion-label class="nav-item">Terms Of Use</ion-label>
+            </ion-item>
+            <ion-item
+                button
+                class="menu-item ripple-parent item-padding-0" lines="none"
+                (click)="privacyPolicy()"
+            >
+                <ion-icon
+                    name="documents-outline"
+                    slot="start"
+                    class="menu-list-icon"
+                ></ion-icon>
+                <ion-label class="nav-item">Privacy Policy</ion-label>
+            </ion-item>
+            <ion-item
+                button
+                class="menu-item ripple-parent item-padding-0" lines="none"
+                (click)="login()"
+                *ngIf="isGuest"
+            >
+                <ion-icon
+                    name="log-in-outline"
+                    slot="start"
+                    class="menu-list-icon"
+                ></ion-icon>
+                <ion-label class="nav-item"><b>Login</b></ion-label>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+    <ion-footer>
+        <ion-item
+            button
+            class="menu-item ripple-parent item-padding-0" lines="none"
+            *ngIf="!isGuest"
+            (click)="onLogout()"
+        >
+            <ion-icon
+                name="log-out-outline"
+                slot="start"
+                class="menu-list-icon"
+            ></ion-icon>
+            <ion-label class="nav-item">Log out</ion-label>
+        </ion-item>
+    </ion-footer>
+</ion-menu>

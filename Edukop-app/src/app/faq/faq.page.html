@@ -1,0 +1,70 @@
+<ion-header mode="md">
+    <ion-toolbar class="toolbar">
+        <ion-icon
+            class="back-icon"
+            slot="start"
+            name="arrow-back-outline"
+            (click)="goback()"
+        ></ion-icon>
+        <ion-title class="heading">FAQs</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content *ngIf="faq">
+    <!-- <div *ngIf="faq.length == 0">No FAQ yet</div> -->
+    <div *ngFor="let item of faq.faqs">
+        <ion-row style="border-bottom: 1px solid #cccccc !important">
+            <ion-col size="12" class="QA_col">
+                <p><b>Q.{{item.question}}</b></p>
+                <p><b>A. </b>{{item.answer}}</p>
+            </ion-col>
+        </ion-row>
+        <!-- <ion-row style="border-bottom: 1px solid #cccccc !important">
+    <ion-col size="12" class="QA_col">
+      <p><b>Q. How to use this Product?</b></p>
+      <p><b>A. </b>Read the guide book provided with the product.</p>
+    </ion-col>
+  </ion-row>
+  <ion-row style="border-bottom: 1px solid #cccccc !important">
+    <ion-col size="12" class="QA_col">
+      <p><b>Q. How to use this Product?</b></p>
+      <p><b>A. </b>Read the guide book provided with the product.</p>
+    </ion-col>
+  </ion-row>
+  <ion-row style="border-bottom: 1px solid #cccccc !important">
+    <ion-col size="12" class="QA_col">
+      <p><b>Q. How to use this Product?</b></p>
+      <p><b>A. </b>Read the guide book provided with the product.</p>
+    </ion-col>
+  </ion-row>
+  <ion-row style="border-bottom: 1px solid #cccccc !important">
+    <ion-col size="12" class="QA_col">
+      <p><b>Q. How to use this Product?</b></p>
+      <p><b>A. </b>Read the guide book provided with the product.</p>
+    </ion-col>
+  </ion-row>
+  <ion-row style="border-bottom: 1px solid #cccccc !important">
+    <ion-col size="12" class="QA_col">
+      <p><b>Q. How to use this Product?</b></p>
+      <p><b>A. </b>Read the guide book provided with the product.</p>
+    </ion-col>
+  </ion-row>
+  <ion-row style="border-bottom: 1px solid #cccccc !important">
+    <ion-col size="12" class="QA_col">
+      <p><b>Q. How to use this Product?</b></p>
+      <p><b>A. </b>Read the guide book provided with the product.</p>
+    </ion-col>
+  </ion-row>
+  <ion-row style="border-bottom: 1px solid #cccccc !important">
+    <ion-col size="12" class="QA_col">
+      <p><b>Q. How to use this Product?</b></p>
+      <p><b>A. </b>Read the guide book provided with the product.</p>
+    </ion-col>
+  </ion-row>
+  <ion-row style="border-bottom: 1px solid #cccccc !important">
+    <ion-col size="12" class="QA_col">
+      <p><b>Q. How to use this Product?</b></p>
+      <p><b>A. </b>Read the guide book provided with the product.</p>
+    </ion-col>
+  </ion-row> -->
+    </div>
+</ion-content>

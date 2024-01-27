@@ -1,0 +1,37 @@
+<div>
+    <ion-card *ngFor="let info of subData.categoryData">
+        <ion-row (click)="OpenStList(info)">
+            <ion-col size="4" class="image-col">
+                <img [src]="imageEnvUrl + info.imageUrl" class="board-img" />
+            </ion-col>
+            <ion-col size="8">
+                <ion-label class="board-name">{{ info.name }}</ion-label>
+                <p *ngIf="subData.type == 'board'" class="board-type">
+                    {{ info.type }}
+                </p>
+                <p *ngIf="subData.type == 'school'" class="board-type">
+                    {{ info.address }}
+                </p>
+                <p *ngIf="subData.type == 'university'" class="board-type">
+                    {{ info.address }}
+                </p>
+                <p *ngIf="subData.type == 'university'" class="city-board-type">
+                    {{ info.city }}
+                </p>
+                <p *ngIf="subData.type == 'competition'" class="exam-type">
+                    {{ info.description }}
+                </p>
+            </ion-col>
+        </ion-row>
+
+        <!-- <ion-row (click)="OpenDnStList(info)" class="download-row" *ngIf="subData.type == 'school'">
+            <ion-col size="8">
+                <p class="download-note">Download the course books</p>
+            </ion-col>
+            <ion-col size="4" class="Download-btn-col">
+                <ion-button size="small"> Download</ion-button>
+            </ion-col>
+        </ion-row>
+       -->
+    </ion-card>
+</div>

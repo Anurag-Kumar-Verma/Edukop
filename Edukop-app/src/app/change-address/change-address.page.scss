@@ -1,0 +1,103 @@
+.toolbar {
+    --background: #df1744;
+    --color: #fff !important;
+}
+.heading {
+    font-size: 18px !important;
+    text-align: left !important;
+}
+.btn-position {
+    margin: 20px 10px 20px !important;
+    text-align: center !important;
+}
+.buy-now {
+    --background: #df1744;
+    --border-color: #df1744;
+}
+.group-btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.group-btns .btn {
+    --background: transparent;
+    --border-color: #E51545;
+    --padding-start: 5px;
+    --padding-end: 5px;
+    --box-shadow: none;
+    --border-radius: 0;
+    text-decoration: none;
+    width: fit-content;
+    text-transform: none;
+    font-size: 12px;
+    height: 35px;
+    border-radius: 50px;
+    overflow: hidden;
+    padding: 10px;
+    background: #df1744;
+}
+.back-icon {
+    padding-left: 8px !important;
+    font-size: 22px !important;
+}
+.btn-div {
+    margin-top: 10px !important;
+}
+.card-pay {
+    width: 100% !important;
+    margin: 0px !important;
+}
+
+.pay-card-content {
+    width: 100% !important;
+    margin: 0px auto !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+.btn-col {
+    text-align: center !important;
+}
+.item-pay-card {
+    width: 100% !important;
+    bottom: 0 !important;
+    position: fixed;
+}
+.edit {
+    // padding-top: 10px !important;
+    float: right;
+    font-size: 22px !important;
+}
+// .item-info-card-select {
+.item-info-card {
+    // border: 2px solid #df1744 !important;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+.no-class {
+    border: none !important;
+}
+.add-title {
+    border-bottom: 1px solid #CFCFCF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px;
+}
+.color1 {color: #E51545;}
+.color2{color: #fff;}
+.select-btn,
+.cancel-btn {
+    border: 1px solid #E51545;
+    border-radius: 50px;
+    height: 27px;
+    text-transform: none;
+    font-size: 12px;
+    --box-shadow: none;
+    max-width: 80px;
+    margin: 0 5px;
+}
+.d-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

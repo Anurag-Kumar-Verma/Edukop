@@ -1,0 +1,12 @@
+<div class="container pt-2">
+    <button class="backBtn text-danger bg-white border-0" type="button" (click)="goBack()"><i class="mdi mdi-arrow-left"></i>&nbsp; Back</button>
+    <div class="mt-3 px-2">
+        <p class="title1 fw-5 text-center">FAQs</p>
+        <div class="faqsList">
+        <div class="faqItem mb-2" *ngFor="let faq of faqList; index as i;">
+            <p class="faqQues mb-1"><span>{{i+1}}.</span>&nbsp; {{faq.question}}</p>
+            <p class="faqAns"><span>Ans.</span>&nbsp; <span class="fw-3">{{faq.answer}}</span></p>
+        </div>
+        </div>
+    </div>
+</div>

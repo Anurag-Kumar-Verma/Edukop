@@ -1,0 +1,165 @@
+<!-- <ion-searchbar class="search-bar" [showCancelButton]="true" cancelButtonText="Cancel" (ionCancel)="searchCancel($event)"
+    debounce="500" (ionChange)="getProducts($event)">
+</ion-searchbar>
+<ion-content *ngIf="products">
+    <div class="list">
+        <li class="item" *ngFor="let product of products">{{ product.name }}</li>
+    </div>
+</ion-content> -->
+
+<ion-content >
+    <ion-searchbar style="padding-top: 45px;" mode="md" #search autofocus="true" [value]="searchValue" [showCancelButton]="true"
+        cancelButtonText="Cancel" (ionCancel)="searchCancel()" debounce="500" (ionChange)="getProducts(search.value)"
+        (keyup.enter)="onEnter(search.value)">
+    </ion-searchbar>
+    <div *ngIf="searchData.length" class="search-suggetion-div">
+        <!-- <ion-list> -->
+        <ion-row class="suggestion-item" *ngFor="let product of searchData" (click)="onSelect(product)">
+            <ion-col class="image-col" size="2.5" *ngIf="!type.length">
+                <img *ngIf="product.isDigital  !== 'true' && product.isType == 'product' &&
+                product?.images != null &&
+                product?.images?.length" [src]="imageApi + product.images[0] " class="avatar" />
+                <img *ngIf="product.isType == 'school' && product.imageUrl" [src]="imageApi + product.imageUrl"
+                    class="avatar" />
+                <img *ngIf="!product.isType && product.imageUrl" [src]="imageApi + product.imageUrl" class="avatar" />
+                <img *ngIf="product.isType == 'board' && product.imageUrl" [src]="imageApi + product.imageUrl"
+                    class="avatar" />
+                <img *ngIf="product.isType == 'university' && product.imageUrl" [src]="imageApi + product.imageUrl"
+                    class="avatar" />
+                <img *ngIf="product.isType == 'category'" src="./assets/images/category.jpg" class="avatar" />
+                <img *ngIf="product.isDigital" src="./assets/images/download-png.png" class="avatar" />
+            </ion-col>
+
+            <ion-col size="2.5" class="image-col" *ngIf="type.length">
+                <img *ngIf="product.imageUrl" [src]="imageApi + product.imageUrl" class="avatar" />
+            </ion-col>
+            <ion-col size="9.5" *ngIf="type.length && product.isType == 'category'">
+                <ion-label>
+                    {{ product.category_name }} in Category</ion-label>
+            </ion-col>
+            <ion-col size="9.5">
+                <div class="block-ellipsis"> {{ product.name }}</div>
+                <div class="block-ellipsis" *ngIf="!type.length && product.isType == 'category'">
+                    {{ product.category_name }}
+                </div>
+                <h6 class="categoryClass" *ngIf="!type.length && product.isType == 'product'">
+                    {{
+                    product.categories.length
+                    ? product.categories[0] + ' in categories'
+                    : ' in products'
+                    }}
+                </h6>
+                <h6 class="categoryClass" *ngIf="type.length && type !== 'competition'">
+                    {{ product.abbreviation + ' in ' + product.address }}
+                </h6>
+                <h6 class="categoryClass" *ngIf="!type.length && product.isType == 'school'">
+                    {{ product.abbreviation + ' in ' + product.address }}
+                </h6>
+                <h6 class="categoryClass" *ngIf="!type.length && product.isType == 'university'">
+                    {{ ' in ' + product.address }}
+                </h6>
+
+                <h6 class="categoryClass" *ngIf="!type.length && product.isType == 'board'">
+                    {{ product.abbreviation + ' in ' + product.address }}
+                </h6>
+                <h6 class="categoryClass" *ngIf="!type.length && product.isType == 'category'">
+                    {{ product.category_name + ' in categories ' }}
+                </h6>
+            </ion-col>
+
+        </ion-row>
+        <!-- </ion-list> -->
+    </div>
+    <div class="search" *ngIf="!searchData.length">
+        <ion-list class="search">
+            <ion-item *ngFor="let search of recentSearch">
+                <img src="./assets/icon/icn_duration.png" class="re-search-icon" />
+                <ion-label (click)="searchAgain(search)">
+                    {{ search }}
+                </ion-label>
+                <ion-icon name="close-outline" (click)="remove(search)"></ion-icon>
+            </ion-item>
+        </ion-list>
+    </div>
+    <div class="search" *ngIf="noData">
+        <ion-list class="search">
+            <ion-item>
+                <ion-label style="margin-left: 80px">
+                    No search Data Found!
+                </ion-label>
+            </ion-item>
+        </ion-list>
+    </div>
+    <div class="spin" *ngIf="isLoading">
+        <ion-spinner name="bubbles"></ion-spinner>
+    </div>
+
+    <!-- <ion-item-divider >
+
+        <ion-row>
+            <ion-col size="12">
+                <p class="top-deals">Top Deals</p>
+            </ion-col>
+            <ion-col size="3" *ngFor="let deal of deals">
+                <img [src]="imageApi + deal.imageUrl" class="deal-image">
+            </ion-col>
+            <ion-col size="3" *ngFor="let deal of deals">
+                <img [src]="imageApi + deal.imageUrl" class="deal-image">
+            </ion-col>
+        </ion-row>
+    
+    </ion-item-divider> -->
+</ion-content>
+
+<!-- <ion-content class="autocomplete">
+    <ion-searchbar #search autofocus="true" [value]="searchValue" [showCancelButton]="true" cancelButtonText="Cancel"
+        (ionCancel)="searchCancel($event)" debounce="500" (ionChange)="getProducts($event)">
+    </ion-searchbar>
+
+
+    <ion-list *ngIf="searchData">
+        <ion-item *ngFor="let product of searchData" (click)="onSelect(product)">
+            <div *ngIf="!type.length">
+                <img *ngIf="product.images.length" [src]="imageApi + product.images[0]" class="avatar">
+            </div>
+            <div *ngIf="type.length">
+                <img *ngIf="product.imageUrl" [src]="imageApi + product.imageUrl" class="avatar">
+            </div>
+            <ion-label> {{ product.name }}</ion-label>
+
+            <h6 slot="end" style="color: blue;" *ngIf="!type.length">
+                {{ product.categories.length? product.categories[0] + ' in categories' :  ' in products'}}</h6>
+            <h6 slot="end" style="color: blue; font-size: x-small;" *ngIf="type.length && !type == 'competition'">
+                {{ product.abbreviation + ' in ' + product.address}}</h6>
+
+        </ion-item>
+    </ion-list>
+    <div class="parent">
+    
+        <div class="search" *ngIf="!searchData" >
+            <ion-list>
+                <ion-item *ngFor="let search of recentSearch">
+                    <img src="./assets/icon/icn_duration.png" class="re-search-icon">
+                    <ion-label (click)="searchAgain(search)">
+                        {{search}}
+                    </ion-label>
+                    <ion-icon name="close-outline" (click)="remove(search)"></ion-icon>
+                </ion-item>
+            </ion-list>
+
+        </div>
+         <div class="deals">
+            <ion-row>
+                <ion-col size="12">
+                    <p class="top-deals">Top Deals</p>
+                </ion-col>
+                <ion-col size="3" *ngFor="let deal of deals">
+                    <img [src]="imageApi + deal.imageUrl" class="deal-image">
+                </ion-col>
+                <ion-col size="3" *ngFor="let deal of deals">
+                    <img [src]="imageApi + deal.imageUrl" class="deal-image">
+                </ion-col>
+            </ion-row>
+        </div>
+    </div>
+</ion-content> -->

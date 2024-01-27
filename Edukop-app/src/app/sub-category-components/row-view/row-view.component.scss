@@ -1,0 +1,17 @@
+.book-card {
+    width: 100% !important;
+    display: table !important;
+    background-color: #df174205;
+    height: 50px !important;
+    border-radius: 6px !important;
+    margin: 0px !important;
+    padding: 5px 7px !important;
+}
+.book-name {
+    width: 80% !important;
+    display: table-cell;
+    vertical-align: middle !important;
+    color: #df1744;
+    text-align: left;
+    font-size: 17px !important;
+}

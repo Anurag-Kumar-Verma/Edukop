@@ -1,0 +1,34 @@
+<section>
+    <h2 class="mt-2">
+        <span class="pointer backBtn danger" (click)="back()">
+            <i class="mdi mdi-arrow-left mdi-18px"></i>
+        </span> &nbsp;
+        My Forms
+    </h2>
+
+    <div class="formList">
+        <div class="card rounded-0 schoolCard pointer" *ngFor="let enrollment of myEnrollments; let i = index">
+            <div class="card-content" (click)="openForm($event, enrollment.enrollmentFormId, enrollment.myEnrollmentId, enrollment.uuid, enrollment.formStatus)">
+                <div class="d-flex flex-wrap w-100" *ngIf="getSchoolInfo(enrollment.enrollmentData.org_id)">
+                    <div class="img_div">
+                        <img *ngIf="getSchoolInfo(enrollment.enrollmentData.org_id)?.imageUrl" [src]="imageApi + getSchoolInfo(enrollment.enrollmentData.org_id).imageUrl" alt="{{ getSchoolInfo(enrollment.enrollmentData.org_id).name }}">
+                        <img *ngIf="!getSchoolInfo(enrollment.enrollmentData.org_id)?.imageUrl" src="../../assets/images/default-image.jpg" alt="{{ getSchoolInfo(enrollment.enrollmentData.org_id).name }}">
+                    </div>
+                    <div class="item_detail">
+                        <p class="item_name fw-5 danger">{{getSchoolInfo(enrollment.enrollmentData.org_id).name}}</p>
+                        <p class="item_sub_title">{{ getSchoolInfo(enrollment.enrollmentData.org_id).address }}</p>
+                        <div class="d-flex flex-wrap justify-content-between align-items-end w-100">
+                            <div>
+                                <p class="form_status mb-1">Status: <span [ngClass]="enrollment.formStatus == 'pending' ? ' dangerpanding' : 'complete'"></span>{{ enrollment.formStatus }}</p>
+                                <p class="form_id mb-0">Form Id: <span class="form_id"></span>{{ enrollment.myEnrollmentId }}</p>
+                            </div>
+                            
+                            <button type="button" class="btn btn-sm btn-danger" *ngIf="enrollment.formStatus == 'Completed'" (click)="downloadPDF($event, enrollment.enrollmentFormId, enrollment.myEnrollmentId)">Download PDF</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" type="ball-scale-multiple" [fullScreen]="true"></ngx-spinner>

@@ -1,0 +1,16 @@
+<div class="d-flex flex-wrap">
+    <div class="header d-flex justify-content-between align-items-center justify-content-md-start flex-md-column px-sm-2">
+        <span class="section_name fw-5">{{ section.name }}</span>
+        <button type="button" class="btn btn-danger viewMoreBtn" (click)="test(section.viewMoreOrgType, section.viewAction, section.viewMoreRouterLink)" *ngIf="section.viewAction">View More</button>
+    </div>
+    <div class="content_sec d-flex">
+        <div class="card item_card pointer border-0" *ngFor="let product of section?.collectionOfProduct" (click)="openSectionProduct( product.action, product.typo, product.productUUID, product.product?.name, product.isRouterLink, product.routerLink, product.orgType)">
+            <div class="card-header border-0 p-0">
+                <img [src]="product?.imageUrl ? imageApi + product?.imageUrl : (product?.product?.images && product?.product?.images.length > 0) ? thumbApi + product?.product?.images[0] : '../../assets/images/default-image.jpg'" alt="product pic" class="item_pic">
+            </div>
+            <div class="card-content py-2 px-2">
+                <h4 class="item_name">{{ product?.product?.name }}</h4>
+            </div>
+        </div>
+    </div>
+</div>

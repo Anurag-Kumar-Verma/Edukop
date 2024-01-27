@@ -1,0 +1,671 @@
+<ion-header mode="md">
+    <ion-toolbar class="toolbar">
+        <ion-icon
+            class="back-icon"
+            slot="start"
+            name="arrow-back-outline"
+            (click)="back()"
+        ></ion-icon>
+        <ion-title class="heading">
+            {{
+                orgType === 'Coaching'
+                    ? formQuestions.coachingDetails?.name
+                    : orgType === 'School'
+                    ? formQuestions.schoolDetail?.name
+                    : orgType === 'University'
+                    ? formQuestions.universityDetails?.name
+                    : '-'
+            }}
+            <br /><span class="formId">Form Id -{{ ID }}</span>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+    <ion-slides #dynamicForm>
+        <ion-slide
+            class="ion-slide-cls"
+            *ngFor="let formGroupField of userFilledForm; index as i"
+        >
+            <ion-row class="row-sequence">
+                <p class="question-no">
+                    Question No : {{ i + 1 }} / {{ userFilledForm.length }}
+                </p>
+                <p class="percentage">
+                    {{ (i / userFilledForm.length) * 100 | number: '1.0-0' }}%
+                </p>
+            </ion-row>
+            <ion-progress-bar
+                [value]="i / userFilledForm.length"
+                class="progress-bar"
+            ></ion-progress-bar>
+            <div class="card-div">
+                <ion-card class="card-cls">
+                    <div
+                        class="content-div"
+                        *ngIf="!formGroupField?.repeatField?.length"
+                    >
+                        <form
+                            [formGroup]="userFilledForm[i].fg"
+                            class="form-class"
+                        >
+                            <div class="slide">
+                                <div class="question-div">
+                                    <h5 class="question-Title">
+                                        <b> {{ formGroupField.group.title }}</b>
+                                    </h5>
+                                    <h4 class="question-text">
+                                        {{ formGroupField.field.questionText }}
+                                    </h4>
+                                </div>
+                                <div
+                                    *ngIf="
+                                        formGroupField.field.type == 'Textarea'
+                                    "
+                                >
+                                    <ion-textarea
+                                        (keyup.enter)="
+                                            next(dynamicForm, i, formGroupField)
+                                        "
+                                        class="text-string"
+                                        type="text"
+                                        placeholder="Write here"
+                                        inputmode="string"
+                                        formControlName="answer"
+                                        required
+                                        enterkeyhint="next"
+                                    ></ion-textarea>
+                                </div>
+                                <div
+                                    *ngIf="formGroupField.field.type == 'Date'"
+                                >
+                                    <ion-datetime
+                                        class="string"
+                                        displayFormat="DD/MM/YYYY"
+                                        placeholder="Select A Date"
+                                        formControlName="answer"
+                                        required
+                                    ></ion-datetime>
+                                </div>
+                                <div
+                                    *ngIf="
+                                        formGroupField.field.type == 'Number'
+                                    "
+                                >
+                                    <ion-input
+                                        (keyup.enter)="
+                                            next(dynamicForm, i, formGroupField)
+                                        "
+                                        class="string"
+                                        type="number"
+                                        placeholder="Enter here"
+                                        inputmode="string"
+                                        formControlName="answer"
+                                        required
+                                        enterkeyhint="next"
+                                    ></ion-input>
+                                </div>
+                                <div
+                                    *ngIf="
+                                        formGroupField.field.type == 'Text' ||
+                                        formGroupField.field.type == 'Email' ||
+                                        formGroupField.field.type == 'Website'
+                                    "
+                                >
+                                    <ion-input
+                                        (keyup.enter)="
+                                            next(dynamicForm, i, formGroupField)
+                                        "
+                                        class="string"
+                                        type="text"
+                                        placeholder="Write here"
+                                        inputmode="string"
+                                        formControlName="answer"
+                                        required
+                                        enterkeyhint="next"
+                                    ></ion-input>
+                                </div>
+                                <div
+                                    *ngIf="
+                                        formGroupField.field.type == 'Dropdown'
+                                    "
+                                >
+                                    <ion-select
+                                        interface="popover"
+                                        class="select"
+                                        placeholder="Select One"
+                                        formControlName="answer"
+                                    >
+                                        <ion-select-option
+                                            *ngFor="
+                                                let dropDownvalue of formGroupField
+                                                    .field.values
+                                            "
+                                            value="{{ dropDownvalue.value }}"
+                                        >
+                                            {{
+                                                dropDownvalue.key
+                                            }}</ion-select-option
+                                        >
+                                    </ion-select>
+                                </div>
+                                <div
+                                    class="option-div"
+                                    *ngIf="
+                                        formGroupField.field.type ==
+                                        'CheckBoxes'
+                                    "
+                                >
+                                    <ion-list mode="md">
+                                        <ion-item
+                                            *ngFor="
+                                                let dropDownvalue of formGroupField
+                                                    .field.values
+                                            "
+                                        >
+                                            <p style="width: 95% !important">
+                                                {{ dropDownvalue.key }}
+                                            </p>
+                                            <ion-checkbox
+                                                class="checkbox-new"
+                                                color="primary"
+                                                [formControlName]="
+                                                    getFormControlNameForOption(
+                                                        dropDownvalue.value
+                                                    )
+                                                "
+                                            >
+                                            </ion-checkbox>
+                                        </ion-item>
+                                    </ion-list>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div
+                        #div
+                        class="sib-slide"
+                        [scrollTop]="div.scrollHeight"
+                        *ngIf="formGroupField?.repeatField?.length > 0"
+                    >
+                        <form>
+                            <h5 class="sib-head">
+                                {{ formGroupField?.group.title }}
+                            </h5>
+                            <div class="multiple-form">
+                                <ion-card
+                                    class="info-card"
+                                    *ngFor="
+                                        let detail of repeatSavedAnswers[i];
+                                        index as l
+                                    "
+                                >
+                                    <ion-row
+                                        class="sib-info-row"
+                                        *ngFor="let value of detail; index as m"
+                                    >
+                                        <ion-col size="6" class="sib-info">
+                                            <p>
+                                                <b>
+                                                    {{
+                                                        value.field
+                                                            .questionText
+                                                    }}:</b
+                                                >
+                                            </p>
+                                        </ion-col>
+                                        <ion-col class="sib-info">
+                                            <p>
+                                                <span
+                                                    *ngIf="
+                                                        value.field.type !==
+                                                            'Dropdown' &&
+                                                        value.field.type !==
+                                                            'Date'
+                                                    "
+                                                >
+                                                    {{ value.answer }}</span
+                                                >
+                                                <span
+                                                    *ngIf="
+                                                        value.field.type ==
+                                                        'Date'
+                                                    "
+                                                >
+                                                    {{
+                                                        value.answer
+                                                            | date: 'mediumDate'
+                                                    }}</span
+                                                >
+
+                                                <span
+                                                    *ngIf="
+                                                        value.field.type ===
+                                                            'Dropdown' &&
+                                                        value.optionAnswers?.key
+                                                    "
+                                                >
+                                                    {{
+                                                        value.optionAnswers.key
+                                                    }}</span
+                                                >
+                                            </p>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row class="sib-info-row">
+                                        <ion-col size="12" class="sib-icons">
+                                            <ion-icon
+                                                class="trash-icon"
+                                                color="primary"
+                                                name="trash-outline"
+                                                (click)="deleteAlert(i, l)"
+                                            >
+                                            </ion-icon>
+                                            <ion-icon
+                                                class="trash-icon"
+                                                color="primary"
+                                                name="create-outline"
+                                                (click)="
+                                                    editAnswers(detail, i, l)
+                                                "
+                                            >
+                                            </ion-icon>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-card>
+                                <ion-card class="row-card">
+                                    <div class="form-list">
+                                        <ion-item>
+                                            <ion-label>Add More</ion-label>
+                                            <ion-icon
+                                                *ngIf="openModal == false"
+                                                slot="end"
+                                                (click)="openFormModal()"
+                                                name="arrow-up-circle-outline"
+                                            ></ion-icon>
+                                            <ion-icon
+                                                *ngIf="openModal == true"
+                                                (click)="closeFormModal()"
+                                                slot="end"
+                                                name="arrow-down-circle-outline"
+                                            ></ion-icon>
+                                        </ion-item>
+                                    </div>
+                                    <div>
+                                        <ion-card
+                                            class="modal-form"
+                                            *ngIf="openModal == true"
+                                        >
+                                            <div
+                                                *ngFor="
+                                                    let form of formGroupField.repeatField;
+                                                    let k = index
+                                                "
+                                                [formGroup]="form.fg"
+                                            >
+                                                <ion-item
+                                                    style="
+                                                        --padding-bottom: 0px !important;
+                                                        --padding-top: 0px !important;
+                                                    "
+                                                    *ngIf="
+                                                        form.field.type ==
+                                                        'Text'
+                                                    "
+                                                >
+                                                    <ion-label
+                                                        position="floating"
+                                                        >{{
+                                                            form.field
+                                                                .questionText
+                                                        }}</ion-label
+                                                    >
+                                                    <ion-input
+                                                        (keyup.enter)="
+                                                            next(
+                                                                dynamicForm,
+                                                                i,
+                                                                formGroupField
+                                                            )
+                                                        "
+                                                        type="text"
+                                                        inputmode="string"
+                                                        [formControlName]="
+                                                            getFormControlNameForRepeatFields(
+                                                                k
+                                                            )
+                                                        "
+                                                        required
+                                                        enterkeyhint="next"
+                                                    ></ion-input>
+                                                </ion-item>
+                                                <!-- <ion-input
+                                                    *ngIf="
+                                                        form.field.type ==
+                                                        'Text'
+                                                    "
+                                                    class="string"
+                                                    type="text"
+                                                    [placeholder]="
+                                                        form.field.questionText
+                                                    "
+                                                    inputmode="string"
+                                                    [formControlName]="
+                                                        getFormControlNameForRepeatFields(
+                                                            k
+                                                        )
+                                                    "
+                                                    required
+                                                >
+                                                </ion-input> -->
+                                                <ion-item
+                                                    *ngIf="
+                                                        form.field.type ==
+                                                        'Number'
+                                                    "
+                                                >
+                                                    <ion-label
+                                                        position="floating"
+                                                        >{{
+                                                            form.field
+                                                                .questionText
+                                                        }}</ion-label
+                                                    >
+                                                    <ion-input
+                                                        (keyup.enter)="
+                                                            next(
+                                                                dynamicForm,
+                                                                i,
+                                                                formGroupField
+                                                            )
+                                                        "
+                                                        type="Number"
+                                                        inputmode="string"
+                                                        [formControlName]="
+                                                            getFormControlNameForRepeatFields(
+                                                                k
+                                                            )
+                                                        "
+                                                        required
+                                                        enterkeyhint="next"
+                                                    ></ion-input>
+                                                </ion-item>
+                                                <div
+                                                    class="option-div"
+                                                    *ngIf="
+                                                        form.field.type ==
+                                                        'CheckBoxes'
+                                                    "
+                                                >
+                                                    <ion-list mode="md">
+                                                        <ion-item
+                                                            *ngFor="
+                                                                let dropDownvalue of form
+                                                                    .field
+                                                                    .values
+                                                            "
+                                                        >
+                                                            <ion-label>{{
+                                                                dropDownvalue.key
+                                                            }}</ion-label>
+                                                            <ion-checkbox
+                                                                class="checkbox"
+                                                                color="primary"
+                                                                [formControlName]="
+                                                                    getFormControlNameForOption(
+                                                                        dropDownvalue.value
+                                                                    )
+                                                                "
+                                                                [checked]="
+                                                                    form.fg
+                                                                        .controls
+                                                                        .answer
+                                                                        ?.value
+                                                                "
+                                                            >
+                                                            </ion-checkbox>
+                                                        </ion-item>
+                                                    </ion-list>
+                                                </div>
+                                                <div class="gender-option">
+                                                    <ion-item
+                                                        *ngIf="
+                                                            form.field.type ==
+                                                            'Dropdown'
+                                                        "
+                                                    >
+                                                        <ion-label
+                                                            position="floating"
+                                                            >{{
+                                                                form.field
+                                                                    .questionText
+                                                            }}</ion-label
+                                                        >
+                                                        <ion-select
+                                                            interface="action-sheet"
+                                                            class="select"
+                                                            formControlName="answer"
+                                                            [selectedText]="
+                                                                form.fg.get('answer')['controls'].key
+                                                            "
+                                                        >
+                                                            <ion-select-option
+                                                                *ngFor="
+                                                                    let dropDownvalue of form
+                                                                        .field
+                                                                        .values
+                                                                "
+                                                                value="{{
+                                                                    dropDownvalue.value
+                                                                }}"
+                                                            >
+                                                                {{
+                                                                    dropDownvalue.key
+                                                                }}</ion-select-option
+                                                            >
+                                                        </ion-select>
+                                                    </ion-item>
+                                                </div>
+                                                <div>
+                                                    <ion-item
+                                                        *ngIf="
+                                                            form.field.type ==
+                                                            'Date'
+                                                        "
+                                                    >
+                                                        <ion-label
+                                                            position="floating"
+                                                            >{{
+                                                                form.field
+                                                                    .questionText
+                                                            }}</ion-label
+                                                        >
+                                                        <ion-datetime
+                                                            class="string"
+                                                            displayFormat="DD/MM/YYYY"
+                                                            placeholder="Select A Date"
+                                                            formControlName="answer"
+                                                            required
+                                                        ></ion-datetime>
+                                                    </ion-item>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div>
+                                                <ion-button
+                                                    class="submit-btn"
+                                                    shape="round"
+                                                    size="small"
+                                                    (click)="addAnswer(i)"
+                                                    >{{
+                                                        isUpdate
+                                                            ? 'Update'
+                                                            : 'Add'
+                                                    }}
+                                                </ion-button>
+                                            </div>
+                                        </ion-card>
+                                    </div>
+                                </ion-card>
+                            </div>
+                        </form>
+                    </div>
+                    <div style="margin-top: 10px !important">
+                        <ion-button
+                            *ngIf="i > 0"
+                            class="back-btn-position"
+                            fill="solid"
+                            shape="round"
+                            (click)="previous(dynamicForm)"
+                        >
+                            Back
+                        </ion-button>
+                        <ion-button
+                            class="next-btn-position"
+                            fill="solid"
+                            shape="round"
+                            (click)="next(dynamicForm, i, formGroupField)"
+                        >
+                            Next
+                        </ion-button>
+                    </div>
+                </ion-card>
+            </div>
+        </ion-slide>
+        <ion-slide class="slide-2" *ngIf="lastSlide">
+            <div class="input-fields">
+                <h4 class="preview-form">Preview form</h4>
+                <div class="div-new" *ngFor="let group of values; index as i">
+                    <div
+                        *ngIf="!group.repeatFields"
+                        style="margin-bottom: 10px !important"
+                    >
+                        <h5 class="group-label">
+                            {{ group.title }}
+                        </h5>
+                        <!-- <ion-item *ngFor="let questions of group.fields"> -->
+                        <ion-row
+                            class="preview-row"
+                            *ngFor="let questions of group.fields"
+                        >
+                            <ion-col size="6">
+                                {{ questions.questionText }}
+                            </ion-col>
+                            <ion-col size="6">
+                                <span class="field-name">
+                                    {{ getPreviewAnswer(questions) }}
+                                </span>
+                            </ion-col>
+                        </ion-row>
+                        <!-- </ion-item> -->
+                    </div>
+                    <div *ngIf="group.repeatFields">
+                        <div *ngIf="repeatSavedAnswers.length > 0">
+                            <h5 class="group-label">
+                                {{ group.title }}
+                            </h5>
+                            <div *ngIf="repeatSavedAnswers.length">
+                                <ion-card
+                                    *ngFor="
+                                        let detail of repeatSavedAnswers[
+                                            getReapeatIndex(group.title)
+                                        ];
+                                        index as l
+                                    "
+                                    class="sib-card"
+                                >
+                                    <p *ngFor="let value of detail; index as m">
+                                        {{ value.field.questionText }}:
+                                        <span
+                                            *ngIf="
+                                                value.field.type !==
+                                                    'Dropdown' &&
+                                                value.field.type !== 'Date'
+                                            "
+                                            class="field-name"
+                                        >
+                                            {{ value.answer }}</span
+                                        >
+                                        <span
+                                            *ngIf="
+                                                value.field.type === 'Dropdown'
+                                            "
+                                            class="field-name"
+                                        >
+                                            {{ value.optionAnswers.key }}</span
+                                        >
+                                        <span
+                                            *ngIf="value.field.type === 'Date'"
+                                            class="field-name"
+                                        >
+                                            {{
+                                                value.answer
+                                                    | date: 'mediumDate'
+                                            }}</span
+                                        >
+                                    </p>
+                                </ion-card>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div
+                    class="div-new"
+                    *ngFor="let formGroupField of userFilledForm; index as i"
+                >
+               
+                    <div *ngIf="!formGroupField?.repeatField?.length > 0">
+                        <ion-title>
+                            {{formGroupField.group.title}}
+                            : {{ getPreviewAnswer(formGroupField) }} 
+                        </ion-title>
+                        <ion-item *ngFor="let values of formGroupField.fields">
+                            {{ value.questionText }}
+                            </ion-item>
+                    </div>
+                    <div *ngIf="formGroupField?.repeatField?.length > 0">
+                        <div *ngFor="let detail of savedAnwers; index as l">
+                            <ion-item
+                                *ngFor="let value of savedAnwers[l]; index as m"
+                            >
+                                {{ value.field.questionText }}:
+                                {{ value.answer }}
+                            </ion-item>
+                        </div>
+                    </div> 
+                </div> -->
+            </div>
+            <div class="buttons">
+                <ion-button
+                    *ngIf="this.status !== 'Completed'"
+                    class="back-btn-position"
+                    fill="solid"
+                    shape="round"
+                    (click)="previous(dynamicForm)"
+                >
+                    Back
+                </ion-button>
+                <ion-button
+                    class="next-btn-position"
+                    fill="solid"
+                    shape="round"
+                    (click)="formList()"
+                >
+                    Done
+                </ion-button>
+            </div>
+        </ion-slide>
+
+        <!-- <ion-slide class="slide-2" *ngIf="this.formAnswers">
+            <div class="submitted-div">
+                <ion-icon
+                    class="check-icon"
+                    name="checkmark-circle-outline"
+                ></ion-icon>
+                <h2>Submitted</h2>
+                <ion-button (click)="formList()" shape="round" color="primary"
+                    >Done</ion-button
+                >
+            </div>
+        </ion-slide> -->
+    </ion-slides>
+</ion-content>

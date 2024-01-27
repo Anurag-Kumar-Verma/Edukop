@@ -1,0 +1,17 @@
+<div *ngIf="catFound">
+    <ion-row>
+        <ion-col
+            size="12"
+            class="book-col"
+            *ngFor="let category of catFound.childs"
+        >
+            <ion-card class="book-card" (click)="openCategoryTree(category)">
+                <!-- <div> -->
+                <!-- <ion-icon class="book-icon" name="book-outline"></ion-icon> -->
+                <ion-label class="book-name">{{ category.name }}</ion-label>
+
+                <!-- </div> -->
+            </ion-card>
+        </ion-col>
+    </ion-row>
+</div>

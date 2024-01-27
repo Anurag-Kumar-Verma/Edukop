@@ -1,0 +1,174 @@
+<section class="order_detail_sec" *ngIf="!isReturn">
+    <p>
+        <span class="pointer danger d-flex align-items-center" (click)="back()">
+            <i class="mdi mdi-arrow-left"></i>&nbsp; Back
+        </span>
+    </p>
+    <p class="seller_Detail mb-1" *ngIf="orderDetails?.orderId"><span class="fw-5">Order ID: </span>&nbsp; <span>{{orderDetails.orderId}}</span></p>
+    <div class="product_details" *ngFor="let item of vendors">
+        <div class="d-flex flex-wrap justify-content-between mb-2">
+            <p class="seller_Detail"><span class="fw-5">Sold By: </span>&nbsp; <span>{{item?.vendorDetail?.name}}</span></p>
+            <button type="button" class="btn btn-sm btn-outline-danger" (click)="downloadInvoice($event, orderDetails.uuid, item.vendorId)" *ngIf="orderDetails?.status == 'Delivered'">Download Invoice</button>
+        </div>
+
+        <div class="d-flex flex-wrap mb-2 productDetail" *ngFor="let product of getProduct(item.vendorId)">
+            <div class="img_div">
+                <img [src]="product.product.images.length > 0 ? imageUrl + product.product.images[0] : '../../../assets/images/download-png.png'" alt="priduct">
+            </div>
+
+            <div class="detail_content">
+                <h3 class="product_name fw-5 mb-1">{{product.product?.name}}</h3>
+                <p class="mb-1 price">
+                    <span class="price">₹ {{product.product.sellingprice * item.quantity}}</span>
+
+                    <span class="price">
+                        <s style="color: red" *ngIf="product?.mrp > product?.sellingprice">
+                            {{product.product.mrp * item.quantity}}
+                        </s>
+                    </span>
+                    <span class="off" *ngIf="product?.mrp > product?.sellingprice">
+                        {{calculateOfferPercentage(product.product.mrp, product.product.sellingprice)}}% off
+                    </span>
+                </p>
+                <p class="fw-3"><span>Qty: </span>&nbsp; {{product?.quantity}}</p>
+                <button type="button" class="btn btn-sm btn-outline-danger" *ngIf="product.product.isDigital && myEnrollments.length != 0" (click)="openForm()">
+                    <i class="mdi mdi-newspaper-variant-multiple-outline"></i>&nbsp;
+                    Open Form
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="shipping_details" *ngIf="orderDetails">
+        <p class="section_lbl fw-5">Shipping Details</p>
+
+        <div class="shipping_card" *ngIf="orderDetails.address">
+            <p class="user_name fw-5">{{orderDetails.address.fullName}}</p>
+            <address class="mb-0">{{orderDetails.address.address}},{{orderDetails.address.landmark}},</address>
+            <address class="mb-1">{{orderDetails.address.city}},{{orderDetails.address.state}} {{orderDetails.address.pincode}}</address>
+            <p class="mobile_no">+91-{{orderDetails.address.phone}}</p>
+
+            <button type="button" class="btn btn-danger btn-sm retry_order_btn" *ngIf="(orderDetails.status == 'Pending' || orderDetails.status == 'Failed') && orderDetails.address" (click)="retryOrder()">Retry</button>
+
+            <div class="card-content pt-2" *ngIf="orderDetails.status != 'Pending' && orderDetails.status != 'Failed' && orderDetails.status != 'Awaiting Fulfillment' && orderDetails.status != 'Refund Request' && orderDetails.status != 'Initiate Refund' && orderDetails.status != 'Refunded'">
+                <div class="orderTimeline">
+                    <div class="d-flex mt-2">
+                        <div class="bar d-flex align-items-center flex-column">
+                            <span>
+                                <i class="mdi mdi-circle mdi-24px danger"></i>
+                            </span>
+                            <span class="pin" *ngIf="orderDetails.status == 'Order Confirmed'"></span>
+                            <span class="pin-active" *ngIf="(orderDetails.status == 'Shipped' || orderDetails.status == 'Delivered') || orderDetails.status == 'Out For Delivery'"></span>
+                        </div>
+                        <div class="statusTextCol">
+                            <p class="status_text fw-5 mb-1">Order Placed</p>
+                            <span>Your order has peen placed</span><br>
+                            <span>{{orderDetails.created_date | date}}</span>
+                        </div>
+                    </div>
+        
+                    <div class="d-flex mt-2">
+                        <div class="bar d-flex align-items-center flex-column">
+                            <span>
+                                <i class="mdi mdi-circle mdi-24px danger" *ngIf="(orderDetails.status == 'Shipped' || orderDetails.status == 'Delivered') || orderDetails.status == 'Out For Delivery'"></i>
+                                <i class="mdi mdi-circle-outline mdi-24px color-gray" *ngIf="orderDetails.status == 'Order Confirmed'"></i>
+                            </span>
+                            <span class="pin"*ngIf="orderDetails.status == 'Order Confirmed' || orderDetails.status == 'Shipped'"></span>
+                            <span class="pin-active" *ngIf="(orderDetails?.status != 'Order Confirmed' && orderDetails?.status != 'Shipped') || (orderDetails?.status == 'Delivered' || orderDetails?.status == 'Out For Delivery')"></span>
+                        </div>
+                        <div class="statusTextCol">
+                            <p class="status_text fw-5 mb-1">Shipped</p>
+                            <div *ngIf="shippingDetails">
+                                <span>Courier Name - {{shippingDetails.courierName}}</span><br>
+                                <span>Tracking Id - {{shippingDetails.trackingId}}</span><br>
+                                <span>Your item has been shipped</span><br>
+                                <span>{{orderDetails.modified_date | date}}</span>
+                                <a href="javascript:;">{{shippingDetails.link}}</a>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="d-flex mt-2" *ngIf="orderDetails?.status == 'Delivered' || orderDetails?.status == 'Out For Delivery'">
+                        <div class="bar d-flex align-items-center flex-column">
+                            <span>
+                                <i class="mdi mdi-circle mdi-24px danger" *ngIf="orderDetails?.status == 'Delivered'"></i>
+                                <i class="mdi mdi-circle-outline mdi-24px color-gray" *ngIf="orderDetails.status == 'Out For Delivery'"></i>
+                            </span>
+                            <span class="pin" *ngIf="orderDetails.status == 'Out For Delivery'"></span>
+                            <span class="pin-active" *ngIf="orderDetails.status == 'Delivered'"></span>
+                        </div>
+                        <div class="statusTextCol">
+                            <p class="status_text fw-5 mb-1">Out For Delivery</p>
+                        </div>
+                    </div>
+        
+                    <div class="d-flex mt-2">
+                        <div class="bar d-flex align-items-center flex-column">
+                            <span>
+                                <i class="mdi mdi-circle mdi-24px danger" *ngIf="orderDetails.status == 'Delivered'"></i>
+                                <i class="mdi mdi-circle-outline mdi-24px color-gray" *ngIf="orderDetails?.status == 'Shipped' || orderDetails?.status == 'Out For Delivery' || orderDetails?.status == 'Order Confirmed'"></i>
+                            </span>
+                        </div>
+                        <div class="statusTextCol">
+                            <p class="status_text fw-5 mb-0">Delivered</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="price_details" *ngIf="orderDetails">
+        <p class="section_lbl fw-5">Price Details</p>
+
+        <div class="price_card">
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td><span>Price ({{orderDetails.products.length}} item)</span></td>
+                            <td><span class="">&#8377; {{orderDetails.totalMrp}}</span></td>
+                        </tr>
+                        <tr>
+                            <td><span>Discount</span></td>
+                            <td><span class="color-success">&minus; &#8377; {{orderDetails.discount}}</span></td>
+                        </tr>
+                        <tr>
+                            <td><span>Selling Price</span></td>
+                            <td><span>&#8377; {{orderDetails.totalAmount}}</span></td>
+                        </tr>
+                        <tr *ngIf="orderDetails?.applied_coupon?.couponDiscount">
+                            <td><span>Coupon Discount</span></td>
+                            <td><span class="color-success">-&#8377; {{orderDetails.applied_coupon.couponDiscount}}</span></td>
+                        </tr>
+                        <tr>
+                            <td><span>Shipping Fee</span></td>
+                            <td>
+                                <span *ngIf="orderDetails?.shipping_amount">+ {{orderDetails.shipping_amount}}</span>
+                                <span *ngIf="!orderDetails?.shipping_amount">0</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><span class="fw-5">Total Amount</span></td>
+                            <td>
+                                <span class="fw-5" *ngIf="!orderDetails?.applied_coupon">&#8377; {{orderDetails.totalAmount - orderDetails.discount + orderDetails.shipping_amount}}</span>
+                                <span class="fw-5" *ngIf="orderDetails?.applied_coupon">&#8377; {{orderDetails.applied_coupon.effectiveAmount}}</span>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between pb-3 pt-2" *ngIf="!isProductDigital && orderDetails.status != 'Pending'">
+            <p class="paymentMode" *ngIf="orderDetails.status != 'Failed'">Payment Mode: <span>{{orderDetails.paymentMode | titlecase}}</span></p>
+            <button type="button" class="btn btn-outline-danger btn-sm" *ngIf="orderDetails.status == 'Awaiting Fulfillment' || orderDetails.status == 'Order Confirmed'" (click)="cancelOrder()">Cancel Order</button>
+        </div>
+    </div>
+</section>
+
+<app-order-cancelation *ngIf="isReturn" [orderDetails]="orderDetails" (cancelOrder)="openCancelation($event)"></app-order-cancelation>
+
+<ngx-spinner type="ball-scale-multiple" [fullScreen]="true"></ngx-spinner>

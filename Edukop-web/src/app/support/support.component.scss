@@ -1,0 +1,33 @@
+.btn_group {
+    margin-top: 20px;
+    max-width: 400px;
+}
+
+.cancel_btn {
+    background-color: #A9A9A9;
+    color: white;
+    margin-left: 10%;
+}
+
+.submit_btn {
+    margin-right: 10%;
+}
+
+@media screen and (min-width: 565px) {
+    .form_sec {
+        max-width: 600px;
+        margin-top: 50px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .cancel_btn,
+    .submit_btn {
+        width: calc(40% - 10px);
+    }
+
+    .btn_group {
+        margin-top: 40px;
+
+    }
+}

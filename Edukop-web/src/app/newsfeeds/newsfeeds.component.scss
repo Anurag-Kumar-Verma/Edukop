@@ -1,0 +1,121 @@
+img {
+    width: 100%;
+}
+
+.news_card {
+    margin-top: 5px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    border: 0;
+    border-radius: 0;
+    // box-shadow: 0 15px 10px -5px rgba($color: #000000, $alpha: 0.15);
+}
+
+.news_card:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+}
+.card-header {
+    background-color: #fff;
+}
+.news-medias {
+    max-width: 500px;
+    aspect-ratio: 1;
+    margin-left: auto;
+    margin-right: auto;
+}
+.slider_item img {
+    aspect-ratio: 1;
+}
+
+.newsCmntCount {
+    font-size: 12px;
+}
+.cmntBtn,
+.likeBtn {
+    min-width: 50px;
+}
+
+.back-div {
+    border-bottom: 1px solid #ddd;
+}
+
+.lessText {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.normalText {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+}
+
+// comment section UI
+.commentList{
+    list-style: none;
+}
+.commentList .list_item {
+    margin-bottom: 10px;
+}
+.cmnt_user_pic_div{
+    width: 40px;
+    margin-right: 10px;
+}
+.cmnt_user_pic_div img {
+    aspect-ratio: 1 / 1;
+    border-radius: 40px;
+    object-fit: contain;
+    background-color: #eee;
+}
+
+.commentList .comment_detail {
+    width: calc(100% - 60px);
+}
+
+.comment_detail .user_name {
+    max-width: 225px;
+}
+
+.date{
+    font-size: 12px;
+}
+
+
+
+@media screen and (min-width: 545px) {
+}
+
+@media screen and (min-width: 768px) {
+}
+
+@media screen and (min-width: 992px) {
+    .news_row > div:first-child {
+        border-right: 1px solid #e2e2e2;
+    }
+
+    .cmntBtn,
+    .likeBtn {
+        min-width: 80px;
+    }
+    .commentSec {
+        position: sticky;
+        top: 12px;
+        // max-height: calc(100vh - 80px);
+        overflow: auto;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    p,
+    span {
+        font-size: 12px;
+    }
+}
+@media screen and (max-width: 991px) {
+    .commentList {
+        max-height: 100px;
+        overflow-y: auto;
+    }
+}

@@ -1,0 +1,109 @@
+<div class="newsSec">
+    <div class="row news_row justify-content-between">
+        <div class="col-12 col-lg-7">
+            <div class="newsFeeds">
+                <ng-container *ngFor="let news of newsFeed; let i = index;">
+                    <div class="card news_card pointer">
+                        <div class="card-header border-0 p-0">
+                            <div class="news-medias">
+                                <mdb-carousel [isControls]="true" class="media_slider" [interval]="10000">
+                                    <mdb-carousel-item class="slider_item" *ngFor="let image of news.news_images; let i = index;">
+                                      <img [src]="image ? imageApi + image : '../../assets/images/default-image.jpg'" alt="news media">
+                                    </mdb-carousel-item>
+                                  </mdb-carousel>
+                            </div>
+                        </div>
+                        <div class="card-content p-2">
+                            <p class="news_txt">{{news.news_title}} <button type="button" class="btn-sm readMoreBtn">Read More</button></p>
+    
+                            <div class="d-flex align-items-sm-center align-items-start flex-column flex-sm-row-reverse justify-content-between">
+                                <div class="newsCmntCount">
+                                    <i class="mdi mdi-thumb-up"></i>&nbsp; <span>{{news.numberOfLikes}} Likes &middot; <i class="mdi mdi-chat"></i> {{news.numberOfComments}} Comments</span>
+                                </div>
+        
+                                <div class="btn-group btn-group-sm mt-2" role="group" aria-label="like comment">
+                                    <button type="button" class="btn btn-outline-danger likeBtn" (click)="likeDislike(news.uuid, i)">
+                                        <i *ngIf="!news.liked" class="mdi mdi-thumb-up-outline mdi-18px"></i>
+                                        <i *ngIf="news.liked" class="mdi mdi-thumb-up mdi-18px"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger cmntBtn" (click)="postComments(news.uuid, i, true)">
+                                        <i class="mdi mdi-chat-outline mdi-18px"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="commentSec d-lg-none py-2" *ngIf="currentIndex == i">
+                        <div class="input-group">
+                            <input type="text" id="commentTxt" class="form-control" name="commentTxt" placeholder="Message" [(ngModel)]="commentTxt">
+                            <button class="btn btn-danger postCmntBtn" [disabled]="!commentTxt" (click)="addComment()">Post</button>
+                        </div>
+                        <h4 class="fw-5 mt-2">Commnets</h4>
+        
+                        <ul class="commentList p-0">
+                            <li class="list_item" *ngFor="let comment of commentsList; let j = index;">
+                                <div class="d-flex">
+                                    <div class="cmnt_user_pic_div">
+                                        <img *ngIf="comment.userInfo?.imageUrl" [src]="comment.userInfo.imageUrl ? (imageApi + comment.userInfo.imageUrl) : '../../assets/images/user_2.jpg'" alt="user">
+                                        <img *ngIf="!comment.userInfo?.imageUrl" [src]="'../../assets/images/user_2.jpg'" alt="user">
+                                    </div>
+                                    <div class="comment_detail">
+                                        <div class="d-flex flex-wrap justify-content-between">
+                                            <p>
+                                                <span class="user_name fw-5" *ngIf="comment.userInfo?.firstName">{{comment.userInfo.firstName || '--'}}</span>
+                                                <span class="user_name fw-5" *ngIf="comment.userInfo?.lastName">{{comment.userInfo.lastName || '--'}}</span>
+                                                <span class="user_name fw-5" *ngIf="!comment.userInfo?.firstName && !comment.userInfo?.lastName">Unknown</span>
+                                            </p>
+                                            <p class="date mb-0">
+                                                <small class="fw-3">{{comment.created_date | date: 'EEE, MMM d'}}, {{comment.created_date | date: 'h:mm a'}}</small>
+                                            </p>
+                                        </div>
+                                        <p class="commentText">{{comment.comment_text}}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <button class="btn btn-light btn-sm loadMoreBtn" *ngIf="!noCommnetData" (click)="postComments(newsFeed[currentIndex].uuid, currentIndex, false)">View More..</button>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-5 d-none d-lg-block">
+            <div class="commentSec custom-scrollbar-y">
+                <div class="input-group">
+                    <input type="text" id="commentTxt" class="form-control" name="commentTxt" placeholder="Message" [(ngModel)]="commentTxt">
+                    <button class="btn btn-danger postCmntBtn" [disabled]="!commentTxt" (click)="addComment()">Post</button>
+                </div>
+                <h4 class="fw-5 mt-2">Commnets</h4>
+
+                <ul class="commentList p-0">
+                    <li class="list_item" *ngFor="let comment of commentsList; let i = index;">
+                        <div class="d-flex">
+                            <div class="cmnt_user_pic_div">
+                                <img *ngIf="comment.userInfo?.imageUrl" [src]="comment.userInfo.imageUrl ? (imageApi + comment.userInfo.imageUrl) : '../../assets/images/user_2.jpg'" alt="user">
+                                <img *ngIf="!comment.userInfo?.imageUrl" [src]="'../../assets/images/user_2.jpg'" alt="user">
+                            </div>
+                            <div class="comment_detail">
+                                <div class="d-flex flex-wrap justify-content-between">
+                                    <p>
+                                        <span class="user_name fw-5" *ngIf="comment.userInfo?.firstName">{{comment.userInfo.firstName || '--'}}</span>
+                                        <span class="user_name fw-5" *ngIf="comment.userInfo?.lastName">{{comment.userInfo.lastName || '--'}}</span>
+                                        <span class="user_name fw-5" *ngIf="!comment.userInfo?.firstName && !comment.userInfo?.lastName">Unknown</span>
+                                    </p>
+                                    <p class="date mb-0">
+                                        <small class="fw-3">{{comment.created_date | date: 'EEE, MMM d'}}, {{comment.created_date | date: 'h:mm a'}}</small>
+                                    </p>
+                                </div>
+                                <p class="commentText">{{comment.comment_text}}</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-light btn-sm loadMoreBtn" *ngIf="!noCommnetData" (click)="postComments(newsFeed[currentIndex].uuid, currentIndex, false)">View More..</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner type="ball-scale-multiple" [fullScreen]="true"></ngx-spinner>

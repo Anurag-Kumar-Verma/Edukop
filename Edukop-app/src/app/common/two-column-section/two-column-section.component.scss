@@ -1,0 +1,71 @@
+.st-heading {
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    color: #000 !important;
+    // margin-top: 5px !important;
+    margin-bottom: 9px !important;
+}
+.offer-2 {
+    text-align: center !important;
+    padding: 0px 3px 8px 3px;
+}
+.image-div {
+    clear: both;
+    width: 100% !important;
+    display: table !important;
+    border: 1px solid #a0a0a0 !important;
+    min-height: 170px !important;
+}
+.it-offer-img {
+    margin: auto !important;
+    height: auto !important;
+    max-height: 160px !important;
+    text-align: center !important;
+    width: 80% !important;
+    background-size: cover !important;
+    background: url('../../../assets/images/default-image.jpg') center no-repeat !important;
+}
+
+.product-name {
+    overflow: hidden !important;
+    color: #000 !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    text-align: left !important;
+    padding: 0px 10px 0px 0px !important;
+}
+ion-card-content {
+    padding: 5px 20px !important;
+    // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 0px auto !important;
+}
+
+// .loading-img {
+//     background-size: cover !important;
+//     background: url('../../../assets/images/default-image.jpg') center no-repeat !important;
+//     //background: transparent url('./assets/images/default-image.png')
+// }
+.div-image {
+    width: 100% !important;
+    padding-top: 5px !important;
+    height: auto !important;
+    display: table-cell !important;
+    vertical-align: middle !important;
+}
+.item {
+    --padding-end: 0px !important;
+    --padding-start: 0px !important;
+    --inner-padding-start: 0px !important;
+    --inner-padding-end: 0px !important;
+}
+.item ion-icon {
+    font-size: 20px !important;
+    margin: 0px !important;
+}
+.view-more-btn {
+    --padding-top: 6px;
+    --padding-bottom: 5px;
+    height: auto;
+    float: right !important;
+    font-size: 0.7rem;
+}

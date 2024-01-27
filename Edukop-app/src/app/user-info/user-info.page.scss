@@ -1,0 +1,85 @@
+.toolbar {
+  text-align: center !important;
+  --background: #df1744;
+  --color: #fff !important;
+}
+.buy-now {
+  --background: #df1744;
+  text-transform: none;
+  width: 100%;
+  height: 30px;
+}
+.form-div {
+  overflow-y: auto !important;
+  height: 88%;
+  margin: 10px;
+  box-shadow: none;
+}
+.form {
+  height: 100% !important;
+}
+.btn-col {
+  text-align: center !important;
+}
+.avatar-cls {
+  text-align: center;
+  // margin: 10px auto !important;
+  padding: 0px 0px 20px;
+  border-bottom: 1px solid #cccccc !important;
+}
+.avatar {
+  width: 100px;
+  margin: 10px auto 0px !important;
+  height: 100px;
+  position: relative;
+}
+.camera-icon {
+  position: absolute;
+  bottom: 0;
+  right: -6px;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: #000;
+}
+.icon-cls {
+  font-size: 22px !important;
+  padding-left: 8px !important;
+}
+.heading {
+  font-size: 18px !important;
+  text-align: left;
+}
+.label-stacked.sc-ion-label-md-h,
+.label-floating.sc-ion-label-md-h {
+  color: #e51545;
+}
+.input-field {
+  width: 90%;
+  margin: auto;
+}
+.user-name {
+  color: #282828;
+  font-weight: 600;
+  margin-top: 10px;
+  font-size: 16px;
+}
+.user-phone {
+  color: #484848;
+  font-size: 12px;
+}
+.btn-row {
+  width: 90%;
+  max-width: 250px;
+  margin: 5px auto 0;
+}
+.cancel-btn {
+  width: 100%;
+  text-transform: capitalize;
+  background: #fff;
+  border: 1px solid #e51545;
+  color: #e51545;
+  border-radius: 50px;
+  --background: transparent;
+  height: 30px;
+}

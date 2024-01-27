@@ -1,0 +1,117 @@
+<ion-header mode="md">
+  <ion-toolbar class="toolbar">
+    <ion-icon class="back-icon" slot="start" name="arrow-back-outline" (click)="back()"></ion-icon>
+    <ion-title class="heading">News Feed</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div *ngIf="!newsFeed">
+    <div class="ion-padding custom-skeleton">
+      <ion-item>
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-item>
+    </div>
+    <div class="ion-padding custom-skeleton">
+      <ion-item>
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-item>
+    </div>
+
+    <div class="ion-padding custom-skeleton">
+      <ion-item>
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-item>
+    </div>
+
+    <div class="ion-padding custom-skeleton">
+      <ion-item>
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-item>
+    </div>
+
+    <div class="ion-padding custom-skeleton">
+      <ion-item>
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-item>
+    </div>
+
+    <div class="ion-padding custom-skeleton">
+      <ion-item>
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-item>
+    </div>
+
+    <div class="ion-padding custom-skeleton">
+      <ion-item>
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-item>
+    </div>
+
+    <div class="ion-padding custom-skeleton">
+      <ion-item>
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-item>
+    </div>
+  </div>
+
+  <ion-card class="card" *ngFor="let news of newsFeed; let i = index;">
+    <!-- <ion-item class="card-item">
+      <ion-label>{{news.news_title | titlecase}}</ion-label>
+    </ion-item> -->
+    <div>
+      <!-- <ion-fab style="margin-top: 40px !important;" vertical="top" horizontal="end" slot="fixed">
+        <ion-badge class="badge" color="primary">{{news.index + 1}}/{{news.news_images.length}}</ion-badge>
+      </ion-fab> -->
+      <ion-slides #slides class="slider" pager="true">
+        <ion-slide *ngFor="let images of news.news_images">
+          <img [src]="images.length ? imageApi + images : '/assets/images/category.jpg'" class="slide-image"
+            width="100%" height="100%">
+        </ion-slide>
+      </ion-slides>
+    </div>
+    <ion-item class="card-item-1">
+      <div class="like-div">
+        <ion-icon *ngIf="!news.liked" (click)="likePost(news.uuid,i)" class="icon1" slot="start" name="thumbs-up-outline"></ion-icon> <span>{{news.numberOfLikes}}</span>
+      </div>
+      <div class="cmnt-div">
+        <ion-icon  (click)="openComments(news)" class="icon1" slot="start" name="chatbubble-ellipses-outline"></ion-icon>
+        <span>{{news.numberOfComments}}</span>
+      </div>
+      <!-- <ion-icon *ngIf="news.liked" (click)="likePost(news.uuid,i)" slot="start" name="thumbs-up" color="primary">
+      </ion-icon>
+      <ion-icon  (click)="openComments(news)" slot="start" name="chatbubble-ellipses-outline"></ion-icon> -->
+      <!-- <ion-icon slot="start" name="share-social-outline"></ion-icon> -->
+      <!-- <p class="total-likes">
+        {{news.numberOfLikes}} Likes<br>
+        <span class="comment-span" (click)="openComments(news)"> {{news.numberOfComments}} Comments </span>
+      </p> -->
+    </ion-item>
+
+    <div class="news-text">
+      <ion-text [ngClass]="news.readMore == false ? 'all-text h-40' : 'all-text h-100'">{{news.news_title | titlecase}}</ion-text>
+      <ion-text *ngIf="news.readMore == false" class="more-btn" (click)="readMorebtn(news.uuid,i)">Read Less</ion-text>
+      <ion-text *ngIf="news.readMore == true" class="less-btn" (click)="readMorebtn(news.uuid,i)">Read Less</ion-text>
+      <!-- <ion-item *ngIf="news.readMore == false" class="card-item">
+        <ion-label style="font-size:16px !important; width: 80%;">{{news.news_title | titlecase}}</ion-label>  <p (click)="readMorebtn(news.uuid,i)">Read More</p>
+      </ion-item>
+      <p *ngIf="news.readMore == true" class="all-rext" style="font-size:17px !important; width: 100%;">{{news.news_title | titlecase}} 
+      <br><br>
+    <span (click)="readMorebtn(news.uuid,i)">Read Less</span>
+    </p> -->
+    </div>
+    <div class="input" (click)="openComments(news)">Comment
+      <!-- <ion-input disabled  class="input-box" placeholder="Comment">
+      </ion-input> -->
+      <!-- <ion-button fill="clear" class="post-btn" (click)="addComment(comment, i)">
+        Post
+      </ion-button> -->
+    </div>
+  </ion-card>
+  <ion-infinite-scroll position="bottom" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="circles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+    <ion-infinite-scroll-content class="noData" *ngIf="noData " loadingSpinner="none" loadingText="No more data found!">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

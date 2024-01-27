@@ -1,0 +1,192 @@
+<section class="container-fluid">
+  <div class="row top_row py-2">
+    <div class="col filter_col">
+      <div class="filter_div">
+        <div class="d-flex d-md-none">
+          <div class="filterSm_div border-end">
+            <p class="mb-0 text-center" (click)="filterToggle('filter')">
+              <i class="mdi mdi-filter-variant"></i>&nbsp;
+              <span>Filter</span>
+            </p>
+          </div>
+
+          <div class="sortSm_div">
+            <p class="mb-0 text-center" (click)="filterToggle('sort')">
+              <i class="mdi mdi-sort-variant"></i>&nbsp;
+              <span>Sort</span>
+            </p>
+          </div>
+        </div>
+        <div class="d-md-none">
+          <div class="filterByCard smFilterSortCard mt-2 border-top" *ngIf="filterToggleTxt == 'filter'">
+            <div class="pt-2 custom-scrollbar-y" style="overflow-y: auto; height: auto; max-height: calc(50vh);">
+              <div class="row mx-0">
+                <div class="col-5 bg-light px-0">
+                  <button type="button" *ngFor="let filter of categoryFilter; index as i;"
+                    [ngClass]="isClicked[i] ? 'mb-2 btn bg-white text-danger btn-block btn-sm border-0 rounded-0 filterBtns' : 'mb-2 btn btn-block btn-light btn-sm rounded-0 filterBtns'"
+                    (click)="showAttributeValues(filter, i)">
+                    {{filter.attributeName}}
+                  </button>
+                </div>
+                <div class="col-7">
+                  <div *ngFor="let attribute of attributeValue; index as j;">
+                    <p class="mb-1">
+                      <mat-checkbox [checked]="isChecked(attribute)" (change)="selectedAttribute($event, attribute)">
+                        {{attribute.attributeKey}}</mat-checkbox>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="filterToggleTxt == 'sort'" class="smFilterSortCard mt-2 pt-2 px-2 border-top">
+            <mat-radio-group name="flavors" class="sorting_radio_group" (change)="SortBy($event)">
+              <div class="mb-2">
+                <mat-radio-button value="1">Price: Low to High</mat-radio-button>
+              </div>
+              <div>
+                <mat-radio-button value="-1">Price: High to Low</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div class="sortByCard mb-2 d-none d-md-block">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <p class="mb-2">
+              <i class="mdi mdi-menu-swap mdi-18px"></i>
+              <span class="ps-2">Sort By</span>
+            </p>
+            <span class="pointer clearBtn" *ngIf="sort_by" (click)="clearAll()">Clear All</span>
+          </div>
+          <div class="card-content px-3 py-2">
+            <mat-radio-group name="flavors" class="sorting_radio_group" (change)="SortBy($event)">
+              <div class="mb-2">
+                <mat-radio-button value="1">Price: Low to High</mat-radio-button>
+              </div>
+              <div>
+                <mat-radio-button value="-1">Price: High to Low</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div class="filterByCard mb-2 d-none d-md-block" *ngIf="categoryFilter">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <p class="mb-2">
+              <i class="mdi mdi-filter-variant"></i>
+              <span class="ps-2">Filter</span>
+            </p>
+            <span class="pointer clearBtn" *ngIf="selectedFilter.length != 0 || min != 0 || max != 10000" (click)="clearAll()">Clear All</span>
+          </div>
+          <div class="card-content px-3 py-2 custom-scrollbar-y"
+            style="overflow-y: auto; height: auto; max-height: calc(62vh);" *ngIf="categoryFilter.length != 0">
+            <div *ngFor="let filter of categoryFilter; index as i;" class="mb-2">
+              <p class="filterByTitle d-flex justify-content-between pointer" (click)="showAttributeValues(filter, i)">
+                <span>{{filter.attributeName}}</span>
+                <span class="pointer">
+                  <i [ngClass]="isClicked[i] == true ? 'mdi mdi-chevron-down mdi-18px' : 'mdi mdi-chevron-right mdi-18px'"></i>
+                </span>
+              </p>
+
+              <ng-container *ngIf="isClicked[i] == true">
+                <div *ngFor="let attribute of filter.attributeValues; index as j;">
+                  <p class="mb-1 smallTxt">
+                    <mat-checkbox [checked]="isChecked(attribute)" (change)="selectedAttribute($event, attribute)">
+                      {{attribute.attributeKey}}</mat-checkbox>
+                  </p>
+                </div>
+              </ng-container>
+            </div>
+
+            <div class="priceFilter">
+              <p class="filterByTitle">Price</p>
+              <div class="row">
+                <div class="col-6">
+                  <div class="mb-2">
+                    <input type="number" class="form-control" min="0" [max]="max - 100" id="minPrice" placeholder="Min Price" [(ngModel)]="min" (input)="filterPrice()">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="mb-2">
+                    <input type="number" class="form-control" max="10000" id="maxPrice" placeholder="Max Price" [(ngModel)]="max" (input)="filterPrice()">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col list_col pb-2" infinite-scroll [infiniteScrollDistance]="scrollDistance"
+      [infiniteScrollUpDistance]="scrollUpDistance" [infiniteScrollThrottle]="throttle"
+      [alwaysCallback]="sort_by ? true : false" (scrolled)="onScrollDown()">
+      <div class="row g-2 mx-0 pt-3 pt-md-0">
+        <div class="col-12" *ngIf="productList.length == 0">
+          <img src="../../assets/images/default-image.png" alt="Default" style="max-width: 300px;"
+            class="mx-auto d-block">
+          <div class="text-center">
+            No Products are available
+          </div>
+        </div>
+        <div class="col-6 col-sm-4 col-md-6 col-lg-3" *ngFor="let product of productList">
+          <div class="card item_card border-0" (click)="product?.uuid ? viewDetail($event, product.uuid) : ''">
+            <div class="card-header border-0 p-0 pointer">
+              <img class="woodsnipe-img" *ngIf="product.images.length != 0" [src]="thumbApi + product.images[0]"
+                alt="{{product.name}}" class="item_pic">
+              <img class="woodsnipe-img" *ngIf="!product.images?.length" [src]="'/assets/images/default-image.jpg'"
+                alt="{{product.name}}" class="item_pic">
+              <div class="d-flex justify-content-between aling-items-start px-2 cardRow">
+                <span class="isGrouped" *ngIf="product.is_grouped" title="Group Product">
+                  <i class="mdi mdi-package-variant"></i>
+                </span>
+  
+                <span class="likeBtn pointer danger"
+                  (click)="(product.uuid && isWishListed(product.uuid)) ? addWishList($event, product.uuid, 'remove') : addWishList($event, product.uuid, 'add')">
+                  <i *ngIf="isWishListed(product.uuid)" class="mdi mdi-heart"></i>
+                  <i *ngIf="!isWishListed(product.uuid)" class="mdi mdi-heart-outline"></i>
+                </span>
+              </div>
+            </div>
+            <div class="card-content py-2 px-2 pointer">
+              <h4 class="item_name">{{product.name}}</h4>
+              <p class="price">
+                <span class="fw-5 product-price">₹{{product.sellingprice}}</span>
+                <s class="striked" *ngIf="product.mrp > product.sellingprice">{{product.mrp}}</s>&nbsp;
+                <span class="offer danger"
+                  *ngIf="product.mrp > product.sellingprice">{{calculateOfferPercentage(product.mrp,
+                  product.sellingprice)}}% off</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="relaventProducts px-lg-3 px-xs-2 py-2" *ngIf="relaventData.length != 0">
+    <p class="text3 title1 fw-5">You may also like</p>
+    <br>
+
+    <div class="d-flex custom-scrollbar-x" style="overflow: auto;">
+      <div class="card relaventProductCard pointer" *ngFor="let product of relaventData"
+        (click)="product?.uuid ? viewDetail($event, product.uuid) : ''">
+        <div class="card-header">
+          <!-- <img *ngIf="product?.images || product?.images?.length" [src]="product.images.length ? thumbApi + product?.images : '../../assets/images/default-image.jpg'" alt="{{product?.name}}"> -->
+          <img *ngIf="product.images.length" [src]=" thumbApi + product.images[0]" alt="{{product?.name}}">
+        </div>
+        <div class="card-content p-2">
+          <span class="productName fw-5" *ngIf="product?.name">{{product?.name}}</span>
+          <p class="productPrice mt-2">
+            <span class="itme_price fw-5" *ngIf="product?.sellingprice">₹ {{product.sellingprice}}</span> &nbsp;
+            <s class="striked-per color-gray" *ngIf="product?.mrp">{{product.mrp}} </s> &nbsp;&nbsp;
+            <span class="offRate danger">{{calculateOfferPercentage(product.mrp, product.sellingprice)}}% off</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" type="ball-scale-multiple" [fullScreen]="true"></ngx-spinner>
+</section>

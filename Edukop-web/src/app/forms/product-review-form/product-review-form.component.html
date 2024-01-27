@@ -1,0 +1,26 @@
+<div class="review_sec">
+  <div class="d-flex align-items-center p-2 product_sec">
+    <div class="product_img">
+      <img *ngIf="productDetail?.images" [src]="imageApi + productDetail.images[0]" alt="{{productDetail.name}}">
+      <img *ngIf="!productDetail?.images" src="../../assets/images/default-image.jpg" alt="{{productDetail.name}}">
+    </div>
+    <div class="product_detail">
+      <p class="productName fw-5">{{productDetail.name}}</p>
+      <span class="desc" *ngIf="productDetail?.shortDescription">{{productDetail.shortDescription}}</span>
+    </div>
+  </div>
+
+  <div class="form-group pb-2">
+    <div class="bigStarRate mb-2">
+      <bar-rating [rate]="rate" [theme]="'stars'" [max]="5" (rateChange)="onRateChange($event)"></bar-rating>
+    </div>
+    <p class="fw-5 formLbl">Review</p>
+    <textarea class="form-control" [(ngModel)]="message" id="review" name="review" rows="5" placeholder="Review"></textarea>
+  </div>
+
+
+  <div class="close-submit my-2">
+    <button type="button" class="btn bg-light cancelBtn" (click)="close()">Close</button>
+    <button type="button" class="btn btn-danger submitBtn" [disabled]="!message" (click)="submit()">Submit</button>
+  </div>
+</div>

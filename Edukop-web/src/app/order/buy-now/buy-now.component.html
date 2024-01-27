@@ -1,0 +1,228 @@
+<div class="container-fluid mycartSection py-2">
+    <div class="row mx-md-0">
+        <div class="col-12 col-sm-7 col-md-7 ">
+            <div class="addressSec py-2">
+                <div class="card addressCard border-1 rounded-3">
+                    <div class="card-header d-flex flex-wrap align-items-center justify-content-between border-0 px-2">
+                        <div class="d-flex">
+                            <span class="header_icon">
+                                <i class="mdi mdi-map-marker-outline"></i>
+                            </span>
+                            <div>
+                                <h3 class="cardTitle_1">Deliver to</h3>
+                                <small class="color-gray">Select Address</small>
+                            </div>
+                        </div>
+    
+                        <button class="border-0 format_btn btn_danger p-0 danger me-1" (click)="addressList.length == 0 ? addNewAddress() : selectAddress()">
+                            {{addressList.length != 0 ? 'Change Address' : 'Add Address'}}
+                        </button>
+                    </div>
+                    <div class="card-content" *ngIf="defaultAddress || isSelectedAddress">
+                        <ng-container *ngIf="defaultAddress">
+                            <p class="mb-1">{{defaultAddress.fullName}} <span>+91-{{defaultAddress.phone}}</span></p>
+                            <address class="mb-1">{{defaultAddress.address}}, {{defaultAddress.landmark}},{{defaultAddress.city}}, {{defaultAddress.state}} {{defaultAddress.pincode}}</address> 
+                        </ng-container>
+
+
+
+                        <ng-container *ngIf="isSelectedAddress">
+                            <p class="px-2"><small>Select Address</small></p>
+                        
+                            <mat-radio-group aria-labelledby="address-group" class="address-group" *ngIf="addressList.length != 0">
+        
+                                <!-- <mat-radio-button class="example-radio-button" *ngFor="let season of seasons" [value]="season">
+                                    {{season}}
+                                </mat-radio-button> -->
+                                <ng-container *ngFor="let address of addressList">
+                                    <div class="mb-3 d-flex justify-content-between">
+                                        <mat-radio-button class="address-item-button" [value]="address?.uuid" [checked]="defaultAddress.uuid == address.uuid || address.isSelect === true" (change)="address.uuid ? selectDefaultAddress(address.uuid) : ''">
+                                            <div class="pe-2">
+                                                <p class="mb-1">{{address.fullName}} <span>+91-{{address.phone}}</span></p>
+                                                <address class="mb-1">{{address.address}}, {{address.landmark}},{{address.city}}, {{address.state}} {{address.pincode}}</address>
+                                                <span class="addressType badge badge-bg-secondary">Home</span>
+                                            </div>
+                                        </mat-radio-button>
+            
+                                        <div class="group_btn d-flex flex-column align-items-stretch">
+                                            <button class="editAddress_btn btn-light rounded-2 border-0 py-1" *ngIf="address.uuid" (click)="editAddress(address.uuid)">
+                                                <i class="mdi mdi-pencil-outline"></i>
+                                                <span>Edit</span>
+                                            </button>
+                                            <button class="editAddress_btn btn-light rounded-2 border-0 py-1 mt-2" *ngIf="address.uuid" (click)="removeAddress(address.uuid)">
+                                                <i class="mdi mdi-delete"></i>
+                                                <span>Remove</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </mat-radio-group>
+                        </ng-container>
+                    </div>
+                    
+                    <div class="card-footer" *ngIf="isSelectedAddress">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="danger">Add New Address</h4>
+    
+                            <button class="btn btn-danger danger" (click)="addNewAddress()">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Order summary ---------------------- -->
+
+            <div class="orderSummary py-2">
+                <div class="card order_card border-1 rounded-3">
+                    <div class="card-header border-0 px-2">
+                        <div class="d-flex align-items-center">
+                            <span class="header_icon">
+                                <i class="mdi mdi-map-marker-outline"></i>
+                            </span>
+                            <div>
+                                <h3 class="cardTitle_1">Order Summary</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content pt-3">
+                        <ul class="item_list px-0">
+                            <li class="order_item d-flex" *ngFor="let product of productList; let i = index;">
+                                <div class="product_media">
+                                    <img *ngIf="!product.product.isDigital" [src]="(product.product.images && product.product.images.length !== 0) ? (imageApi + product.product.images[0]) : '../../assets/images/default-image.jpg'" alt="product" class="product_img">
+                                    <img *ngIf="product.product.isDigital" [src]="'../../assets/images/download-png.png'" alt="product" class="product_img">
+                                </div>
+                                <div class="product_detail d-inline-flex flex-column flex-lg-row justify-content-lg-between">
+                                    <div class="data-content">
+                                        <p class="product_name fw-5">{{product?.product?.name}}</p>
+
+                                        <div class="price d-flex align-items-center">
+                                            <span class="fw-5 currentPrice">₹ {{product.product.sellingprice * product.quantity}}</span>&nbsp;
+                                            <span class="fw-3 px-2 actualPrice">₹ {{product.product.mrp * product.quantity}}</span>&nbsp;
+                                            <span class="fw-4 pe-2 discountPer color-success">{{calculateOfferPercentage(product.product.mrp, product.product.sellingprice)}}% off</span>
+                                        </div>
+                                        <p class="color-gray">Sold b: <span class="px-2" *ngIf="product?.vendorDetail">{{product.vendorDetail.name}}</span></p>
+                                    </div>
+
+                                    <div class="order_item_activity d-flex flex-lg-column justify-content-between mt-3 mt-lg-0">
+
+                                        <div class="order_qty d-flex">
+                                            <span>Qty:</span>
+                                            <mat-select class="qty-select text-gray ms-2" (selectionChange)="onChangeQuantity($event.value, product.product, i)" [(ngModel)]="product.quantity" aria-placeholder="Select">
+                                                <mat-option class="qty_txt" *ngFor="let quantity of quantityArray[i]"
+                                                [value]="quantity">{{quantity}}</mat-option>
+                                            </mat-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ------------------ Price section -------------------- -->
+
+        <div class="col-12 col-sm-5 col-md-5 priceSec py-2">
+            <div class="card price_card border-1 rounded-3">
+                <div class="card-header border-0">
+                    <h3>Price Details</h3>
+                </div>
+                <div class="card-content px-2">
+                    <table class="price_table my-1" *ngIf="orderList">
+                        <tbody>
+                            <tr>
+                                <td><span>Price ({{productList.length || '0'}} itmes)</span></td>
+                                <td class="text-center"><span>-</span></td>
+                                <td><span>{{orderList.totalMrp || '0'}}</span></td>
+                            </tr>
+                            <tr>
+                                <td><span>Discount</span></td>
+                                <td class="text-center"><span>-</span></td>
+                                <td><span class="discountAmount color-success">- ₹ {{orderList.discount || '0'}}</span></td>
+                            </tr>
+                            <tr>
+                                <td><span>Selling Price</span></td>
+                                <td class="text-center"><span>-</span></td>
+                                <td><span>₹ {{ orderList.totalAmount | number:'1.0-0' }}</span></td>
+                            </tr>
+                            <tr *ngIf="coupon && coupon?.couponDiscount">
+                                <td><span>Coupon Discount</span></td>
+                                <td class="text-center"><span>-</span></td>
+                                <td>
+                                    <span *ngIf="coupon.couponDiscount">₹ {{ coupon.couponDiscount | number:'1.0-0' }}</span>
+                                    <span *ngIf="!coupon.couponDiscount">₹ 0</span>
+                                </td>
+                            </tr>
+                            <tr *ngIf="orderList.shipping_amount && orderList.shipping_amount > 0">
+                                <td><span>Shipping Chareges</span></td>
+                                <td class="text-center"><span>-</span></td>
+                                <td>
+                                    <span *ngIf="!coupon?.is_shipping_discount || coupon?.couponStatus === 'FAILED'">₹ {{ orderList.shipping_amount }}</span>
+                                    <s class="color-gray" *ngIf="coupon && coupon?.is_shipping_discount && coupon?.couponStatus === 'SUCCESS'">+ ₹ {{ orderList.shipping_amount}}</s>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td><span>Total Amount</span></td>
+                                <td></td>
+                                <td>
+                                    <span *ngIf="orderList.applied_coupon?.couponStatus ==='SUCCESS' && orderList.applied_coupon.is_shipping_discount">₹ {{ orderList.applied_coupon.effectiveAmount }}</span>
+                                    <span *ngIf="orderList.applied_coupon?.couponStatus ==='SUCCESS' && !orderList.applied_coupon.is_shipping_discount">₹ {{ orderList.applied_coupon.effectiveAmount + orderList.shipping_amount }}</span>
+                                    <span *ngIf="!orderList.applied_coupon || orderList.applied_coupon?.couponStatus ==='FAILED'">₹ {{ (orderList.totalAmount) + orderList.shipping_amount }}</span>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div class="card coupons_card rounded-3 border-1 mx-auto">
+                        <div class="card-header border-0 px-2 d-flex align-items-center justify-content-between" *ngIf="!coupon">
+                            <small class="color-gray fw-3">Have coupon code</small>
+                            <button class="format_btn coupon_btn danger border-0" (click)="viewCoupons()">View Coupons</button>
+                        </div>
+
+                        <ul class="coupons px-0 m-2" *ngIf="coupon">
+                            <span class="color-gray">Coupon Applied</span>
+                            <li class="couponItem d-flex align-items-center justify-content-between">
+                                <div>
+                                    <span>
+                                        <i class="mdi mdi-tag-multiple-outline mdi-18px mdi-flip-h"></i>
+                                    </span>&nbsp;
+                                    <span class="danger">{{coupon.couponCode}}</span>
+                                </div>
+                                <a href="javascript:;" (click)="removeCoupon(orderList.uuid)" class="link_btn danger removeCouponBtn">Remove</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="text-center pb-2" *ngIf="!gstAdd">
+                        <button type="button" class="btn btn-round btn-danger addGSTBtn mx-auto btn-sm" (click)="addGST()">Add GST Number</button>
+                    </div>
+
+                    <div class="card coupons_card rounded-3 border-1 mx-auto" *ngIf="gstAdd">
+                        <div class="card-header border-0 px-2">
+                            <span class="danger fw-5">Add GST</span>
+                        </div>
+
+                        <div class="card-content">
+                            <div class="py-2 px-2">
+                                <input type="text" class="form-control mb-2" [(ngModel)]="organization" placeholder="Organisation Name" required="">
+                                <input type="text" class="form-control mb-2" [(ngModel)]="gstNo" placeholder="GST Number" required="">
+                            </div>
+                            <div class="text-center pb-2">
+                                <button type="button" class="btn btn-sm btn-danger btn-sm" [disabled]="!organization || !gstNo" (click)="addGstInfo(organization, gstNo)">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn place_order_btn mx-auto btn-danger bg-canger border-0" [disabled]="orderList ? !orderList.totalAmount : false" (click)="payPage('pay')">Place Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner type="ball-scale-multiple" [fullScreen]="true"></ngx-spinner>

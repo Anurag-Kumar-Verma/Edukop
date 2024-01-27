@@ -1,0 +1,268 @@
+// .form-div {
+//     background-color: #fff !important;
+//     // background: url('../../assets/images/login-bg.png');
+//     background-size: cover;
+//     display: table !important;
+//     height: 100% !important;
+// }
+.logo-col {
+    text-align: center !important;
+}
+.center{
+    text-align: center;
+    display: block;
+}
+.eyes {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-right: 5px;
+    // height: 100%;
+}
+.logo-img {
+    //box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width: 25% !important;
+    margin: 0px auto 6px !important;
+    text-align: center !important;
+    align-self: center !important;
+    align-content: center !important;
+    vertical-align: middle !important;
+    // border-radius: 50% !important;
+}
+.route-row {
+    height: 15% !important;
+}
+.back-icon {
+    color: #df1744 !important;
+    padding-left: 14px !important;
+    font-size: 25px !important;
+    margin-top: 10px !important;
+    padding-top: 40px;
+}
+.logo-div {
+    width: 100% !important;
+    text-align: center !important;
+}
+.full-screen {
+    width: 100% !important;
+    height: 80% !important;
+    display: table !important;
+    vertical-align: middle;
+}
+.login-view {
+    height: auto !important;
+    width: 100% !important;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+.login-form {
+    // padding : 20px !important;
+    margin: 0px auto !important;
+    width: 90% !important;
+    //box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px !important;
+}
+.toolbar {
+    --background: #df1744 !important;
+    color: #fff !important;
+}
+.heading-col {
+    margin-top: 20px !important;
+    margin-bottom: 10px !important;
+    text-align: center !important;
+    //  margin-top: 20px !important;
+    color: #df1744 !important;
+}
+.heading-col p {
+    text-align: center !important;
+    //width: 80% !important;
+    font-weight: 600 !important;
+    font-size: 20px !important;
+    margin: 0px auto !important;
+}
+.forgotPass {color: #db4437;}
+.otp-message {
+    font-size: 15px !important;
+}
+.otp-message p {
+    font-size: 17px !important;
+}
+.form {
+    margin-top: 20px !important;
+    height: 54% !important;
+}
+.label {
+    color: #000;
+}
+.input-wrapper {
+    color: #fff;
+}
+.item-inner-highlight {
+    color: #fff !important;
+}
+.eye {
+    display: inline;
+    vertical-align: middle !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: 12px !important;
+    color: #df1744 !important;
+}
+ion-col {
+    padding-bottom: 0px !important;
+    padding-top: 0px !important;
+}
+.input-col {
+    background: #fff;
+    width: 80%;
+    padding: 5px 10px;
+    margin: 8px auto;
+    display: inline-block;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    box-sizing: border-box;
+    text-align: left;
+    color: #fff !important;
+    // border: 1px solid #df1744;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.pass-col {
+    background: #fff;
+    width: 100%;
+    padding: 0px 10px;
+    margin: 8px auto;
+    display: inline-block;
+
+    border-radius: 5px;
+    box-sizing: border-box;
+    text-align: left;
+
+    border: 1px solid #df1744;
+    // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.login-logo {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 50px !important;
+    width: 50% !important;
+}
+.input {
+    padding-left: 0px !important;
+    --background: #fff;
+    --color: #df1744;
+}
+.input-row {
+    //height: 15% !important;
+    width: 85%;
+    margin: 0px auto;
+}
+
+.input-btn {
+    text-align: left;
+    padding: 20px 0px !important;
+    --color: #df1744 !important;
+    border-radius: 12px;
+}
+.login-btn {
+    margin: 0px !important;
+    // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    --color: #fff !important;
+    height: 40px !important;
+}
+.signup-btn {
+    margin-top: 10px !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    --color: #fff !important;
+    height: 40px !important;
+}
+.g-login-btn {
+    height: 40px !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    color: #fff !important;
+    --background: #db4437;
+
+    text-transform: none !important;
+}
+.f-login-btn {
+    height: 40px !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    color: #fff !important;
+    --background: #4267b2;
+
+    text-transform: none !important;
+}
+.heading {
+    margin: 0px 0px 0px;
+    padding: 10px 0px 10px !important;
+    height: 20% !important;
+    color: #df1744;
+}
+// ion-title {
+//     font-size: 20px !important;
+//     font-weight: 600;
+// }
+.for-signup {
+    margin-top: 20px !important;
+    text-align: center;
+    height: 15% !important;
+    color: #000;
+}
+.input-col-forgot-pass {
+    text-align: right;
+    color: #000;
+    margin: 0px !important;
+}
+.forgot-pass {
+    margin: 0px !important;
+    font-size: 14px;
+    word-spacing: 1.5px;
+}
+.icon-col {
+    margin-top: 0px !important;
+    padding: 0px !important;
+}
+
+.fb-logo {
+    width: 20% !important;
+}
+.icon-google {
+    font-size: 26px;
+}
+.icon-fb {
+    color: #4267b2 !important;
+    font-size: 26px;
+}
+.invalid-message {
+    margin-top: 3px !important;
+    font-size: 14px !important;
+    padding-left: 3px !important;
+    color: #000 !important;
+}
+.logo {
+    width: 25% !important;
+}
+.other-login-row {
+    width: 80% !important;
+    margin: 0px auto !important;
+    height: 18% !important;
+}
+p {
+    font-size: 14px !important;
+}
+h4 {
+    font-size: 15px !important;
+}
+.container {
+    // height: 100px !important;
+    width: 100% !important;
+}
+.timeLeftDanger {
+    color: #df1744;
+}
+.eye{
+    color: black;
+    position: absolute;
+    z-index: 3 !important;
+    right: 15px !important;
+    top: 14px;
+}

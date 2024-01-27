@@ -1,0 +1,369 @@
+<ion-header mode="md">
+    <ion-toolbar class="toolbar">
+        <ion-icon
+            class="back-icon"
+            slot="start"
+            name="arrow-back-outline"
+            (click)="goback()"
+        ></ion-icon>
+        <ion-title class="heading">Order Summary</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content #ionContent *ngIf="!isLoading">
+    <div class="content">
+        <div *ngIf="!formAsproduct">
+            <ion-card class="item-info-card" *ngIf="myAddress" mode="md">
+                <ion-card-header class="info-card-header">
+                    <ion-card-title> {{myAddress?.fullName}}</ion-card-title>
+                    <ion-card-subtitle>
+                        {{myAddress?.address}},
+                        {{myAddress?.landmark}},{{myAddress?.city}},
+                        {{myAddress?.state}} {{myAddress?.pincode}}
+                    </ion-card-subtitle>
+                    <ion-card-subtitle
+                        >+91-{{myAddress?.phone}}</ion-card-subtitle
+                    >
+                    <div class="btn-position">
+                        <ion-button
+                            fill="clear"
+                            shape="round"
+                            class="buy-now"
+                            (click)="addAddress()"
+                            >Change or Add Address
+                        </ion-button>
+                    </div>
+                </ion-card-header>
+            </ion-card>
+        </div>
+        <div class="btn-position" *ngIf="!myAddress">
+            <ion-button
+                fill="clear"
+                shape="round"
+                class="buy-now"
+                (click)="addAddress()"
+                >Add Address
+            </ion-button>
+        </div>
+
+        <ion-card
+            class="item-info-card"
+            *ngFor="let product of productList ; let i = index;"
+            mode="md"
+        >
+            <ion-card-header>
+                <ion-row>
+                    <ion-col size="8">
+                        <ion-card-title
+                            >{{product.product.name}}</ion-card-title
+                        >
+                        <p>
+                            <span
+                                class="price"
+                                *ngIf="product.product.sellingprice"
+                            >
+                                ₹{{product.product.sellingprice *
+                                product.quantity}}</span
+                            >
+
+                            <s
+                                class="striked"
+                                *ngIf="product.product.mrp > product.product.sellingprice"
+                            >
+                                {{product.product.mrp * product.quantity}}
+                            </s>
+                            <span class="offer" *ngIf="product.product?.mrp > product.product?.sellingprice && calculateOfferPercentage(product.product.mrp,product.product.sellingprice) !== '0'"
+                                >{{calculateOfferPercentage(product.product.mrp,product.product.sellingprice)}}%
+                                off</span
+                            >
+                        </p>
+                        <p *ngIf="product?.vendorDetail != undefined">
+                            Sold by : {{product?.vendorDetail.name}}
+                        </p>
+
+                        <!-- <select (change)="onChangeQuantity($event.target.value,product,i)" >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="2">3</option>
+          <option value="4">4</option>
+          
+        </select> -->
+
+                        <!-- <ion-card-subtitle>Quantity : {{product.quantity}}</ion-card-subtitle> -->
+                    </ion-col>
+                    <ion-col size="4">
+                        <ion-card-subtitle class="qty" for="quantity"
+                            >Qty :
+                        </ion-card-subtitle>
+                        <select
+                            class="select"
+                            (change)="onChangeQuantity($event, product.product, i)"
+                            [(ngModel)]="product.quantity"
+                            style="background: white"
+                        >
+                            <option
+                                *ngFor="let quantity of quantityArray[i]"
+                                [value]="quantity"
+                            >
+                                {{quantity}}
+                            </option>
+                            <option value="more">more</option>
+                        </select>
+                    </ion-col>
+                </ion-row>
+            </ion-card-header>
+        </ion-card>
+
+        <!-- <ion-card *ngIf="!history?.couponDiscount" class="item-info-card"> -->
+        <ion-card
+            *ngIf="!history?.couponStatus || (history?.couponStatus === 'FAILED' && productList.length != 0)"
+            class="item-info-card"
+        >
+            <ion-card-header class="coupon-card-header">
+                <ion-item
+                    button
+                    (click)="openCoupon()"
+                    class="coupon-item"
+                    lines="full"
+                >
+                    <ion-icon
+                        class="tag-icon"
+                        slot="start"
+                        name="pricetags-outline"
+                    ></ion-icon>
+                    <ion-label> Apply Coupon</ion-label>
+                    <ion-icon
+                        class="tag-icon"
+                        slot="end"
+                        name="chevron-forward-outline"
+                    ></ion-icon>
+                </ion-item>
+            </ion-card-header>
+        </ion-card>
+        <!-- <ion-card class="item-price-card" *ngIf="history?.couponDiscount">
+        <ion-card-header class="coupon-card-header">
+            <ion-item class="coupon-item" lines="full">
+                <ion-icon
+                    class="tag-icon"
+                    slot="start"
+                    name="pricetags-outline"
+                ></ion-icon>
+           
+                <ion-label
+                    ><span class="coupon-name">{{history.couponCode}}</span>
+                    Coupon Applied</ion-label
+                >
+          
+            </ion-item>
+        </ion-card-header>
+    </ion-card> -->
+
+        <!-- <ion-card class="item-price-card" *ngIf="history?.couponDiscount"> -->
+        <ion-card
+            class="item-price-card"
+            *ngIf="history?.couponStatus ==='SUCCESS'"
+        >
+            <ion-card-header class="coupon-card-header">
+                <ion-item class="coupon-item" lines="full">
+                    <ion-icon
+                        class="tag-icon"
+                        slot="start"
+                        name="pricetags-outline"
+                    ></ion-icon>
+                    <!-- <ion-label *ngIf = "!history?.couponDiscount"> Apply Coupon</ion-label> -->
+                    <ion-label
+                        ><span class="coupon-name">{{history.couponCode}}</span>
+
+                        Coupon Applied</ion-label
+                    >
+                    <ion-button
+                        class="remove-coupon"
+                        fill="clear"
+                        (click)="removeCoupon(orderList.uuid)"
+                    >
+                        Remove
+                    </ion-button>
+                </ion-item>
+            </ion-card-header>
+        </ion-card>
+
+        <ion-card class="item-price-card" mode="md">
+            <ion-card-header class="price-card-header">
+                <ion-item-divider class="item-divider" mode="md">
+                    <ion-label class="details-head"> Price Details </ion-label>
+                </ion-item-divider>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-row>
+                    <ion-col
+                        size="6"
+                        class="item-col"
+                        *ngIf="productList?.length > 1"
+                    >
+                        Price ({{productList?.length}} items)
+                    </ion-col>
+                    <ion-col
+                        size="6"
+                        class="item-col"
+                        *ngIf="productList?.length == 1"
+                    >
+                        Price ({{productList?.length}} item)
+                    </ion-col>
+                    <ion-col size="6" class="price-col">
+                        ₹ {{orderList.totalMrp || '-'}}
+                    </ion-col>
+                    <ion-col size="6" class="item-col">
+                        <ion-label>Discount</ion-label>
+                    </ion-col>
+                    <ion-col size="6" class="price-col">
+                        <ion-label style="color: green">
+                            - ₹ {{orderList.discount || '0'}}</ion-label
+                        >
+                    </ion-col>
+                    <ion-col size="6" class="item-col">
+                        <ion-label>Selling Price</ion-label>
+                    </ion-col>
+                    <ion-col size="6" class="price-col">
+                        <ion-label>
+                            ₹ {{orderList.totalAmount | number:'1.0-0'
+                            }}</ion-label
+                        >
+                    </ion-col>
+                    <ion-col
+                        size="6"
+                        class="item-col"
+                        *ngIf="history?.couponDiscount"
+                    >
+                        <ion-label>Coupon Discount</ion-label>
+                    </ion-col>
+                    <ion-col
+                        size="6"
+                        class="price-col"
+                        *ngIf="history?.couponDiscount"
+                    >
+                        <ion-label style="color: green">
+                            ₹ {{history?.couponDiscount |
+                            number:'1.0-0'}}</ion-label
+                        >
+                    </ion-col>
+
+                    <ion-col
+                        size="6"
+                        class="item-col"
+                        *ngIf="orderList?.shipping_amount>0"
+                    >
+                        <ion-label>Delivery</ion-label>
+                    </ion-col>
+                    <!-- <ion-col size="6" class="price-col">
+                        <ion-label> + ₹ 40</ion-label>
+                    </ion-col> -->
+                    <ion-col
+                        size="6"
+                        class="price-col"
+                        *ngIf="orderList?.shipping_amount>0"
+                    >
+                        <ion-label
+                            *ngIf="!history?.is_shipping_discount || history?.couponStatus === 'FAILED'"
+                        >
+                            ₹ {{orderList?.shipping_amount}}</ion-label
+                        >
+                        <ion-label
+                            *ngIf="history?.couponStatus === 'SUCCESS' && history?.is_shipping_discount"
+                        >
+                            <s>+ ₹{{orderList?.shipping_amount}} </s>
+                        </ion-label>
+                    </ion-col>
+                    <ion-item-divider
+                        class="item-divider-price"
+                        mode="md"
+                    ></ion-item-divider>
+                    <ion-col size="6" class="item-col">
+                        <ion-label>Amount Payable</ion-label>
+                    </ion-col>
+                    <!-- <ion-col size="6" class="price-col">
+                        <ion-label *ngIf="!orderList.applied_coupon">
+                            ₹ {{(orderList.totalAmount) + 40}}</ion-label>
+                        <ion-label *ngIf="orderList?.applied_coupon?.couponStatus==='SUCCESS'">
+                            ₹ {{(orderList?.applied_coupon?.effectiveAmount) +
+                            40}}</ion-label>
+                    </ion-col> -->
+
+                    <ion-col size="6" class="price-col">
+                        <ion-label
+                            *ngIf="orderList?.applied_coupon?.couponStatus ==='SUCCESS' && orderList?.applied_coupon?.is_shipping_discount"
+                        >
+                            ₹ {{(orderList?.applied_coupon?.effectiveAmount
+                            )}}</ion-label
+                        >
+                        <ion-label
+                            *ngIf="orderList?.applied_coupon?.couponStatus ==='SUCCESS' && !orderList?.applied_coupon?.is_shipping_discount"
+                        >
+                            ₹ {{(orderList?.applied_coupon?.effectiveAmount ) +
+                            orderList?.shipping_amount}}</ion-label
+                        >
+                        <ion-label
+                            *ngIf="!orderList?.applied_coupon?.couponStatus|| orderList?.applied_coupon?.couponStatus ==='FAILED'"
+                        >
+                            ₹ {{( orderList.totalAmount) +
+                            orderList?.shipping_amount}}</ion-label
+                        >
+                    </ion-col>
+                </ion-row>
+            </ion-card-content>
+        </ion-card>
+        <ion-card class="item-price-card" mode="md">
+            <ion-card-content class="gst-card-content">
+                <ion-row>
+                    <ion-col class="gstbtn-col" *ngIf="gstAdd !== true">
+                        <ion-button 
+                            shape="round"
+                            class="gst_number"
+                            (click)="addGST()"
+                        >
+                            Add GST Number
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+                <ion-row *ngIf="gstAdd== true">
+                    <ion-col size="12">
+                        <ion-input
+                            [(ngModel)]="organization"
+                            placeholder="Organisation Name"
+                            class="in-col"
+                        >
+                        </ion-input>
+                    </ion-col>
+                    <ion-col size="12">
+                        <ion-input
+                            [(ngModel)]="gstNo"
+                            placeholder="GST Number"
+                            class="in-col"
+                        ></ion-input>
+                    </ion-col>
+                    <ion-col size="12" class="gstbtn-col">
+                        <ion-button
+                            shape="round"
+                            (click)="addGstInfo(organization, gstNo)"
+                            >Submit</ion-button
+                        >
+                    </ion-col>
+                </ion-row>
+            </ion-card-content>
+        </ion-card>
+    </div>
+</ion-content>
+<ion-footer>
+    <ion-toolbar>
+        <ion-row>
+            <ion-col size="12" class="btn-col">
+                <ion-button
+                    fill="clear"
+                    shape="round"
+                    class="buy-now"
+                    (click)="payPage('pay')"
+                    >Continue</ion-button
+                >
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,98 @@
+.back-icon {
+    padding-left: 8px !important;
+
+    font-size: 22px !important;
+}
+.toolbar {
+    --background: #df1744;
+    --color: #fff;
+
+    --border-color: #fff;
+    --border-style: none !important;
+    --border-width: 0px !important;
+}
+.heading {
+    font-size: 18px !important;
+    text-align: left !important;
+}
+.input{
+    width: 90% !important;
+    margin: 10px auto !important;
+    border: 1px solid #a0a0a0 !important;
+    padding: 0px 10px !important;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 50px;
+}
+.post-btn{
+    margin: 0;
+    text-transform: capitalize;
+    font-weight: 500;
+    font-size: 14px;
+}
+ion-label{
+    display: table-cell !important;
+    vertical-align: middle !important;
+    overflow: visible !important;
+}
+.input-box{
+    // margin-top: 7px !important;
+    // float: left !important;
+    // width: 80% !important;
+    font-size: 12px;
+}
+.comment-row{
+    border-bottom: 1px solid #a0a0a0 !important;
+}
+.avatar-col{
+    text-align: center !important;
+    margin: 0px auto !important;
+}
+.avatar-col ion-avatar{
+    margin: 0px auto !important;
+}
+.comment-col{
+    display: table !important;
+    height: inherit !important;
+    vertical-align: middle !important;
+}
+.comments{
+    margin: 7px 0px !important;
+}
+.img{
+    margin-top: 7px !important;
+    width: 40px !important;
+    height: 40px !important;
+}
+.comment-date{
+    margin: 10px 0px 0px !important;
+    font-size: 13px !important;
+}
+.spin {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+ion-spinner {
+    width: 28px;
+    height: 28px;
+    stroke: #444;
+    fill: #222;
+}
+.comment-list {
+    align-items: flex-start;
+    margin: 10px 0;
+}
+.img-sec {
+    margin: 0;
+    margin-right: 10px;
+}
+.detail {
+    width: 100%;
+}
+.text2 {color: #282828;}
+.text{font-size: 12px; color: #484848;}
+.comment{font-size: 14px;}

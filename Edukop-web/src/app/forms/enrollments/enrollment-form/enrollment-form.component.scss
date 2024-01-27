@@ -1,0 +1,72 @@
+section {
+    position: relative;
+}
+
+.image_div {
+    max-width: 100px;
+    aspect-ratio: 1;
+    background: #eee;
+    display: grid;
+    place-items: center;
+    border-radius: 50px;
+    margin-bottom: 10px;
+}
+
+img {
+    width: 100%;
+}
+
+.image_div img {
+    object-fit: contain;
+}
+
+.schoolAbout {
+    width: calc(100% - 170px);
+}
+
+.schoolName {
+    font-size: 1.1rem;
+}
+
+.buttons {
+    max-width: 300px;
+    margin: 10px auto;
+    padding-bottom: 50px;
+    padding-top: 10px;
+}
+
+.buttons button {
+    width: calc(50% - 20px);
+}
+
+.backBtn {
+    // position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.div-new {
+    min-width: 300px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.preview-form,
+.group-label {
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #efefef;
+}
+
+.group-label {
+    margin-bottom: 10px;
+}
+
+.preview-row {
+    border-bottom: 1px solid #a0a0a0;
+    padding: 5px 0;
+}
+.addUpdateBtn {
+    min-width: 80px;
+}

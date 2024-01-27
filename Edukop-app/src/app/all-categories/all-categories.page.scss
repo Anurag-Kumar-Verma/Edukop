@@ -1,0 +1,124 @@
+.toolbar {
+    --background: #df1744;
+    color: #fff;
+}
+.heading {
+    font-size: 18px !important;
+    text-align: left;
+}
+.back-icon {
+    font-size: 20px;
+    padding-left: 8px;
+}
+.search-icon {
+    font-size: 20px;
+    padding-right: 8px;
+}
+.sub-categories {
+    background-color: #fff !important;
+    padding: 5px 8px 5px 8px !important;
+}
+.sub-cat-col {
+    width: 100% !important;
+    border-radius: 5px !important;
+    text-align: center !important;
+
+    margin: 6px !important;
+    background-color: #efefef !important;
+}
+.sub-cat-name {
+    color: #000 !important;
+    width: 80% !important;
+    margin: 0px 10px !important;
+    text-align: left !important;
+    float: left !important;
+    vertical-align: middle !important;
+    font-size: 14px;
+}
+.subCat-Icon {
+    color: #000 !important;
+    font-size: 22px !important;
+    margin: 10px 5px !important;
+    float: right !important;
+    vertical-align: middle !important;
+}
+.sub2-cat-div {
+    // margin: 10px 0px !important;
+    background-color: transparent !important;
+    padding: 10px !important;
+}
+.sub2-cat-col {
+    vertical-align: middle !important;
+    font-size: 15px !important;
+    padding: 5px !important;
+    border-radius: 5px !important;
+    text-align: center;
+    margin: 2px !important;
+    background-color: #fff !important;
+}
+.sub2-cat-col span {
+    color: #000 !important;
+}
+.search-bar {
+    border-radius: 10px !important;
+}
+
+.filtered {
+    color: #df1744 !important;
+}
+.filteredCategory {
+    color: #df1744 !important;
+    background-color: hsla(347, 81%, 48%, 0.048) !important;
+}
+.filteredSubCategory {
+    color: #df1744 !important;
+}
+.ripple-parent {
+    color: #df1744 !important;
+    padding: 5px;
+    --padding-start: 0;
+    --inner-padding-end: 0;
+}
+.custom-card {
+    margin: 10px 20px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.label {
+    color: #000 !important;
+    margin: 0 20px;
+}
+.sub-cat-img,
+.sup-cat-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    margin: 0;
+}
+.sub-cat-img {
+    width: 40px;
+    height: 40px;
+}
+.sub2-cat-sec {
+    width: 29%;
+    text-align: center;
+    margin: 5px;
+    padding: 5px;
+    display: inline-grid;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    height: 55px;
+    align-items: center;
+}
+.sub2-cat-img {
+    width: 55px;
+    height: 55px;
+    border-radius: 5px;
+}
+.sub-cat-lbl {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+}

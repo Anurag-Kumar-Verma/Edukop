@@ -1,0 +1,51 @@
+<section>
+  <h1 class="text-center mt-3 danger">Write to us</h1>
+
+  <div class="form_sec mx-auto">
+    <form [formGroup]="supportFormGroup">
+      <div class="row">
+        <div class="col-12 pb-2">
+          <label for="name" class="mb-1">Name<sup class="danger">*</sup></label>
+          <input type="text" id="name" name="name" class="form-control" placeholder="Name" formControlName="name" required>
+          <app-form-input-validation [form]="supportFormGroup" class="textSmal" formInput="name" [errorMsg]="'Name is required'"></app-form-input-validation>
+        </div>
+
+        <div class="col-12 pb-2">
+          <label for="email" class="mb-1">Email<sup class="danger">*</sup></label>
+          <input type="text" id="email" name="email" class="form-control" placeholder="Email" formControlName="email" required>
+          <app-form-input-validation [form]="supportFormGroup" class="textSmal" formInput="email" [errorMsg]="'Email is required'"></app-form-input-validation>
+        </div>
+        
+        <div class="col-12 pb-2">
+          <label for="query_type" class="mb-1">Please select a type of query<sup class="danger">*</sup></label>
+          <mat-select class="form-control" formControlName="query_type">  
+            <mat-option *ngFor="let query of queryType" [value]="query">
+              {{query}}
+            </mat-option>
+          </mat-select>
+          <app-form-input-validation [form]="supportFormGroup" class="textSmal" formInput="query_type" [errorMsg]="'Query type is required'"></app-form-input-validation>
+        </div>
+        
+        <div class="col-12 pb-2">
+          <label for="order_no" class="mb-1">Order Number(optional)</label>
+          <input type="text" id="order_no" name="order_no" class="form-control" placeholder="Order No" formControlName="order_no" required>
+          <app-form-input-validation [form]="supportFormGroup" class="textSmal" formInput="order_no" [errorMsg]="'Please enter your mobile number'"></app-form-input-validation>
+        </div>
+        
+        <div class="col-12 pb-2">
+          <label for="desc" class="mb-1">Description<sup class="danger">*</sup></label>
+          <textarea id="desc" name="desc" class="form-control" placeholder="Description" rows="2" formControlName="desc" required></textarea>
+          <app-form-input-validation [form]="supportFormGroup" class="textSmal" formInput="desc" [errorMsg]="'Description is required'"></app-form-input-validation>
+        </div>
+      </div>
+
+
+      <div class="d-flex align-items-center justify-content-around mx-auto btn_group">
+        <button type="reset" mat-button class="btn btn-light cancel_btn" (click)="cancel()">Cancel</button>
+        <button type="submit" mat-button class="btn btn-danger submit_btn" (click)="submit()"
+          [disabled]="supportFormGroup.invalid">Submit</button>
+      </div>
+    </form>
+  </div>
+</section>
+<ngx-spinner type="ball-scale-multiple" [fullScreen]="true"></ngx-spinner>

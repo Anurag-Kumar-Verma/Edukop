@@ -1,0 +1,109 @@
+.login-sec {
+    min-height: calc(100vh - 0px);
+    margin: auto;
+    display: grid;
+    place-items: center;
+}
+
+.section{
+    box-shadow: 0 1px 2px -2px rgba($color: #000000, $alpha: 0.15), 0 7px 17px rgba($color: #000000, $alpha: 0.15);
+    margin: 20px 0;
+    border-radius: 10px;
+    background-color: #f4f4f4;
+}
+.back_cover {
+    background-color: #f4f4f4;
+    place-items: center;
+    border-radius: 10px 10px 0 0;
+}
+.back_cover img {
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 1 / 1;
+    margin: 30px auto;
+}
+
+.signupForm {
+    margin-left: auto;
+    padding-inline: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #fff;
+    min-height: calc(100vh - 120px);
+    display: grid;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.otp-section,
+.signupForm form {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    margin-bottom: 0;
+}
+.small_logo {
+    max-width: 150px;
+}
+.btn_group {
+    margin-top: 20px;
+}
+.backLogin,
+.verify_otp_btn,
+.submit_btn {
+    min-width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.loginDetail {
+    margin-top: 30px;
+}
+
+.social_div {
+    width: 50%;
+    min-width: 60px;
+    max-width: 80px;
+    aspect-ratio: 1 / 1;
+}
+.social_div img {
+    width: 100%;
+}
+.otp-input-div {
+    min-width: 200px;
+}
+
+
+@media screen and (min-width: 545px) {
+}
+
+@media screen and (min-width: 768px) {
+    .section{
+        box-shadow: 0 2px 30px -2px rgba($color: #000000, $alpha: 0.25);
+        width: 90%;
+        margin: 20px auto;
+    }
+    .signupForm {
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+    .back_cover {
+        border-radius: 10px 0 0 10px;
+    }
+
+    .btn_group {
+        margin-top: 40px;
+    }
+}
+
+@media screen and (min-width: 992px) {
+}
+
+@media screen and (max-width: 540px) {
+
+    .form-control {
+        font-size: 12px !important
+    }
+    p, span, address {
+        font-size: 12px;
+    }
+}

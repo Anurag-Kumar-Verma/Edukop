@@ -1,0 +1,201 @@
+<ion-header mode="md">
+    <ion-toolbar class="toolbar">
+        <ion-icon
+            slot="start"
+            name="arrow-back-outline"
+            (click)="goback()"
+            class="back-icon"
+        ></ion-icon>
+        <ion-title class="heading">Shop By Category</ion-title>
+        <ion-icon
+            slot="end"
+            name="search-outline"
+            (click)="search()"
+            class="search-icon"
+        ></ion-icon>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-row *ngIf="searchOn">
+        <ion-col size="12">
+            <ion-searchbar
+                [(ngModel)]="searchStr"
+                class="search-bar"
+            ></ion-searchbar>
+        </ion-col>
+    </ion-row>
+    <div
+        class="custom-card"
+        *ngFor="let category of (categoryTree | categoryFilter:searchStr);let i = index;"
+    >
+        <ion-item
+            button
+            class="ripple-parent"
+            *ngIf="category.show==null || category.show"
+            [ngClass]="{'filtered' : category.show != null || category.show}"
+            lines="none"
+        >
+            <ion-ripple-effect></ion-ripple-effect>
+            <!-- <img
+                src="../../assets/images/category.jpg"
+                class="sup-cat-img"
+                slot="start"
+                alt=""
+            /> -->
+            <!-- <ion-icon slot="start" name="school-outline"></ion-icon> -->
+            <ion-label class="label" (click)="openCategory(category)"
+                >{{category.name}}</ion-label
+            >
+            <div
+                style="width: 100px !important"
+                *ngIf="category?.childs?.length > 0"
+                slot="end"
+            >
+                <ion-icon
+                    *ngIf="openAll[i]!=true"
+                    class="subCat-Icon"
+                    slot="end"
+                    name="chevron-forward-outline"
+                    (click)="addClicked(i)"
+                >
+                </ion-icon>
+                <ion-icon
+                    *ngIf="openAll[i]==true"
+                    class="subCat-Icon"
+                    slot="end"
+                    name="chevron-down-outline"
+                    (click)="close(i)"
+                >
+                </ion-icon>
+            </div>
+        </ion-item>
+        <div *ngIf="openAll[i] == true" class="sub-categories">
+            <div style="width: 100%; height: 2px; background-color: #ccc"></div>
+            <div *ngFor="let categoryChild of category.childs;let j = index;">
+                <ion-item
+                    lines="none"
+                    *ngIf="categoryChild.show==null || categoryChild.show"
+                    [ngClass]="{'ion-activatable ripple-parent filteredCategory' : category.show != null || category.show  }"
+                >
+                    <ion-ripple-effect></ion-ripple-effect>
+
+                    <!-- <img
+                        src="../../assets/images/colorpen.png"
+                        class="sub-cat-img"
+                        slot="start"
+                        alt=""
+                    /> -->
+
+                    <ion-label
+                        (click)="openCategory(categoryChild)"
+                        class="sub-cat-name"
+                        >{{categoryChild.name}}
+                    </ion-label>
+                    <div slot="end" *ngIf="categoryChild.childs.length > 0">
+                        <ion-icon
+                            *ngIf="openSub[j] !=true;"
+                            (click)="subCategory(j)"
+                            class="subCat-Icon"
+                            name="chevron-forward-outline"
+                        ></ion-icon>
+                        <ion-icon
+                            *ngIf="openSub[j] == true;"
+                            (click)="closeSub(j)"
+                            class="subCat-Icon"
+                            name="chevron-down-outline"
+                        >
+                        </ion-icon>
+                    </div>
+                </ion-item>
+
+                <div *ngIf="openSub[j] == true" class="sub2-cat-div">
+                    <div
+                        style="
+                            width: 100%;
+                            height: 2px;
+                            background-color: #ccc;
+                            margin-bottom: 10px;
+                        "
+                    ></div>
+                    <ng-container
+                        *ngFor="let subCategorychild of categoryChild.childs"
+                    >
+                        <div
+                            class="ion-activatable sub2-cat-sec"
+                            *ngIf="categoryChild.show==null || categoryChild.show"
+                            [ngClass]="{'filteredSubCategory' : category.show != null || category.show  }"
+                        >
+                            <!-- <ion-ripple-effect></ion-ripple-effect> -->
+                            <!-- <img
+                                src="../../assets/images/pen.png"
+                                class="sub2-cat-img"
+                                alt=""
+                            /> -->
+                            <span class="sub-cat-lbl" (click)="openCategory(subCategorychild)"
+                                >{{subCategorychild.name}}
+                            </span>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <!-- <ion-row>
+                <ng-container
+                    *ngFor="let categoryChild of category.childs;let j = index;"
+                >
+                    <ion-col
+                        size="11.8"
+                        class="sub-cat-col"
+                        *ngIf="categoryChild.show==null || categoryChild.show"
+                        [ngClass]="{'filteredCategory' : category.show != null || category.show  }"
+                    >
+                        <div class="ion-activatable ripple-parent">
+                            <ion-ripple-effect></ion-ripple-effect>
+                            <ion-label
+                                (click)="openCategory(categoryChild)"
+                                class="sub-cat-name"
+                                >{{categoryChild.name}}
+                            </ion-label>
+
+                            <div *ngIf="categoryChild.childs.length > 0">
+                                <ion-icon
+                                    *ngIf="openSub[j] !=true;"
+                                    (click)="subCategory(j)"
+                                    class="subCat-Icon"
+                                    name="chevron-forward-outline"
+                                ></ion-icon>
+                                <ion-icon
+                                    *ngIf="openSub[j] == true;"
+                                    (click)="closeSub(j)"
+                                    class="subCat-Icon"
+                                    name="chevron-down-outline"
+                                >
+                                </ion-icon>
+                            </div>
+                        </div>
+
+                        <br />
+                        <div *ngIf="openSub[j] == true" class="sub2-cat-div">
+                            <ion-row style="width: 100% !important">
+                                <ng-container
+                                    *ngFor="let subCategorychild of categoryChild.childs"
+                                >
+                                    <ion-col
+                                        (click)="openCategory(subCategorychild)"
+                                        size="3.82"
+                                        class="ion-activatable ripple-parent sub2-cat-col"
+                                        *ngIf="categoryChild.show==null || categoryChild.show"
+                                        [ngClass]="{'filteredSubCategory' : category.show != null || category.show  }"
+                                    >
+                                        <ion-ripple-effect></ion-ripple-effect>
+                                        <span> {{subCategorychild.name}} </span>
+                                    </ion-col>
+                                </ng-container>
+                            </ion-row>
+                        </div>
+                    </ion-col>
+                </ng-container>
+            </ion-row> -->
+        </div>
+    </div>
+</ion-content>

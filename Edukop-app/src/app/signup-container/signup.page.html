@@ -1,0 +1,169 @@
+<ion-content>
+    <div class="form-div">
+        <div class="container">
+            <div class="heading">
+                <img src="../../assets/images/edukop.png" class="logo" />
+            </div>
+            <ion-row class="other-login-row">
+                <ion-col size="12" class="icon-col">
+                    <ion-button expand="block" class="g-login-btn" (click)="googleAuth()">
+                        <ion-icon
+                            slot="start"
+                            color="light"
+                            name="logo-google"
+                        ></ion-icon>
+                        Google Login
+                    </ion-button>
+                </ion-col>
+                <!-- <ion-col size="12" class="icon-col">
+                    <ion-button expand="block" class="f-login-btn" (click)="facebookAuth()">
+                        <ion-icon
+                            slot="start"
+                            color="light"
+                            name="logo-facebook"
+                        ></ion-icon>
+                        Facebook Login
+                    </ion-button> -->
+                    <!-- <img src="./assets/images/fb.png" class="fb-logo" /> -->
+                <!-- </ion-col> -->
+            </ion-row>
+            <form [formGroup]="signupForm" class="form">
+                <ion-row class="input-row">
+                    <ion-col size="12" class="input">
+                        <ion-input
+                            class="input-box"
+                            type="text"
+                            name="title"
+                            formControlName="firstName"
+                            placeholder="first name"
+                        >
+                        </ion-input>
+                    </ion-col>
+                    <span
+                        class="valid-message"
+                        *ngIf="signupForm.controls.firstName.errors && (signupForm.controls.firstName.touched  || signupForm.controls.firstName.dirty)"
+                    >
+                       First name is Required
+                    </span>
+                    <ion-col size="12" class="input">
+                        <ion-input
+                            class="input-box"
+                            type="text"
+                            name="title"
+                            formControlName="lastName"
+                            placeholder="last name"
+                        >
+                        </ion-input>
+                    </ion-col>
+                    <span
+                        class="valid-message"
+                        *ngIf="signupForm.controls.lastName.errors && (signupForm.controls.lastName.touched  || signupForm.controls.lastName.dirty)"
+                    >
+                       Last name is Required
+                    </span>
+
+                    <ion-col size="12" class="input">
+                        <!-- <ion-label class="label" position="floating" >Email</ion-label> -->
+                        <ion-input
+                            class="input-box"
+                            type="email"
+                            name="title"
+                            formControlName="email"
+                            placeholder="Email"
+                        >
+                        </ion-input>
+                    </ion-col>
+                    <span
+                        class="valid-message"
+                        *ngIf="signupForm.controls.email.errors && (signupForm.controls.email.touched  || signupForm.controls.email.dirty)"
+                    >
+                        Email is Required
+                    </span>
+                    <ion-col size="12" class="input">
+                        <!-- <ion-label class="label" position="floating" >Email</ion-label> -->
+                        <ion-input
+                            class="input-box"
+                            type="number"
+                            name="title"
+                            formControlName="phoneNo"
+                            placeholder="Contact No"
+                        >
+                        </ion-input>
+                    </ion-col>
+                    <span
+                        class="valid-message"
+                        *ngIf="signupForm.controls.phoneNo.errors && (signupForm.controls.phoneNo.touched  || signupForm.controls.phoneNo.dirty)"
+                    >
+                        Contact Number is Required
+                    </span>
+                    <ion-col size="12" class="input">
+                        <!-- <ion-label class="label" position="floating" >Password</ion-label> -->
+                        <ion-input
+                            class="input-box"
+                            [type]="!loginEye ? 'password' : 'text'"
+                            name="password"
+                            formControlName="password"
+                            placeholder="Password"
+                        ></ion-input>
+                        <div class="eyes d-grid" (click)="loginEye ? loginEye = false : loginEye = true">
+                            <ion-icon slot="start" name="eye-off-outline" class="eye" *ngIf="!loginEye"></ion-icon>
+                            <ion-icon slot="start" name="eye-outline" *ngIf="loginEye" class="eye"></ion-icon>
+                          </div>
+                    </ion-col>
+                    <span
+                        class="valid-message"
+                        *ngIf="signupForm.controls.password.errors && (signupForm.controls.password.touched  || signupForm.controls.password.dirty)"
+                    >
+                        password is Required
+                    </span>
+                    <ion-col size="12" class="input">
+                        <!-- <ion-label class="label" position="floating" >Password</ion-label> -->
+                        <ion-input
+                            class="input-box"
+                            [type]="!confirmLoginEye ? 'password' : 'text'"
+                            name="password"
+                            formControlName="confirmPassword"
+                            placeholder="Confirm Password"
+                        ></ion-input>
+                        <div class="eyes d-grid" (click)="confirmLoginEye ? confirmLoginEye = false : confirmLoginEye = true">
+                            <ion-icon slot="start" name="eye-off-outline" class="eye" *ngIf="!confirmLoginEye"></ion-icon>
+                            <ion-icon slot="start" name="eye-outline" *ngIf="confirmLoginEye" class="eye"></ion-icon>
+                          </div>
+                    </ion-col>
+                    <!-- <span
+                        class="valid-message"
+                        *ngIf="signupForm.controls.name.errors && (signupForm.controls.name.touched  || signupForm.controls.name.dirty)"
+                    >
+                    </span> -->
+                    <ion-col size="12" class="input-btn">
+                        <ion-button
+                            expand="block"
+                            color="primary"
+                            fill="solid"
+                            class="login-btn"
+                            (click)="signUp()"
+                            [disabled]="signupForm.invalid"
+                            >Sign up
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </form>
+            <!--<ion-row class="other-login-row">
+          <ion-col size="3"></ion-col>
+          <ion-col size="3" class="icon-col">
+            <!-- <ion-icon color="danger" name="logo-google" class="icon-google"></ion-icon>
+            <img src="./assets/images/google.png" class="fb-logo">
+          </ion-col>
+          <ion-col size="3" class="icon-col">
+            <img src="./assets/images/fb.png" class="fb-logo">
+          </ion-col>
+          <ion-col size="3"></ion-col>
+        </ion-row> -->
+            <div class="for-signup">
+                <p class="already-text">Already have an account?</p>
+
+                <h4 (click)="login()">Login here</h4>
+            </div>
+        </div>
+    </div>
+</ion-content>

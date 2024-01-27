@@ -1,0 +1,72 @@
+<ion-header mode="md">
+    <ion-toolbar class="toolbar">
+        <ion-icon
+            class="back-icon"
+            slot="start"
+            name="arrow-back-outline"
+            (click)="goback()"
+        ></ion-icon>
+        <ion-title class="heading"
+            >{{name }}'s {{type != 'university' && type != 'competition' ?
+            'Standard List' : 'Course List'}}</ion-title
+        >
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div>
+        <ion-row
+            class="row-cls"
+            *ngIf="type == 'school' || type == 'board'"
+        >
+            <ion-col size="6" *ngFor="let standard of ChildData?.list">
+                <ion-card
+                    button="true"
+                    (click)="productPage(standard)"
+                    class="download-class ripple-parent"
+                >
+                    <ion-card-content>
+                        <div>
+                            <p>{{standard?.name | titlecase}}</p>
+                        </div>
+                        <!-- <p class="text-clss">{{standard?.name}}</p> -->
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+        <ion-row class="row-cls" *ngIf="type=='competition'">
+            <ion-col
+                size="6"
+                (click)="productPage(standard)"
+                *ngFor="let standard of ExamData?.exam"
+            >
+                <ion-card button class="ripple-parent">
+                    <ion-card-content>
+                        <div>
+                            <p>{{standard?.name | titlecase}}</p>
+                        </div>
+                        <!-- <p class="text-clss">{{standard?.name}}</p> -->
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+        <ion-row class="row-cls" *ngIf="type == 'university'">
+            <ion-col
+                size="6"
+                (click)="productPage(standard)"
+                *ngFor="let standard of UniversityData?.courses"
+            >
+                <ion-card button>
+                    <ion-card-content>
+                        <div>
+                            <p>{{standard?.abbreviation | titlecase}}</p>
+                        </div>
+                        <!-- <p class="text-clss">{{standard?.name}}</p> -->
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </div>
+    <ion-card class="forms-link" (click)="childCategory(Data)">
+        <ion-label>Purchase {{name}}'s Books here</ion-label>
+    </ion-card>
+</ion-content>

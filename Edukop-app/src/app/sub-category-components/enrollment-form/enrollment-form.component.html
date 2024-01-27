@@ -1,0 +1,39 @@
+<div *ngIf="schoolData.length === 0">
+    <ion-col
+        size="12"
+        class="no-products"
+    >
+        <p>No Enrollment Form found</p>
+    </ion-col>
+</div>
+<div *ngIf="schoolData.length > 0">
+    <ion-card class="forms-link" (click)="formList()">
+        <ion-label>See your forms</ion-label>
+        <ion-icon
+            style="float: right !important"
+            name="arrow-forward-outline"
+        ></ion-icon>
+    </ion-card>
+    <ion-card  class="custom-card" *ngFor="let school of enrollments">
+        <ng-container *ngIf="school.schoolDetail">
+        <ion-item lines="none" class="custom-item" (click)="OpenForm(school.uuid)">
+            <img [src]="school.schoolDetail.imageUrl ? imageEnvUrl + school.schoolDetail.imageUrl : '../../../assets/images/default-image.jpg'" class="board-img" slot="start" />
+            <div class="detail">
+                <ion-text class="board-name">{{ school.schoolDetail.name }}</ion-text>
+                <ion-text class="board-type">{{ school.schoolDetail.address }}</ion-text>
+                <ion-text class="left-form">{{ school.inventory }} Forms Left</ion-text>
+            </div>
+        </ion-item>
+        <!-- <ion-row>
+            <ion-col size="4" class="image-col">
+                <img [src]="imageEnvUrl + school.imageUrl" class="board-img" />
+            </ion-col>
+            <ion-col size="8">
+                <ion-label class="board-name">{{ school.name }}</ion-label>
+                <p class="board-type">{{ school.address }}</p>
+                <p class="left-form">{{ getInventory(school) }} Forms Left</p>
+            </ion-col>
+        </ion-row> -->
+    </ng-container>
+    </ion-card>
+</div>

@@ -1,0 +1,159 @@
+.toolbar {
+    --background: #df1744;
+    --color: #fff;
+
+    --border-color: #fff;
+    --border-style: none !important;
+    --border-width: 0px !important;
+}
+.btn-position {
+    margin: 15px auto 0px !important;
+    text-align: center !important;
+}
+.tag-icon {
+    color: #000;
+    font-size: 20px !important;
+    margin-left: 5px !important;
+    margin-right: 7px !important;
+}
+.coupon-item {
+    --border-width: 0px !important;
+    --padding-start: 5px !important;
+    --inner-padding-end: 0px !important;
+}
+.buy-now {
+    // background-image: linear-gradient(to right, #DF1744, #DD4B16) !important;
+    --background: #df1744;
+    --color: #fff !important;
+    border-radius: 20px !important;
+    text-transform: none;
+}
+.item-info-card {
+    border-radius: 0px !important;
+    margin: 10px 0px !important;
+}
+.coupon-card-header {
+    padding: 0px 8px 2px 8px !important;
+}
+.details-head {
+    color: #000 !important;
+}
+.info-card-header {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+.price {
+    font-size: 18px !important;
+    color: #000;
+    padding-right: 4px;
+}
+.striked {
+    font-size: 14px !important;
+}
+.offer {
+    font-size: 16px;
+    color: #df1744;
+    padding-left: 5px;
+}
+.coupon-name {
+    color: #df1744;
+    font-size: 17px !important;
+    font-weight: 600 !important;
+}
+.item-price-card {
+    padding-top: 0px !important;
+    margin: 10px 0px !important;
+}
+.item-divider {
+    padding-left: 0px !important;
+}
+.pro-img {
+    width: 90% !important;
+}
+.qty-input {
+    border: 1px solid #000 !important;
+    width: 60px !important;
+    margin-right: 25px !important;
+}
+.price-card-header {
+    padding-top: 0px !important;
+}
+.item-col {
+    color: #000 !important;
+    text-align: left;
+}
+.price-col {
+    color: #000 !important;
+    text-align: right;
+}
+.item-divider-price {
+    padding-left: 0px !important;
+    margin-top: -8px !important;
+}
+.item-pay-card {
+    width: 100% !important;
+    bottom: 0 !important;
+    position: fixed;
+}
+.card-pay {
+    width: 100% !important;
+    margin: 0px !important;
+}
+
+.pay-card-content {
+    width: 100% !important;
+    margin: 0px auto !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+.btn-col {
+    text-align: center !important;
+}
+.heading {
+    font-size: 18px !important;
+    text-align: left !important;
+}
+.back-icon {
+    padding-left: 8px !important;
+    font-size: 22px !important;
+}
+.user-name {
+    color: #df1744 !important;
+}
+ion-card-title {
+    font-weight: 400;
+}
+.qty {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    margin: 5px !important;
+    font-size: 14px !important;
+}
+.select {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    margin: 5px !important;
+    border: 1px solid #000 !important;
+}
+.qty-col {
+    padding-top: 10px !important;
+}
+.remove-coupon {
+    text-transform: none !important;
+}
+.gst_number {
+    text-align: center !important;
+    text-transform: none !important;
+    margin: 0px auto !important;
+}
+.gst-card-content {
+    //  text-align: center !important;
+}
+.in-col {
+    color: #000 !important;
+    border-radius: 5px !important;
+    border: 1px solid #000 !important;
+}
+.gstbtn-col {
+    text-align: center !important;
+}

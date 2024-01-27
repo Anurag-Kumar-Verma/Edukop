@@ -1,0 +1,540 @@
+<ion-header mode="md">
+    <ion-toolbar class="header">
+        <ion-icon
+            slot="start"
+            name="arrow-back-outline"
+            (click)="goback()"
+            class="back-icon"
+        ></ion-icon>
+        <ion-title class="heading">Order Details</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="isDataLoaded">
+    <ion-card class="item-price-card" *ngIf="orderData?.status != 'Pending'">
+        <ion-row>
+            <ion-col size="12" class="order-id-col">
+                <ion-label class="card-v-head">
+                    <b>Order ID - {{orderData?.orderId}}</b>
+                </ion-label>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+    <ion-card class="item-price-card" mode="md" *ngFor="let item of vendors">
+        <ion-card-header class="price-card-header">
+            <ion-item-divider class="item-divider">
+                <ion-row style="width: 100% !important">
+                    <ion-col size="7">
+                        <ion-label class="card-head">
+                            <b>Sold by : {{item?.vendorDetail?.name}}</b>
+                        </ion-label>
+                    </ion-col>
+                    <ion-col
+                        style="padding: 0px !important"
+                        size="5"
+                        (click)="downloadInvoice(item)"
+                        *ngIf="orderData?.status == 'Delivered'"
+                    >
+                        <ion-button
+                            style="text-transform: none !important"
+                            expand="full"
+                            fill="clear"
+                        >
+                            Download Invoice
+                        </ion-button>
+                        <!-- <ion-label class="open-form download" >
+                            Download Invoice
+                        </ion-label> -->
+                    </ion-col>
+                </ion-row>
+            </ion-item-divider>
+        </ion-card-header>
+        <ion-card-content class="vendor-card">
+            <ion-row *ngFor="let product of getProduct(item.vendorId)">
+                <ion-col size="8">
+                    <ion-card-title>{{product.product?.name}}</ion-card-title>
+                    <p>
+                        <span class="price">
+                            ₹ {{product?.product?.sellingprice *
+                            item?.quantity}}
+                        </span>
+
+                        <span class="price"
+                            ><s
+                                style="color: red"
+                                *ngIf="product?.mrp > product?.sellingprice"
+                            >
+                                {{product?.product?.mrp * item?.quantity}}
+                            </s></span
+                        >
+                        <span
+                            class="off"
+                            *ngIf="product?.mrp > product?.sellingprice"
+                        >
+                            {{calculateOfferPercentage(product?.product?.mrp,product?.product?.sellingprice)}}
+                            % off
+                        </span>
+                    </p>
+                    <p>Qty : {{product?.quantity}}</p>
+                    <!-- <p *ngIf="product?.vendorDetail != undefined">
+                            Sold by : {{product?.vendorDetail.name}}
+                        </p> -->
+                    <div
+                        *ngIf="product?.product?.isDigital && myEnrollments.length === 1"
+                        (click)="openForm()"
+                    >
+                        <!-- <h2
+                                class="open-form-btn"
+                                [routerLink]="['/dynamic-form']"
+                                [state]="item.product.metaData"
+                            > -->
+                        <ion-button
+                            size="small"
+                            style="
+                                text-transform: none !important;
+                                margin: 0px !important;
+                            "
+                            fill="clear"
+                        >
+                            <ion-icon
+                                slot="start"
+                                name="newspaper-outline"
+                            ></ion-icon>
+                            Open Form
+                        </ion-button>
+                        <!-- <h2 class="open-form-btn">Open Form</h2> -->
+                    </div>
+                </ion-col>
+                <ion-col size="4" class="thumbnail-col">
+                    <img
+                        [src]="product?.product?.images?.length > 0 ? imageUrl+product?.product?.images[0] : 'assets/images/default-image.png'"
+                        class="img"
+                    />
+                </ion-col>
+                <ion-col
+                    style="padding: 0px !important"
+                    size="12"
+                    *ngIf="myEnrollments.length > 1"
+                    (click)="showForms()"
+                >
+                    <ion-button
+                        size="small"
+                        style="
+                            text-transform: none !important;
+                            margin: 0px !important;
+                        "
+                        fill="clear"
+                    >
+                        <ion-icon
+                            slot="start"
+                            name="newspaper-outline"
+                        ></ion-icon>
+                        Show Forms
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+            <!-- <ion-button
+                class="open-form"
+                size="small"
+                shape="round"
+                (click)="downloadInvoice()"
+                style="float: right; margin-bottom: 20px"
+            >
+                Download Invoice
+               
+            </ion-button> -->
+            <ion-button
+            (click)="onRetry()"
+            *ngIf="(orderData?.status == 'Pending' || orderData?.status == 'Failed') && !orderData?.address"
+        >
+            Retry</ion-button
+        >
+        </ion-card-content> 
+    </ion-card>
+
+    <ion-card class="item-price-card" mode="md" *ngIf="!isProductDigital">
+        <ion-card-header class="price-card-header" *ngIf="orderData?.address">
+            <ion-item-divider class="item-divider" >
+                <ion-label class="card-head">
+                    <b>Shipping Details</b>
+                </ion-label>
+            </ion-item-divider>
+        </ion-card-header>
+
+        <ion-card-content *ngIf="orderData?.address">
+            <ion-card-title *ngIf="orderData?.address != undefined"
+                >{{myAddress?.fullName}}</ion-card-title
+            >
+
+            <ion-card-subtitle *ngIf="orderData?.address != undefined"
+                >{{myAddress?.address}},{{myAddress?.landmark}},<br />
+                {{myAddress?.city}},{{myAddress?.state}} {{myAddress?.pincode}}
+            </ion-card-subtitle>
+            <ion-card-subtitle *ngIf="orderData?.address != undefined"
+                >+91-{{myAddress?.phone}}</ion-card-subtitle
+            >
+            <ion-button
+                (click)="onRetry()"
+                *ngIf="(orderData?.status == 'Pending' || orderData?.status == 'Failed') && orderData?.address"
+            >
+                Retry</ion-button
+            >
+
+            <ion-row
+                class="track-row"
+                *ngIf="orderData?.status != 'Pending' && orderData?.status != 'Failed' && orderData?.status != 'Awaiting Fulfillment' && orderData?.status != 'Refund Request' && orderData?.status != 'Initiate Refund'
+        && orderData?.status != 'Refunded'"
+            >
+                <ion-col size="2" class="bar">
+                    <ion-icon
+                        name="ellipse"
+                        class="dot-icon"
+                        color="primary"
+                    ></ion-icon>
+                    <div
+                        class="pin"
+                        *ngIf="(orderData?.status == 'Order Confirmed')"
+                    ></div>
+                    <div
+                        class="pin-active-1"
+                        *ngIf="(orderData?.status == 'Shipped' || orderData?.status == 'Delivered') || orderData?.status == 'Out For Delivery'"
+                    ></div>
+                </ion-col>
+                <ion-col size="10" class="status-text-col">
+                    <ion-label class="status-text">Order Placed</ion-label
+                    ><br />
+                    <ion-label>Your Order has been placed</ion-label><br />
+                    <ion-label>{{ orderData?.created_date | date}}</ion-label>
+                </ion-col>
+                <ion-col size="2" class="bar">
+                    <ion-icon
+                        name="ellipse-outline"
+                        class="dot-icon"
+                        *ngIf="orderData?.status == 'Order Confirmed'"
+                    >
+                    </ion-icon>
+                    <ion-icon
+                        name="ellipse"
+                        class="dot-icon"
+                        color="primary"
+                        *ngIf="(orderData?.status == 'Shipped' || orderData?.status == 'Delivered') || orderData?.status == 'Out For Delivery'"
+                    >
+                    </ion-icon>
+                    <div
+                        class="pin-2"
+                        *ngIf="orderData?.status == 'Order Confirmed'"
+                    ></div>
+                    <div
+                        class="pin-shipped-1"
+                        *ngIf="orderData?.status =='Shipped'"
+                    ></div>
+                    <div
+                        class="pin-active-2"
+                        *ngIf="(orderData?.status != 'Order Confirmed' && orderData?.status != 'Shipped') || (orderData?.status == 'Delivered' || orderData?.status == 'Out For Delivery')"
+                    ></div>
+                </ion-col>
+                <ion-col size="10" class="status-text-col">
+                    <ion-label class="status-text">Shipped</ion-label><br />
+                    <div *ngIf="shippingDetails">
+                        <ion-label>
+                            Courier Name - {{shippingDetails?.courierName}} </ion-label
+                        ><br />
+                        <ion-label>
+                            Tracking Id - {{shippingDetails?.trackingId}} </ion-label
+                        ><br />
+                        <ion-label>Your item has been shipped</ion-label><br />
+                        <ion-label
+                            >{{ orderData?.modified_date | date}}</ion-label
+                        ><br />
+                        <ion-label
+                            style="color: blue; text-decoration: underline"
+                            >{{ shippingDetails?.link }}
+                        </ion-label>
+                    </div>
+                </ion-col>
+                <ion-col
+                    size="2"
+                    class="bar"
+                    *ngIf="orderData?.status == 'Delivered' || orderData?.status == 'Out For Delivery'"
+                >
+                    <!-- <ion-icon name="ellipse-outline" class="dot-icon"
+            *ngIf="orderData?.status == 'Order Confirmed' || orderData?.status == 'Shipped'"></ion-icon> -->
+                    <ion-icon
+                        name="ellipse"
+                        class="dot-icon"
+                        color="primary"
+                        *ngIf="orderData?.status == 'Delivered' || orderData?.status == 'Out For Delivery'"
+                    >
+                    </ion-icon>
+                    <div
+                        class="pin"
+                        *ngIf="orderData?.status == 'Out For Delivery'"
+                    ></div>
+                    <div
+                        class="pin-active"
+                        style="height: 30px"
+                        *ngIf="orderData?.status == 'Delivered'"
+                    ></div>
+                </ion-col>
+                <ion-col
+                    size="10"
+                    class="status-text-col"
+                    *ngIf="orderData?.status == 'Delivered' || orderData?.status == 'Out For Delivery'"
+                >
+                    <ion-label class="status-text">Out For Delivery</ion-label
+                    ><br />
+                    <ion-label *ngIf="false"> ID</ion-label><br />
+                </ion-col>
+                <ion-col size="2" class="bar">
+                    <ion-icon
+                        name="ellipse-outline"
+                        class="dot-icon"
+                        *ngIf="(orderData?.status == 'Order Confirmed' || orderData?.status == 'Shipped') || orderData?.status == 'Out For Delivery'"
+                    >
+                    </ion-icon>
+                    <ion-icon
+                        name="ellipse"
+                        class="dot-icon"
+                        color="primary"
+                        *ngIf="orderData?.status == 'Delivered'"
+                    >
+                    </ion-icon>
+                </ion-col>
+                <ion-col size="10" class="status-text-col">
+                    <ion-label class="status-text">Delivered</ion-label>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+    <ion-card class="item-price-card" mode="md">
+        <ion-card-header class="price-card-header">
+            <ion-item-divider class="item-divider">
+                <ion-label class="card-head">
+                    <b>Price Details</b>
+                </ion-label>
+            </ion-item-divider>
+        </ion-card-header>
+
+        <ion-card-content class="price-card-content">
+                <ion-row class="bill-row">
+                    <ion-col
+                        size="6"
+                        class="price-text"
+                        *ngIf="orderDetails.length > 1"
+                    >
+                        Price ({{orderDetails.length}} items)
+                    </ion-col>
+                    <ion-col
+                        size="6"
+                        class="price-text"
+                        *ngIf="orderDetails.length == 1"
+                    >
+                        Price ({{orderDetails.length}} item)
+                    </ion-col>
+
+                    <ion-col size="6" class="price-amount" *ngIf="orderDetails.length == 1"
+                        >₹ {{orderData.totalMrp}}
+                    </ion-col>
+                    <ion-col size="6" class="price-text" *ngIf="orderData"> Discount </ion-col>
+                    <ion-col size="6" class="price-amount" *ngIf="orderData">
+                        <p style="color: green">- ₹ {{orderData.discount}}</p>
+                    </ion-col>
+                    <ion-col size="6" class="price-text">
+                        Selling Price
+                    </ion-col>
+                    <ion-col size="6" class="price-amount" *ngIf="orderData">
+                        <p>₹ {{orderData.totalAmount}}</p>
+                    </ion-col>
+                    <ion-col
+                        size="6"
+                        class="price-text"
+                        *ngIf="orderData?.applied_coupon?.couponDiscount"
+                        >Coupon Discount
+                    </ion-col>
+                    <ion-col
+                        size="6"
+                        class="price-amount"
+                        *ngIf="orderData?.applied_coupon?.couponDiscount"
+                    >
+                        <p style="color: green">
+                            - ₹ {{orderData?.applied_coupon?.couponDiscount}}
+                        </p>
+                    </ion-col>
+                    <!-- <ion-col size="6" class="price-text">
+                    Special price
+                </ion-col>
+                <ion-col size="6" class="price-amount">
+                    ₹ 320
+                </ion-col> -->
+                    <ion-col size="6" class="price-text">
+                        Shipping fee
+                    </ion-col>
+                    <ion-col size="6" class="price-amount">+ {{orderData?.shipping_amount}} </ion-col>
+                </ion-row>
+            <ion-item-divider class="price-divider-top" mode="md">
+            </ion-item-divider>
+
+            <ion-row class="total-maount-row">
+                <ion-col size="6" class="price-text">
+                    <b>Total Amount</b>
+                </ion-col>
+                <ion-col
+                    size="6"
+                    class="price-amount"
+                    *ngIf="!orderData?.applied_coupon"
+                >
+                    <b>₹ {{orderData?.totalAmount}}</b>
+                </ion-col>
+                <ion-col
+                    size="6"
+                    class="price-amount"
+                    *ngIf="orderData?.applied_coupon"
+                >
+                    <b>₹ {{orderData?.applied_coupon?.effectiveAmount}}</b>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card
+        class="item-cancle-card"
+        mode="md"
+        *ngIf="!isProductDigital && orderData?.status != 'Pending'"
+    >
+        <ion-card-content>
+            <ion-row>
+                <ion-col
+                    size="8"
+                    class="payment-mode"
+                    *ngIf="orderData?.status != 'Failed' || orderData?.status != 'Pending'"
+                >
+                    <p>
+                        <span>Payment Mode</span>: {{orderData?.paymentMode |
+                        titlecase}}!
+                    </p>
+                </ion-col>
+
+                <ion-col
+                    size="4"
+                    class="payment-mode"
+                    *ngIf="orderData?.status == 'Delivered' && !isProductDigital"
+                >
+                    <ion-button fill="clear" (click)="onReturn()">
+                        Return
+                    </ion-button>
+                </ion-col>
+                <ion-col
+                    *ngIf="!isProductDigital"
+                    size="4"
+                    class="payment-mode-cancle"
+                >
+                    <p
+                        (click)="onReturn()"
+                        class="order-cancle"
+                        *ngIf="orderData?.status == 'Awaiting Fulfillment' || orderData?.status == 'Order Confirmed'"
+                    >
+                        Cancel Order
+                    </p>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+</ion-content>
+
+<ion-content class="refund-ui" *ngIf="isReturn" [formGroup]="onReturnFormGroup">
+    <ion-row class="section-row">
+        <ion-col size="12" class="section-1-col">
+            <ion-label class="question">
+                Why are you {{orderData?.status == 'Delivered' ?
+                'returning':'cancel'}}?
+                <ion-icon
+                    (click)="close()"
+                    class="close-icon"
+                    name="close-circle-outline"
+                ></ion-icon>
+            </ion-label>
+            <p>
+                Please choose the correct reson for return. This information is
+                only used to improve our service.
+            </p>
+        </ion-col>
+        <ion-col size="12" class="section-1-col">
+            <ion-label class="question"> SELECT REASON* </ion-label>
+            <ion-list>
+                <ion-radio-group
+                    allow-empty-selection="true"
+                    name="radio-group"
+                    #radioGroup
+                >
+                    <ion-item
+                        *ngFor="let item of reason"
+                        (ionFocus)="radioSelect(item)"
+                    >
+                        <ion-label>{{item}}</ion-label>
+                        <ion-radio
+                            slot="start"
+                            value="{{item}}"
+                            color="danger"
+                        ></ion-radio>
+                    </ion-item>
+                </ion-radio-group>
+            </ion-list>
+        </ion-col>
+        <ion-col size="12">
+            <ion-textarea
+                class="text-area"
+                placeholder="Additional Comment"
+                formControlName="additionalComment"
+            >
+            </ion-textarea>
+        </ion-col>
+    </ion-row>
+    <ion-row class="section-2-row">
+        <ion-col class="section-checkbox-col">
+            <ion-checkbox
+                class="checkbox"
+                formControlName="isConfirmed"
+            ></ion-checkbox>
+            <ion-label class="check-text">
+                I confirm that the product is unused with the original tags
+                intact
+            </ion-label>
+        </ion-col>
+    </ion-row>
+    <ion-footer>
+        <ion-toolbar>
+            <ion-row>
+                <ion-col
+                    size="7.5"
+                    class="refund-detail"
+                    *ngIf="orderData?.status != 'Awaiting Fulfillment'"
+                >
+                    REFUND DETAILS<br />
+                    ₹{{orderData?.totalAmount + 40 }}
+                </ion-col>
+                <ion-col size="4.5">
+                    <ion-button
+                        (click)="returnSubmit()"
+                        *ngIf="orderData?.status == 'Delivered'"
+                    >
+                        RETURN
+                        <ion-icon
+                            name="arrow-forward-outline"
+                            slot="end"
+                        ></ion-icon>
+                    </ion-button>
+                    <ion-button
+                        (click)="cancelOrder()"
+                        *ngIf="orderData?.status == 'Awaiting Fulfillment' || orderData?.status == 'Order Confirmed'"
+                    >
+                        Cancel
+                        <ion-icon
+                            name="arrow-forward-outline"
+                            slot="end"
+                        ></ion-icon>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-toolbar>
+    </ion-footer>
+</ion-content>

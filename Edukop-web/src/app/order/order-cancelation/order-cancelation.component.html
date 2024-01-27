@@ -1,0 +1,35 @@
+<section class="py-2">
+    <form [formGroup]="onReturnFormGroup" class="my-2">
+        <p class="formTitle fw-5 mb-2">Why are you {{orderDetails.status == 'Delivered' ? 'returning' : 'cancelling'}}?</p>
+
+        <div class="selectionGroup">
+            <p>Please choose the correct reason to return. This information is only used to improve our service.</p>
+
+            <div class="py-2">
+                <label for="reason">Select Reason <sup class="danger">*</sup></label>
+                <div class="my-1 ps-2">
+                    <mat-radio-group name="flavors" class="sorting_radio_group" formControlName="reason">
+                        <!-- <mat-radio-group name="flavors" class="sorting_radio_group" (change)="selectReason($event)"> -->
+                        <div class="mb-2" *ngFor="let reasonItem of reason">
+                            <mat-radio-button [value]="reasonItem">{{reasonItem}}</mat-radio-button>
+                        </div>
+                    </mat-radio-group>
+                </div>
+            </div>
+        </div>
+
+        <div class="otherReason py-2">
+            <label for="otherReason">Other Reason</label>
+            <textarea name="otherReason" id="otherReason" class="form-control mt-1" rows="3" formControlName="additionalComment" placeholder="Additional Comment"></textarea>
+        </div>
+
+        <div class="tc my-2">
+            <mat-checkbox formControlName="isConfirmed">I confirm that the product is unused with the original tags intact</mat-checkbox>
+        </div>
+    </form>
+
+    <div class="text-center mb-2 groupBtn d-flex justify-content-center">
+        <button type="button" class="btn btn-light btn-sm mx-1 cancelBtn" (click)="close('cancel')">Cancel</button>
+        <button type="button" class="btn btn-danger btn-sm mx-1 submitBtn" [disabled]="onReturnFormGroup.invalid || onReturnFormGroup.controls['isConfirmed'].value == false" (click)="orderCancel()">Submit</button>
+    </div>
+</section>

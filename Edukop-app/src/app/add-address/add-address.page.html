@@ -1,0 +1,147 @@
+<ion-header>
+    <ion-toolbar class="toolbar">
+        <ion-icon
+            slot="start"
+            name="arrow-back-outline"
+            (click)="goback()"
+            class="back-icon"
+        ></ion-icon>
+        <ion-title class="heading">
+            {{ (address && !isGps) ?'Update Address' : 'Add Address'}}</ion-title
+        >
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [formGroup]="addressFormGroup">
+    <ion-item-divider mode="md">
+        <ion-label class="label"> Contact Details </ion-label>
+    </ion-item-divider>
+    <div class="form-div">
+        <ion-input
+            required="true"
+            class="input"
+            formControlName="fullName"
+            type="text"
+            placeholder="Name*"
+            [autofocus]="true"
+        ></ion-input>
+        <div
+            *ngIf="addressFormGroup.controls.fullName.errors && (addressFormGroup.controls.fullName.touched  || addressFormGroup.controls.fullName.dirty)"
+            class="validation"
+        >
+            * Please enter a valid name
+        </div>
+        <ion-input
+            class="input"
+            type="phone"
+            formControlName="phone"
+            placeholder="Mobile No*"
+        ></ion-input>
+        <div
+            *ngIf="addressFormGroup.controls.phone.errors && (addressFormGroup.controls.phone.touched  || addressFormGroup.controls.phone.dirty)"
+            class="validation"
+        >
+            * Please enter a valid 10-digit phone number
+        </div>
+    </div>
+    <ion-item-divider mode="md">
+        <ion-label class="label"> Address </ion-label>
+    </ion-item-divider>
+    <div class="form-div">
+        <ion-input
+            class="input"
+            type="Text"
+            formControlName="address"
+            placeholder="Address (House No, Building, Area) *"
+        >
+        </ion-input>
+        <div
+            *ngIf="addressFormGroup.controls.address.errors && (addressFormGroup.controls.address.touched  || addressFormGroup.controls.address.dirty)"
+            class="validation"
+        >
+            * Please enter address
+        </div>
+        <ion-input
+            class="input"
+            type="Text"
+            formControlName="landmark"
+            placeholder="Locality / Town *"
+        ></ion-input>
+        <div
+            *ngIf="addressFormGroup.controls.landmark.errors && (addressFormGroup.controls.landmark.touched  || addressFormGroup.controls.landmark.dirty)"
+            class="validation"
+        >
+            * Please Enter Landmark
+        </div>
+        <!-- <ion-input class="input" type="Text" formControlName="state" placeholder="State*"></ion-input> -->
+        <div class="select">
+            <ion-select
+                mode="ios"
+                placeholder="State*"
+                name="state"
+                formControlName="state"
+                (ionChange)="onStateChange($event)"
+            >
+                <ion-select-option *ngFor="let state of states" [value]="state.name">
+                    {{state.name}}
+                </ion-select-option>
+            </ion-select>
+        </div>
+        <div
+            *ngIf="addressFormGroup.controls.state.errors && (addressFormGroup.controls.state.touched  || addressFormGroup.controls.state.dirty)"
+            class="validation"
+        >
+            * Please select a state
+        </div>
+        <div class="select">
+            <ion-select
+                mode="ios"
+                [placeholder]="addressFormGroup.controls.state.value?'City*' : 'select state first'"
+                formControlName="city"
+                [disabled]="cities? false:true"
+            >
+                <ion-select-option
+                    *ngFor="let city of cities"
+                    [value]="city.name"
+                >
+                    {{city.name}}
+                </ion-select-option>
+            </ion-select>
+        </div>
+        <div
+            *ngIf="addressFormGroup.controls.city.errors && (addressFormGroup.controls.city.touched  || addressFormGroup.controls.city.dirty)"
+            class="validation"
+        >
+            * Please select a city
+        </div>
+        <ion-input
+            class="input"
+            type="text"
+            formControlName="pincode"
+            placeholder="Pin Code*"
+        ></ion-input>
+        <div
+            *ngIf="addressFormGroup.controls.pincode.errors && (addressFormGroup.controls.pincode.touched  || addressFormGroup.controls.pincode.dirty)"
+            class="validation"
+        >
+            * Please enter a valid pincode
+        </div>
+    </div>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-row>
+            <ion-col size="12" class="btn-col">
+                <ion-button
+                    shape="round"
+                    class="buy-now"
+                    (click)="addAddress()"
+                    [disabled]="addressFormGroup.invalid"
+                >
+                    {{ (address && !isGps) ?'Update' : 'Add Address'}}
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,56 @@
+.back-icon {
+    padding-left: 8px !important;
+    font-size: 22px !important;
+}
+.toolbar {
+    --background: #df1744;
+    --color: #fff !important;
+}
+.heading {
+    font-size: 18px !important;
+    text-align: left !important;
+}
+.text-area-col {
+    padding: 0px !important;
+}
+ion-card {
+    margin: 10px 0px !important;
+    border-radius: 0px !important;
+}
+ion-card-content {
+    padding-bottom: 5px !important;
+}
+.pro-image {
+    float: right !important;
+    text-align: right !important;
+}
+.review-pro-name {
+    color: #000 !important;
+    font-size: 17px !important;
+}
+.review-input {
+    border: 1px solid #a0a0a0 !important;
+    border-radius: 4px !important;
+}
+.btn-ftr {
+    text-align: right !important;
+}
+.img {
+    width: 65% !important;
+}
+.submit-btn {
+    text-transform: none !important;
+    text-decoration: none !important;
+}
+ion-textarea {
+    margin-top: 0px !important;
+}
+rating {
+    ion-icon {
+        color: gray;
+
+        &.filled {
+            color: #ffb400;
+        }
+    }
+}

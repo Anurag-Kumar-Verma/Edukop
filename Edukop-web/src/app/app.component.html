@@ -1,0 +1,9 @@
+<div class="app">
+  <div class="header" *ngIf="activeRoute != '/login' && activeRoute != '/signup' && activeRoute != '/edukop' && activeRoute != '/forgot-password' && activeRoute != '/'">
+    <app-navbar></app-navbar>
+  </div>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</div>

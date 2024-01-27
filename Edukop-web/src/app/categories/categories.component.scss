@@ -1,0 +1,28 @@
+.subChild{
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 10px;
+    margin-left: 0;
+    margin-bottom: 3px;
+    background-color: #eee;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    display: inline-block;
+}
+
+.expand_btn {
+    height: 100%;
+    width: 35px;
+    display: grid;
+    place-items: center;
+}
+
+// .card-content {
+//     display: none;
+// }
+// .card-header:hover + .card-content,
+// .card-content:hover {
+//     display: block;
+// }

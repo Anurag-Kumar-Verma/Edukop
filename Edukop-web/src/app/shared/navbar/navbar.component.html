@@ -1,0 +1,105 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/dashboard" >
+      <img src="../../../assets/logos/Group 1438.png" alt="" class="nav-logo">
+    </a>
+
+    <div class="user_div d-none d-lg-block" *ngIf="userInfo && userInfo.isGuest == false">
+      <div class="profile_img">
+        <img [src]="userInfo.imageUrl ? imageApi + userInfo.imageUrl : '../../../assets/images/unknown_user.jpg'" alt="" class="pointer" [routerLink]="['/side/my-account']" routerLinkActive="router-link-active" >
+      </div>
+    </div>
+    <div class="toggle_sec d-flex align-items-center">
+      <div class="profile_img d-lg-none" *ngIf="userInfo && userInfo.isGuest == false">
+        <img [src]="userInfo.imageUrl ? imageApi + userInfo.imageUrl : '../../../assets/images/unknown_user.jpg'" alt="" class="pointer" [routerLink]="['/side/my-account']" routerLinkActive="router-link-active" >
+      </div>
+
+      <button class="navbar-toggler px-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- <span class="navbar-toggler-icon"></span> -->
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+    
+    <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+      <form class="mx-lg-auto" role="search">
+        <div class="d-flex align-items-center px-2 rounded-1 searchbar">
+          <input class="border-0 p-0 me-2 w-100 searchTxt" type="search" #searchText (keyup)="searchItem($event)" placeholder="Search for books, application forms and more" aria-label="Search">
+          <button class="btn border-0" type="submit" (click)="searchByEnter(searchText.value)">
+            <i class="fa fa-search"></i>
+          </button>            
+        </div>
+      </form>
+
+      <ul class="navbar-nav me-0 mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center" href="javascript:;" (click)="wishlist()">
+            <i class="fa-regular fa-heart"></i> <span class="px-2">Wishlist</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:;" (click)="cart()">
+            <i class="fa fa-cart-shopping"></i> <span class="px-2">My Cart</span>
+            <span class="position-absolute translate-middle badge rounded-pill bg-danger cartBadge" *ngIf="cartBadge > 0">
+              {{cartBadge}}
+            </span>
+          </a>
+        </li>
+        <!-- <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li> -->
+        <li>
+          <button class="loginBtn d-flex justify-content-around align-items-center" *ngIf="!userInfo || userInfo.isGuest == true" (click)="login()">
+            <i class="fa fa-user"></i> Login
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container-fluid searchSection" *ngIf="searchData.length != 0">
+  <!-- <app-search-page [searchText]="search" (openItemEmit)="viewItem($event)"></app-search-page> -->
+  <div class="item_card pointer mx-auto mb-2" *ngFor="let product of searchData">
+    <div class="d-flex justify-content-between" (click)="onSelect(product)">
+      <div class="img_div">
+        <ng-container *ngIf="!type.length">
+          <img *ngIf="product.isDigital  !== 'true' && product.isType == 'product' && product?.images != null && product?.images?.length" [src]="imageApi + product.images[0]" alt="item">
+
+          <img *ngIf="product.isType == 'school' && product.imageUrl" [src]="imageApi + product.imageUrl" alt="item">
+
+          <img *ngIf="!product.isType && product.imageUrl" [src]="imageApi + product.imageUrl" alt="item">
+
+          <img *ngIf="product.isType == 'board' && product.imageUrl" [src]="imageApi + product.imageUrl" alt="item">
+
+          <img *ngIf="product.isType == 'university' && product.imageUrl" [src]="imageApi + product.imageUrl" alt="item">
+
+          <img *ngIf="product.isType == 'category'" src="../../assets/images/default-image.jpg" alt="item">
+          
+          <img *ngIf="product.isDigital" src="../../assets/images/default-image.jpg" alt="item">
+        </ng-container>
+        <ng-container *ngIf="type.length">
+          <img *ngIf="product.imageUrl" [src]="imageApi + product.imageUrl" alt="item">
+        </ng-container>
+      </div>
+
+      <div class="itemDesc">
+        <p *ngIf="type.length && product.isType == 'category'">{{ product.category_name }} in Category</p>
+        <p>{{ product.name }}</p>
+        <p class="categoryClass" *ngIf="!type.length && product.isType == 'category'">{{ product.category_name }} in Category</p>
+        <p class="categoryClass" *ngIf="!type.length && product.isType == 'product'">{{ product.categories.length ? product.categories[0] + ' in categories' : ' in products' }}</p>
+        <p class="categoryClass" *ngIf="type.length && type !== 'competition'">{{ product.abbreviation + ' in ' + product.address }}</p>
+        <p class="categoryClass" *ngIf="type.length && product.isType == 'school'">{{ product.abbreviation + ' in ' + product.address }}</p>
+        <p class="categoryClass" *ngIf="type.length && product.isType == 'university'">{{ ' in ' + product.address }}</p>
+        <p class="categoryClass" *ngIf="type.length && product.isType == 'board'">{{ product.abbreviation + ' in ' + product.address }}</p>
+        <p class="categoryClass" *ngIf="type.length && product.isType == 'category'">{{ product.category_name + ' in categories ' }}</p>
+      </div>
+    </div>
+  </div>
+</div>

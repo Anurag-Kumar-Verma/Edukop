@@ -1,0 +1,35 @@
+<div class="couponSec">
+    <div class="d-flex justify-content-between mb-3">
+        <span class="modalType">Select Coupon</span>
+
+        <span class="pointer closeBtn danger" (click)="close()">
+            <i class="mdi mdi-close mdi-18px"></i>
+        </span>
+    </div>
+
+    <div class="mb-3 d-flex align-items-center justify-content-between form-control">
+        <input type="text" class="couponInput" matInput placeholder="Enter coupon code" aria-label="Enter coupon code" aria-describedby="basic-addon" [(ngModel)]="couponCode">
+        <div class="input-group-append pointer">
+          <button class="btn btn-outline btn-sm" type="button" (click)="applyCoupon(couponCode)">Apply</button>
+        </div>
+    </div>
+    <p class="danger" *ngIf="error">
+        <small>Sorry, this coupon is not valid for this user account.</small>
+    </p>
+
+    <ul class="couponList px-0 py-2">
+        <li class="couoponItem pointer mb-2" *ngFor="let coupons of allCoupons; let i = index;" (click)="selectCoupon(coupons.coupon_code)">
+            <span class="couponCode danger">{{coupons.coupon_code}}</span>
+            <p class="mb-1">{{ coupons.desc }}</p>
+            <p class="mb-0" *ngIf="coupons.expires_in != null">Expires on: {{ coupons.expires_in | date: 'dd/MM/yyyy' }}</p>
+        </li>
+    </ul>
+
+    <div class="d-flex justify-content-between bottomSec align-items-start mt-2 py-2">
+        <div>
+            <p>Maximum saving:</p>
+            <span>₹ {{ getDiscountAmount() }}</span>
+        </div>
+        <button type="button" [disabled]="!apply" (click)="continue()" class="btn btn-danger btn-sm">Continue</button>
+    </div>
+</div>

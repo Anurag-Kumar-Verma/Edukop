@@ -1,0 +1,9 @@
+{
+  "name": "edukop-app\\",
+  "integrations": {
+    "capacitor": {
+      
+    }
+  },
+  "type": "angular"
+}

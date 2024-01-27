@@ -1,0 +1,511 @@
+ion-slides {
+    height: 100%;
+}
+.slide {
+    height: 80% !important;
+    font-size: 20px;
+    margin: 0px auto;
+}
+.option-div {
+    height: 92% !important;
+    overflow: scroll !important;
+}
+
+.swiper-slide {
+    display: block;
+}
+.question-div {
+    height: auto !important;
+}
+.btn-position {
+    height: 20% !important;
+}
+.back-btn-position {
+    text-transform: none !important;
+    --background: rgb(223, 23, 68);
+    margin-bottom: 10px;
+    margin-left: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.next-btn-position {
+    text-transform: none !important;
+    --background: rgb(223, 23, 68);
+    margin-bottom: 10px;
+    margin-right: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+.slide-div-cls {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+.slide-cls {
+    display: table;
+}
+
+.back-btn {
+    font-size: 20px;
+    padding-left: 5px !important;
+    z-index: 9999;
+}
+.heading {
+    font-size: 18px !important;
+    text-align: left !important;
+}
+.select {
+    //  width:70% !important;
+    //border-bottom: 1px solid #a0a0a0;
+    float: left !important;
+    padding-left: 0px !important;
+}
+.back-icon {
+    padding-left: 8px !important;
+    padding-right: 12px !important;
+    font-size: 22px !important;
+}
+.toolbar {
+    --background: #df1744;
+    --color: #fff;
+
+    --border-color: #fff;
+    --border-style: none !important;
+    --border-width: 0px !important;
+}
+.ion-slide-cls {
+    width: 100%;
+    height: 100%;
+}
+.ion-last-slide {
+    border: 1px solid #000 !important;
+    background-color: #fff !important;
+
+    width: 90% !important;
+    height: 80%;
+}
+.card-cls {
+    height: 100% !important;
+    padding: 10px 20px 0px !important;
+    border-radius: 10px !important;
+    margin-top: 5px !important;
+}
+.main-div {
+    height: 100% !important;
+}
+.top-div {
+    margin: 10px 10px 0px !important;
+    height: 8% !important;
+    padding: 0px 10px 5px !important;
+}
+.card-div {
+    width: 100%;
+    height: 85% !important;
+}
+.question-no {
+    text-align: left;
+    font-size: 14px;
+}
+
+.percentage {
+    margin-left: auto;
+    font-size: 14px;
+    color: rgb(223, 23, 68);
+}
+.checkbox {
+    --checkmark-color: #fff;
+    --background: #fff;
+    --border-color: rgb(223, 23, 68);
+    --background-checked: rgb(223, 23, 68);
+    --border-color-checked: rgb(223, 23, 68);
+}
+
+.range {
+    --bar-background: #efefef;
+    --bar-border-radius: 30px;
+    padding: 0px 0px 0px 0px !important;
+    --pin-color: #fff;
+    --pin-background: rgb(223, 23, 68);
+    --bar-background-active: rgb(223, 23, 68);
+    --bar-height: 4px !important;
+    --knob-size: 26px !important;
+
+    --pin-background: rgb(223, 23, 68);
+    --knob-background: rgb(223, 23, 68);
+
+    --bar-background-active: rgb(223, 23, 68);
+}
+.radio {
+    --color: rgb(223, 23, 68);
+    --color-checked: rgb(223, 23, 68);
+}
+.progress-bar {
+    width: 90% !important;
+    margin: 0px auto 10px !important;
+    --background: #a9a9a9 !important;
+    --progress-background: rgb(223, 23, 68);
+}
+ion-content {
+    --background: #f0f0f3 !important;
+}
+.form-class {
+    height: 95% !important;
+}
+.option-list {
+    padding: 0px !important;
+}
+.option-item {
+    padding-left: 0px !important;
+    --padding-start: 4px !important;
+    --padding-end: 0px !important;
+    --inner-padding-end: 7px !important;
+}
+.item-native {
+    padding-left: 0px !important;
+}
+.radio {
+    margin-left: 8px !important ;
+}
+.option-text {
+    font-size: 15px !important;
+    color: #353333 !important;
+}
+.question-Title {
+    font-weight: 600;
+    margin-top: 5px !important;
+    font-weight: 400 !important;
+    color: #353333 !important;
+    font-size: 17px !important;
+    text-align: left;
+}
+.question-text {
+    margin-bottom: 5px !important;
+    margin-top: 5px !important;
+    font-weight: 400 !important;
+    color: #353333 !important;
+    font-size: 16px !important;
+    text-align: left;
+}
+.text-string {
+    color: #000 !important;
+    font-size: 18px !important;
+    text-align: left;
+    width: 100%;
+    padding: 12px 20px;
+    padding-left: 10px !important;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #000;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.string {
+    color: #000 !important;
+    font-size: 18px !important;
+    text-align: left;
+    width: 100%;
+    padding: 12px 20px;
+    padding-left: 10px !important;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #000;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+// .string {
+//     color: #000 !important;
+//     font-size: 18px !important;
+//     text-align: left;
+//     width: 100%;
+//     padding: 12px 20px;
+//     padding-left: 10px !important;
+//     margin: 8px 0;
+//     display: inline-block;
+//     border-bottom: 1px solid #000;
+//     //border-radius: 4px;
+//     box-sizing: border-box;
+// }
+.select-gender {
+    width: 100% !important;
+    //height: 43px !important;
+    align-self: left !important;
+    color: #353333 !important;
+    border: 1px solid #000;
+    border-radius: 4px;
+}
+.select-self {
+    padding-left: 8px !important;
+    float: left !important;
+}
+.comp-col {
+    text-align: left;
+}
+.comp-name {
+    font-size: 15px !important;
+    height: 42px !important;
+}
+ion-title {
+    font-size: 15px !important;
+    padding-left: 0px !important;
+}
+.score-card {
+    padding: 0px !important;
+}
+.each-score-card {
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1), 0 6px 10px 0 rgba(0, 0, 0, 0.1) !important;
+    display: table;
+    width: 100% !important;
+    border-radius: 10px !important;
+
+    margin: 0px !important;
+}
+.card-contnet {
+    padding: 10px !important;
+    // text-align: left;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.score-slide {
+    display: table;
+    text-align: center;
+}
+.score-row {
+    margin: 0px auto;
+
+    text-align: center;
+    vertical-align: middle;
+}
+.total-score {
+    font-size: 29px !important;
+    margin-bottom: 10px !important;
+}
+.current {
+    font-size: 25px;
+    width: 100% !important;
+    margin: 0px auto;
+    text-align: center !important;
+    color: #000000;
+    font-weight: 600 !important;
+    padding-top: 25px !important;
+}
+round-progress {
+    margin: auto;
+}
+ion-card-subtitle {
+    margin-top: 15px !important;
+    font-size: 20px !important;
+}
+ion-card-title {
+    font-size: 15px !important;
+}
+.btn-position-end {
+    margin-top: 20px !important;
+}
+.last-slide {
+    display: table;
+}
+.slide-div {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+.tap-for-next {
+    margin-top: 35px !important;
+    font-size: 16px !important;
+}
+.great-job {
+    font-size: 20px !important;
+    margin-top: 5px !important;
+    margin-bottom: 6px !important;
+}
+.sleep-index {
+    font-size: 18px !important;
+}
+.row-sequence {
+    margin: 5px 20px 0px !important;
+}
+.input-row {
+    width: 100% !important;
+    border: 1px solid #000 !important;
+}
+.multiple-form {
+    height: 100% !important;
+    overflow-y: scroll !important;
+}
+.slide-2 {
+    //overflow:scroll !important;
+    padding: 10px !important;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1), 0 6px 10px 0 rgba(0, 0, 0, 0.1) !important;
+    height: 96% !important;
+    margin: auto 9px !important;
+    width: 95% !important;
+    background: #fff !important;
+    border-radius: 5px !important;
+}
+.input-fields {
+    overflow: scroll !important;
+    height: 90% !important;
+}
+.buttons {
+    height: 9% !important;
+}
+.submitted-div {
+    text-align: center !important;
+    margin-top: 150px !important;
+    height: 40% !important;
+}
+.check-icon {
+    font-size: 60px !important;
+}
+ion-textarea {
+    padding: 3px !important ;
+}
+.done-button {
+    margin: 0px auto !important;
+    text-align: center !important;
+    text-transform: none !important;
+    --background: rgb(223, 23, 68);
+    position: absolute;
+}
+.preview-form {
+    margin-top: 5px !important;
+    font-size: 20px !important;
+}
+.fg-one {
+    padding: 10px !important;
+    border: 1px solid #000 !important;
+}
+.div-new {
+    text-align: left !important;
+}
+.form-list {
+    padding: 0px 10px !important;
+    text-align: left !important;
+}
+.s-name {
+    text-align: left !important;
+    font-weight: 500;
+    font-size: 18px !important;
+    color: #df1744 !important;
+}
+.s-name-add {
+    font-size: 15px !important;
+}
+.row-card {
+    margin: 10px 2px 2px !important;
+}
+.modal-form {
+    margin: 0px !important;
+    padding: 0px 10px 10px !important;
+}
+.sib-info-row {
+    padding: 0px 10px !important;
+}
+.sib-info {
+    text-align: left !important;
+}
+.sib-info p {
+    color: #000 !important;
+    font-size: 17px !important;
+    margin: 0px !important;
+}
+
+.sib-info p b {
+    color: #df1744 !important;
+    font-size: 16px !important;
+    margin: 0px !important;
+}
+
+.sib-icons {
+    text-align: left !important;
+}
+.trash-icon {
+    font-weight: 600 !important;
+    padding-right: 10px !important;
+    font-size: 22px !important;
+    color: #df1744;
+}
+.info-card {
+    padding: 8px 0px !important;
+    margin: 12px 2px 7px !important;
+}
+.my-custom-alert {
+    --width: 90% !important;
+}
+.alert-head {
+    padding: 0px !important;
+}
+.submit-btn {
+    float: right;
+    text-transform: none !important;
+}
+.row-info {
+    border-bottom: 1px solid #a0a0a0;
+}
+.sib-slide {
+    height: 88% !important;
+    overflow: scroll !important;
+}
+ion-item {
+    font-size: 17px !important;
+    --inner-padding-start: 0px !important;
+    --padding-start: 3px !important;
+    --inner-padding-end: 0px !important;
+}
+.gender-option {
+    width: 100% !important;
+}
+.sib-head {
+    margin: 0px !important;
+    text-align: left !important;
+}
+.group-label {
+    border-radius: 5px !important;
+    margin: 0px !important;
+    padding: 5px;
+    background-color: #efefef;
+}
+.sib-card {
+    border: 1px solid #a0a0a0;
+    margin: 8px 3px !important;
+    padding: 5px 10px !important;
+}
+.sib-card p {
+    margin: 3px 0px !important;
+    font-size: 15px !important;
+    margin-top: 10px !important;
+}
+.section-2-row {
+    //  border: 1px solid #a0a0a0 !important;
+    //  border-width: 1px 0px 1px 0px !important;
+    padding: 0px 10px 10px !important;
+    margin: 0px !important;
+}
+ion-checkbox {
+    vertical-align: middle !important;
+}
+.content-div {
+    height: 97% !important;
+    overflow: scroll !important;
+}
+.check-text {
+    padding-left: 20px !important;
+    overflow: visible !important;
+}
+.checkbox-new {
+    text-align: right !important;
+}
+.preview-row {
+    border-bottom: 1px solid #a0a0a0 !important;
+    padding: 5px !important;
+}
+.field-name {
+    font-size: 16px !important;
+}
+.formId {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}

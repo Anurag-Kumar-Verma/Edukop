@@ -1,0 +1,33 @@
+<section class="order-section">
+    <h1 class="pagleTitle danger pt-2 pt-md-3">My Orders</h1>
+
+    <div class="text-center noData" *ngIf="orderList.length == 0">
+        <img src="../../../assets/images/default-image.png" alt="No Data" width="200">
+        <p class="color-gray mt-1">No Data</p>
+    </div>
+
+    <div class="list-group list-group-flush order_list" *ngIf="orderList.length != 0">
+        <a href="javascript:;" *ngFor="let order of orderList; let i = index;" (click)="orderDetail(order.uuid)" class="list-group-item order_item">
+            <div class="d-flex flex-wrap justify-content-between align-items-center pb-2">
+                <div class="imageName d-flex align-items-center">
+                    <div class="img_div">
+                        <img *ngIf="order.products[0].product.images[0]" [src]="imageUrl + order.products[0].product.images[0]" alt="item">
+                        <img *ngIf="!order.products[0].product.images[0]" [src]="'../../assets/images/download-png.png'" alt="item">
+                    </div>
+                    <h3 class="product_name fw-5 mb-0">{{order.products[0].product.name}}</h3>
+                </div>
+                <span class="price fw-5">&#8377; {{order.totalAmount}}</span>
+            </div>
+
+            <div class="row justify-content-between order_details">
+                <div class="col-7 order_detail">
+                    <p class="mb-1"><span class="list_label">Order Id: </span>&nbsp; <span class="order_id fw-3">{{order.orderId}}</span></p>
+                    <p class="mb-0"><span class="list_label">Status: </span>&nbsp; <span class="status fw-3">{{order.status}}</span></p>
+                </div>
+                <p class="col mb-0 text-end order_date"><span class="list_label">Date: </span>&nbsp; <span class="order_date fw-3"> {{order.created_date | date : 'dd/MM/yyyy'}}</span></p>
+            </div>
+        </a>
+      </div>
+</section>
+
+<ngx-spinner type="ball-scale-multiple" [fullScreen]="true"></ngx-spinner>

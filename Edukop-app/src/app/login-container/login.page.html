@@ -1,0 +1,292 @@
+<!-- <ion-header mode="md">
+    <ion-toolbar class="toolbar">
+        <ion-icon
+            class="back-icon"
+            slot="start"
+            name="arrow-back-outline"
+            (click)="goback()"
+        ></ion-icon>
+        <ion-row>
+            <ion-col size="11" class="logo-col">
+                <img src="../assets/images/t2-white.png" class="logo-img" />
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+    <div style="width: 100% !important; height: 5% !important">
+        <ion-icon
+            class="back-icon"
+            slot="start"
+            name="arrow-back-outline"
+            (click)="goback()"
+        ></ion-icon>
+    </div>
+    <div class="full-screen">
+        <div class="login-view">
+            <div class="logo-div">
+                <img src="../../assets/images/edukop.png" class="logo-img" alt="Edukop" />
+                <div
+                    style="
+                        margin: 0px auto !important;
+                        border-top: 1.5px solid #df1744 !important;
+                        width: 20% !important;
+                    "
+                ></div>
+            </div>
+            <div class="login-form">
+                <ion-row class="route-row">
+                    <ion-col size="12" class="heading-col">
+                        <p>Login / Signup {{path}}</p><br>
+                        <p>{{ !isOTPLogin? 'Login with OTP' : 'Login with Email'}}</p>
+                    </ion-col>
+                </ion-row>
+                <form
+                    [formGroup]="loginForm"
+                    class="form"
+                    *ngIf="!showOTPInput"
+                >
+                    <ion-row class="input-row">
+                        <ion-col size="12" class="input-col">
+                            <!-- <ion-label class="label" position="floating" >Email</ion-label> -->
+                            <ion-input
+                                (ionInput)="onInputTime($event)"
+                                value="undefined"
+                                fill="solid"
+                                name="title"
+                                placeholder="Email or Phone no"
+                                class="input"
+                                formControlName="email"
+                            >
+                            </ion-input>
+                        </ion-col>
+
+                        <div
+                            *ngIf="loginForm.controls.email.errors && (loginForm.controls.email.touched  || loginForm.controls.email.dirty)"
+                            class="invalid-message"
+                        >
+                            <span
+                                *ngIf="loginForm.controls.email.errors.required"
+                                >Enter email or phone number</span
+                            >
+                            <span *ngIf="loginForm.controls.email.errors.email"
+                                >Enter a valid email</span
+                            >
+                            <span
+                                *ngIf="loginForm.controls.email.errors.pattern"
+                                >Enter 10 digit mobile number</span
+                            >
+                        </div>
+                        <ion-col size="12" class="input-col" *ngIf="isOTPLogin">
+                            <!-- <ion-label class="label" position="floating" >Email</ion-label> -->
+                            <ion-input [type]="!loginEye ? 'password' : 'text'"
+                                fill="solid"
+                                name="title"
+                                placeholder="Enter Password"
+                                class="input"
+                                formControlName="password"
+                            >
+                            </ion-input>
+                            <div class="eyes d-grid" (click)="loginEye ? loginEye = false : loginEye = true">
+                                <ion-icon slot="start" name="eye-off-outline" class="eye" *ngIf="!loginEye"></ion-icon>
+                                <ion-icon slot="start" name="eye-outline" *ngIf="loginEye" class="eye"></ion-icon>
+                              </div>
+                        </ion-col>
+                        <div
+                            *ngIf="isOTPLogin && loginForm.controls.password.errors && (loginForm.controls.password.touched  || loginForm.controls.password.dirty)"
+                            class="invalid-message"
+                        >
+                            <span
+                                *ngIf="loginForm.controls.password.errors.required && isOTPLogin"
+                                >Enter password</span
+                            >
+                        </div>
+                        <ion-col size="12" *ngIf="isOTPLogin" class="ion-margin-vertical ion-text-end">
+                            <ion-label class="forgotPass ion-text-end ion-no-padding" routerLink="/forgot-password">Forgot Password ?</ion-label>
+                            <!-- <ion-item [lines]="'none'"[detail]="false" (click)="forgotPass()">
+                            </ion-item> -->
+                        </ion-col>
+                        <ion-col size="12" class="input-btn">
+                            <ion-button
+                                expand="block"
+                                color="primary"
+                                fill="solid"
+                                class="login-btn"
+                                (click)="logIn()"
+                                [disabled]="loginForm.invalid"
+                                >Log in
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </form>
+                <div class="otp-message" *ngIf="showOTPInput">
+                    <p>{{OTPmessage}}</p>
+                    <div
+                        style="
+                            justify-content: center;
+                            align-items: center;
+                            margin-top: 20px;
+                        "
+                    >
+                        <ng-otp-input
+                            #ngOtpInput
+                            class="input"
+                            (onInputChange)="onOtpChange($event)"
+                            [config]="{length:6,allowNumbersOnly:true}"
+                        ></ng-otp-input>
+                        <p
+                            *ngIf="timeLeft > 0"
+                            [ngClass]="timeLeft < 10 ? 'timeLeftDanger' : ''"
+                        >
+                            {{formatTime(timeLeft)}}
+                        </p>
+                    </div>
+                    <p *ngIf="!timeLeft || timeLeft < 1" (click)="resendOTP()">Resend OTP</p>
+                    <div style="margin: 20px auto 0px; width: 80% !important">
+                        <ion-col size="10" class="input-btn">
+                            <ion-button
+                                [disabled]="this.OTP.length < 6"
+                                expand="block"
+                                color="primary"
+                                fill="solid"
+                                class="login-btn"
+                                (click)="ValidateOTP()"
+                                >Validate
+                            </ion-button>
+                        </ion-col>
+                    </div>
+                </div>
+                <ion-row class="input-row" *ngIf="!showOTPInput">
+                    <ion-col size="4"> </ion-col>
+                    <ion-col size="4" (click)="googleAuth()">
+                        <img
+                            src="../assets/images/google.png"
+                            class="login-logo" alt="google icon"
+                        />
+                    </ion-col>
+                    <!-- <ion-col size="4" (click)="facebookAuth()">
+                        <img src="../assets/images/fb.png" class="login-logo" alt="facebook icon" />
+                    </ion-col> -->
+                    <ion-col size="4"> </ion-col>
+                </ion-row>
+            </div>
+        </div>
+    </div>
+    <ion-text class="center ion-margin-vertical" (click)="loginWithPassword()">Continue with <a *ngIf="!isOTPLogin">Email</a><a *ngIf="isOTPLogin">OTP</a></ion-text>
+    <ion-text class="center ion-margin-bottom" (click)="signup()">Don't have account?<a> Register here</a></ion-text>
+
+    <!-- <div class="logo-div">
+        <img src="../assets/images/logo-transparent.png" class="logo-img" />
+       </div>
+    <ion-slides class="slides" #mySlider>
+        <ion-slide>
+           
+            <div class="slide">
+                <ion-row class="route-row">
+                    <ion-col size="12" class="heading-col">
+                      
+                        <p >Login / Signup {{path}}</p>
+                    </ion-col>
+                </ion-row>
+                <form
+                    [formGroup]="loginForm"
+                    class="form"
+                    *ngIf="!showOTPInput"
+                >
+                    <ion-row class="input-row">
+                        <ion-col size="12" class="input-col">
+                           
+                            <ion-input
+                                fill="solid"
+                                type="email"
+                                name="title"
+                                placeholder="Email or Phone no"
+                                class="input"
+                                formControlName="email"
+                            >
+                            </ion-input>
+                        </ion-col>
+
+                        <span
+                            *ngIf="loginForm.controls.email.errors && (loginForm.controls.email.touched  || loginForm.controls.email.dirty)"
+                            class="invalid-message"
+                            >Please enter email.</span
+                        >
+                      
+                        <ion-col size="12" class="input-btn">
+                            <ion-button
+                                expand="block"
+                                color="primary"
+                                fill="solid"
+                                class="login-btn"
+                                (click)="logInViaOTP()"
+                                >Log in
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </form>
+                <div class="otp-message" *ngIf="showOTPInput">
+                    {{OTPmessage}} <br />
+                    <div
+                        style="
+                            justify-content: center;
+                            align-items: center;
+                            margin-top: 20px;
+                        "
+                    >
+                        <ng-otp-input
+                        #ngOtpInput
+                            class="input"
+                            (onInputChange)="onOtpChange($event)"
+                            [config]="{length:6}"
+                        ></ng-otp-input>
+                        <p
+                            *ngIf="timeLeft > 1"
+                            [ngClass]="timeLeft < 10 ? 'timeLeftDanger' : ''"
+                        >
+                            {{formatTime(timeLeft)}}
+                        </p>
+                    </div>
+                    <p
+                    
+                        *ngIf="!timeLeft"
+                        (click)="resendOTP()"
+                    >
+                        Resend otp
+                    </p>
+                    <div style="margin-top: 20px">
+                        <ion-col size="12" class="input-btn">
+                            <ion-button
+                                [disabled]="this.OTP.length < 6"
+                                expand="block"
+                                color="primary"
+                                fill="solid"
+                                class="login-btn"
+                                (click)="ValidateOTP()"
+                                >Validate
+                            </ion-button>
+                        </ion-col>
+                    </div>
+                </div>
+                <ion-row class="input-row" *ngIf="!showOTPInput">
+                    <ion-col size="2"> </ion-col>
+                    <ion-col size="4" (click)="googleAuth()">
+                        <img
+                            src="../assets/images/google.png"
+                            class="login-logo"
+                        />
+                    </ion-col>
+                    <ion-col size="4" (click)="facebookAuth()">
+                        <img src="../assets/images/fb.png" class="login-logo" />
+                    </ion-col>
+                    <ion-col size="2"> </ion-col>
+                </ion-row>
+
+               
+            </div>
+        </ion-slide>
+
+       
+    </ion-slides> -->
+</ion-content>

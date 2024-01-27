@@ -1,0 +1,64 @@
+<ion-header mode="md">
+    <ion-toolbar class="header">
+        <ion-icon
+            slot="start"
+            name="arrow-back-outline"
+            (click)="goback('ionic')"
+            class="back-icon"
+        ></ion-icon>
+        <ion-title class="heading" *ngIf="!catFound"
+            >{{ chipArray.length>0 ? chipArray[0] : type | titlecase }}
+            <span *ngIf="chipArray.length<0">List</span>
+        </ion-title>
+        <ion-title class="heading" *ngIf="catFound"
+            >{{catFound.name}}</ion-title
+        >
+        <ion-icon
+            *ngIf="type != 'competition'"
+            slot="end"
+            name="search-outline"
+            (click)="presentModal()"
+            class="search-icon"
+        ></ion-icon>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div>
+        <ion-card *ngIf="type == 'school' || type == 'board' || type == 'university' || type == 'competition'"
+            class="forms-link"
+            (click)="downloadAction(subData)"
+        >
+            <ion-label>Download Books here</ion-label>
+        </ion-card>
+     
+        <ion-row *ngIf="categoryData?.length == 0 && chipArray.length>0">
+            <ion-col size="12" class="no-Data-found"> No Data found! </ion-col>
+        </ion-row>
+        <app-card-view-section
+            [subData]="subData"
+            (OpenStListEmit)="OpenStListEvent($event)"
+        ></app-card-view-section>
+        <app-row-view-section
+            [catFound]="catFound"
+            (openCategoryTreeEmit)="openCategoryTreeEvent($event)"
+        >
+        </app-row-view-section>
+        <app-enrollment-form-section
+            *ngIf="isDataLoaded"
+            [schoolData]="schoolData"
+            [enrollments]="enrollments"
+            (OpenFormEmit)="OpenFormEvent($event)"
+        ></app-enrollment-form-section>
+    </div>
+    <ion-infinite-scroll
+        position="bottom"
+        (ionInfinite)="loadData($event)"
+        *ngIf="type !== 'novel'"
+    >
+        <ion-infinite-scroll-content
+            loadingSpinner="circles"
+            loadingText="Loading more data..."
+        >
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

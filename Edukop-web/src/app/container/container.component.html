@@ -1,0 +1,113 @@
+<div class="card" *ngIf="isOnline === 'offline'">
+    You Are Offline!
+</div>
+<div class="container-fluid pb-1" *ngIf="isOnline === 'online'">
+    <div class="container-section">
+
+        <div class="row mx-0 gap-2 pb-3 justify-content-between">
+            <div class="col-12 p-0 user-pannel">
+                <div [ngClass]="isMobile ? 'card profile_card border-0 pointer' : 'card profile_card border-0'" (click)="isMobile ? toggleMenu() : ''">
+                    <div class="card-header border-0">
+                        <div class="profile_div d-flex align-items-center ">
+                            <div class="profile_img">
+                                <img [src]="(userInfo && userInfo.imageUrl) ? (imageApi + userInfo.imageUrl) : '../../assets/images/unknown_user.jpg'" alt="{{userInfo && userInfo.firstName ? userInfo.firstName : 'user'}}">
+                            </div>
+                            <div class="user_content">
+                                <p class="username fw-5">
+                                    <span *ngIf="userInfo && !userInfo.isGuest">{{userInfo.firstName}} {{userInfo.lastName ? userInfo.lastName : ''}}</span>
+                                    <span *ngIf="!userInfo || userInfo.isGuest">Guest User</span>
+                                </p>
+                                <span class="user_email color-gray py-1" *ngIf="userInfo && userInfo.isGuest == false && userInfo?.email"><small>{{userInfo.email}}</small></span>
+                                <a href="javascript:void(0)" (click)="editProfile($event)" *ngIf="userInfo && !userInfo.isGuest && activeRoute != '/side/edit-account'" class="d-block btn_link">Edit Profile <i class="mdi mdi-arrow-right-thin"></i> </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div [ngClass]="!showMenu ? 'card-content showMenu pb-2 menus' : 'card-content pb-2 menus'">
+                        <ul class="navbar-nav user_activity_list h-100">
+                            <li class="nav-item" *ngIf="userInfo && userInfo.isGuest == false">
+                                <a href="javascript:void(0)" class="nav-link d-flex align-items-center" (click)="myAccount()">
+                                    <span class="control-icons danger"><i class="mdi mdi-account-outline"></i></span>
+                                    <span [ngClass]="activeRoute === '/side/my-account' ?  'danger fw-5' : 'fw-5'">My Account</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" *ngIf="userInfo && userInfo.isGuest == false">
+                                <a href="javascript:void(0)" class="nav-link d-flex align-items-center" (click)="wishlist()">
+                                    <span class="control-icons danger"><i class="mdi mdi-heart-outline"></i></span>
+                                    <span [ngClass]="activeRoute === '/side/wishlist' ?  'danger fw-5' : 'fw-5'">Wishlist</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" *ngIf="userInfo && userInfo.isGuest == false">
+                                <a href="javascript:void(0)" class="nav-link d-flex align-items-center" (click)="myOrders()">
+                                    <span class="control-icons danger"><i class="mdi mdi-text-box-outline"></i></span>
+                                    <span [ngClass]="activeRoute === '/side/my-orders' ?  'danger fw-5' : 'fw-5'">My Orders</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" *ngIf="userInfo && userInfo.isGuest == false">
+                                <a href="javascript:void(0)" class="nav-link d-flex align-items-center" (click)="cart()">
+                                    <span class="control-icons danger"><i class="mdi mdi-cart-outline"></i></span>
+                                    <span class="fw-5">My Cart</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="javascript:void(0)" class="nav-link d-flex align-items-center" (click)="categories()">
+                                    <span class="control-icons danger"><i class="mdi mdi-view-grid-outline"></i></span>
+                                    <span [ngClass]="activeRoute === '/side/categories' ?  'danger fw-5' : 'fw-5'">Shop By Category</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" *ngIf="userInfo && userInfo.isGuest == false">
+                                <a href="javascript:void(0)" (click)="requestProduct()" class="nav-link d-flex align-items-center">
+                                    <span class="control-icons danger"><i
+                                            class="mdi mdi-plus-circle-outline"></i></span>
+                                    <span class="fw-5">Request Product</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="javascript:void(0)" class="nav-link d-flex align-items-center" (click)="newsFeed()">
+                                    <span class="control-icons danger"><i class="mdi mdi-newspaper"></i></span>
+                                    <span [ngClass]="activeRoute === '/side/newsfeeds' ?  'danger fw-5' : 'fw-5'">News Feed</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="javascript:void(0)" class="nav-link d-flex align-items-center" (click)="contact()">
+                                    <span class="control-icons danger"><i class="mdi mdi-phone"></i></span>
+                                    <span class="fw-5" [ngStyle]="{'color': activeRoute == '/side/support' ? '#eb445a' : ''}">Support</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/terms-of-use" class="nav-link d-flex align-items-center">
+                                    <span class="control-icons danger"><i class="mdi mdi-vector-combine"></i></span>
+                                    <span class="fw-5">Terms Of Use</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mt-auto" *ngIf="userInfo && userInfo.isGuest == false && (userInfo.provider !== 'Google' && userInfo.provider !== 'Facebook')">
+                                <a href="/side/change-password" class="nav-link d-flex align-items-center">
+                                    <span class="control-icons danger"><i class="mdi mdi-key-variant"></i></span>
+                                    <span class="fw-5">Change Password</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" [ngClass]="(userInfo.provider === 'Google' || userInfo.provider === 'Facebook') ? 'mt-auto' : ''" *ngIf="userInfo && userInfo.isGuest == false">
+                                <a href="javascript:void(0)" (click)="logout()" class="nav-link d-flex align-items-center">
+                                    <span class="control-icons danger"><i class="mdi mdi-logout mdi-flip-h"></i></span>
+                                    <span class="fw-5">Log out</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mt-auto" *ngIf="!userInfo || userInfo.isGuest == true">
+                                <a href="javascript:void(0)" (click)="login()" class="nav-link d-flex align-items-center">
+                                    <span class="control-icons danger"><i class="mdi mdi-login mdi-flip-h"></i></span>
+                                    <span class="fw-5">Log In</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 content-section">
+                <router-outlet></router-outlet>
+            </div>
+
+        </div>
+    </div>
+
+</div>

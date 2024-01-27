@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-toolbar class="toolbar">
+        <ion-icon slot="start" name="arrow-back-outline" class="icon-cls" (click)="goback()"></ion-icon>
+        <ion-title class="heading">User Info</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card class="form-div">
+        <form [formGroup]="userInfoForm" class="form">
+            <div class="avatar-cls">
+                <ion-avatar class="avatar" (click)="selectImage()">
+                    <img [src]="imageUrl?imageUrl:'./assets/images/avatar.png'" alt="user" *ngIf="imgLoaded" />
+                    <ion-icon name="camera-outline" class="camera-icon"></ion-icon>
+                    <ion-spinner *ngIf="!imgLoaded"></ion-spinner>
+                    <!-- <ion-icon name="create-outline" *ngIf="imgLoaded"></ion-icon> -->
+                </ion-avatar>
+                <ion-title class="user-name">{{userData ? userData.firstName : ''}} {{userData ? userData.lastName : ''}}</ion-title>
+                <ion-title class="user-phone">{{userData ? userData.phoneNo : ''}}</ion-title>
+            </div>
+            <ion-item class="input-field">
+                <ion-label position="floating">First Name</ion-label>
+                <ion-input type="text" formControlName="firstName"></ion-input>
+            </ion-item>
+            <ion-item class="input-field">
+                <ion-label position="floating">Last Name</ion-label>
+                <ion-input type="text" formControlName="lastName"></ion-input>
+            </ion-item>
+            <ion-item class="input-field">
+                <ion-label position="floating">Email</ion-label>
+                <ion-input [disabled]="inputDisabled" type="email" formControlName="email"></ion-input>
+            </ion-item>
+            <ion-item class="input-field">
+                <ion-label position="floating">Contact Number</ion-label>
+                <ion-input type="number" formControlName="phoneNo"></ion-input>
+            </ion-item>
+            <ion-item class="input-field">
+                <ion-label position="floating">City</ion-label>
+                <ion-input type="text" formControlName="city"></ion-input>
+            </ion-item>
+
+            <ion-row class="btn-row">
+                <ion-col class="btn-col">
+                    <ion-button fill="clear" shape="round" class="cancel-btn" (click)="cancel()">Cancel</ion-button>
+                </ion-col>
+                <ion-col class="btn-col">
+                    <ion-button shape="round" class="buy-now" [disabled]="userInfoForm.invalid" (click)="saveInfo()">Save</ion-button>
+                </ion-col>
+            </ion-row>
+        </form>
+    </ion-card>
+</ion-content>

@@ -1,0 +1,31 @@
+<div class="square-section">
+    <ion-item-divider mode="md">
+        <div class="option-row">
+            <div class="wrape">
+                <div
+                    *ngFor="let product of section?.collectionOfProduct"
+                    class="circle-col"
+                >
+                    <div class="image-div">
+                        <img
+                            (click)="
+                                openSectionProduct(
+                                    product?.action,
+                                    product?.typo,
+                                    product?.productUUID,
+                                    product?.product?.name,
+                                    product?.isRouterLink,
+                                    product?.routerLink,
+                                    product?.orgType
+                                )
+                            "
+                            [src]="thumbApi + product.imageUrl"
+                            class="img"
+                        />
+                    </div>
+                    <ion-label>{{ product?.product?.name }}</ion-label>
+                </div>
+            </div>
+        </div>
+    </ion-item-divider>
+</div>

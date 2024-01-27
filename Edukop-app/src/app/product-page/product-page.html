@@ -1,0 +1,503 @@
+<ion-header mode="md">
+    <ion-toolbar class="toolbar">
+        <ion-icon class="back-icon" slot="start" name="arrow-back-outline" (click)="goback()"></ion-icon>
+        <ion-title>{{gProduct?.name | titlecase}}</ion-title>
+
+        <!-- <ion-title>Stationary set for 1st standard</ion-title> -->
+        <ion-buttons slot="end">
+            <ion-icon slot="end" name="search-outline" class="search-icon" (click)="presentModal()"></ion-icon>
+            <ion-icon name="cart-outline" class="cart-icon" (click)="cart()"></ion-icon>
+            <ion-badge *ngIf="cartBadge > 0" class="badge-one">{{cartBadge}}</ion-badge>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content #content>
+    <ion-col size="12" class="no-products" *ngIf="isDataLoaded && (!gProduct || gProduct === undefined )">
+        No products found
+    </ion-col>
+    <div *ngIf="gProduct || gProduct !== undefined">
+        <div>
+            <!-- <ion-badge *ngIf="isGrouped" class="badge-group" color="primary">Group Product</ion-badge> -->
+
+            <ion-fab *ngIf="!isWishListed(gProduct?.uuid) && isDataLoaded" vertical="top" horizontal="end" slot="fixed">
+                <ion-fab-button size="small" color="light" (click)="addWishList(gProduct?.uuid, 'add')">
+                    <ion-icon color="medium" name="heart-outline"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
+
+            <ion-fab *ngIf="isWishListed(gProduct?.uuid) && isDataLoaded" vertical="top" horizontal="end" slot="fixed">
+                <ion-fab-button size="small" color="light" (click)="addWishList(gProduct?.uuid, 'remove')">
+                    <ion-icon color="primary" name="heart"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
+
+            <ion-slides pager="true" *ngIf="gProduct?.isDigital == false" style="margin: 15px auto">
+                <ng-container *ngIf="gProduct?.images && gProduct?.images.length > 0">
+                    <ion-slide class="s-1" *ngFor="let image of gProduct?.images; let i = index">
+                        <img [src]="gProduct?.images?.length > 0 ? imageApi + image : '/assets/images/default-image.jpg'" alt="Product image" class="product-img" />
+                    </ion-slide>
+                </ng-container>
+                
+                <ion-slide class="s-1" *ngIf="!gProduct.images || gProduct?.images.length === 0">
+                    <img src="/assets/images/default-image.jpg" class="product-img" alt="Default" />
+                </ion-slide>
+            </ion-slides>
+            <ion-slides pager="true" *ngIf="gProduct?.isDigital == true">
+                <ion-slide class="s-1">
+                    <img src="/assets/images/download-png.png" class="product-img-digital" />
+                </ion-slide>
+            </ion-slides>
+            <!-- <ion-slides pager="true" *ngIf="gProduct?.isDigital">
+            <ion-slide class="s-1">
+                <img src="/assets/images/form.jpg" class="product-img" />
+            </ion-slide>
+        </ion-slides> -->
+
+            <ion-badge *ngIf="isGrouped" class="badge-group" color="primary">Group Product</ion-badge>
+            <ion-row class="product-details">
+                <ion-col size="8" class="pro-name-col">
+                    <ion-text class="item-name">
+                        <!-- Book Set for {{bookList.standard}} standard -->
+                        {{gProduct?.name | titlecase}}
+                    </ion-text>
+                    <!-- <ion-title>{{gProduct?.isVariant}}</ion-title> -->
+
+                    <ion-text class="s-price-tag"
+                        *ngIf="gProduct?.mrp > gProduct?.sellingprice && calculateOfferPercentage(gProduct.mrp,gProduct.sellingprice) !== '0' && gProduct?.metaData?.type !== 'DigitalProduct'">
+                        Special price
+                    </ion-text>
+                    <h4 style="color: #df1744" *ngIf="gProduct?.metaData?.type === 'DigitalProduct'">
+                        Free Download
+                    </h4>
+                    <ion-text class="price-size"
+                        *ngIf="gProduct?.sellingprice && isGroupProduct && gProduct?.metaData?.type !== 'DigitalProduct'">
+                        ₹{{isGrouped?gProduct?.sellingprice *
+                        gProductSet:totalSellingPrice }}
+                        <s class="striked" *ngIf="gProduct?.mrp > gProduct?.sellingprice">
+                            {{productSum}}
+                        </s>
+                        <span class="discount-rate"
+                            *ngIf="gProduct?.mrp > gProduct?.sellingprice && calculateOfferPercentage(gProduct.mrp,gProduct.sellingprice) !== '0'">{{calculateOfferPercentage(gProduct.mrp,gProduct.sellingprice)}}%
+                            off</span>
+                    </ion-text>
+                    <h4 class="price-size" *ngIf="!isGroupProduct">
+                        ₹ {{totalSellingPrice}}
+                    </h4>
+                </ion-col>
+                <ion-col class="4" *ngIf="!isGrouped && gProduct && gProduct?.metaData?.type !== 'DigitalProduct'">
+                    <div class="quantity">
+                        Qty :
+                        <select *ngIf="selectedArray.length" (change)="onChangeQuantity($event, gProduct.uuid,0)"
+                            [(ngModel)]="selectedArray[0].quantity" class="qty-select">
+                            <option *ngFor="let quantity of quantityArray[0]" [value]="quantity">
+                                {{quantity}}
+                            </option>
+                            <option value="more">More</option>
+                        </select>
+
+                        <!-- <ion-input class="qty-input" slot="end" type="number" value="1" *ngIf="isGroupProduct"
+                    (ionChange)="onChangeQuantity($event.target.value,gProduct,i)">Qty :</ion-input>  -->
+                    </div>
+                </ion-col>
+
+                <!-- <ion-col class="book-set-heading" size="12" *ngIf="isGrouped">
+                    <ion-item class="toggle-item">
+                        Buy Book Set
+                        <ion-toggle mode="md" color="danger" [(ngModel)]="isGroupProduct" (ionChange)="toggleChange()">
+                        </ion-toggle>
+                    </ion-item>
+                </ion-col> -->
+            </ion-row>
+        </div>
+        <div *ngIf="isGrouped" class="ion-margin-top">
+            <ion-row>
+                <ion-col size="12" class="set-includes-col">
+                    Set includes:
+                </ion-col>
+            </ion-row>
+            <ion-row style="width: 100%" *ngFor="let product of productList; let i = index;"
+                [ngClass]="{'disabled':isGroupProduct}">
+                <ion-col size="9">
+                    <ion-item>
+                        <ion-checkbox class="checkbox noVisit" color="dark" slot="start"
+                            (ionChange)="selectProduct($event, product.product)"
+                            [checked]="isChecked(product.product,i)">
+                        </ion-checkbox>
+                        <ion-label>{{product.product.name}}<br />
+                            <span class="price-details">
+                                ₹ {{product.product.sellingprice}}
+                                <s class="striked-per" *ngIf="product.product?.mrp > product.product?.sellingprice"> {{product.product.mrp}} </s>
+                                <span class="offRate ion-padding-end" *ngIf="product.product?.mrp > product.product?.sellingprice && calculateOfferPercentage(product.product.mrp,product.product.sellingprice) !== '0'">
+                                    {{calculateOfferPercentage(product.product.mrp,product.product.sellingprice)}}%
+                                    off</span></span>
+                                    <span *ngIf="product.product.quantity > 1">(₹ {{product.product.sellingprice * product.product.quantity}})</span>
+                        </ion-label>
+                        <!-- <ion-label style="padding-bottom: 0px">
+                       <strike
+                            style="color: red"
+                            ></strike
+                        >
+                    </ion-label> -->
+
+                        <!-- <ion-input
+                class="input-set-qty"
+                slot="end"
+                type="number"
+                inputmode="numeric"
+                [(ngModel)]="product.quantity"
+                (ionChange)="onChangeQuantity($event.target.value,product,i)"
+                min="1"
+            >
+                Quantity:
+            </ion-input> -->
+                    </ion-item>
+                </ion-col>
+                <ion-col size="3" class="qty-col">
+                    <select (change)="onChangeQuantity($event, product.product.uuid,i)" [(ngModel)]="product.quantity">
+                        <option *ngFor="let quantity of quantityArray[i]" [value]="quantity">
+                            {{quantity}}
+                        </option>
+                        <option value="more">more</option>
+                    </select>
+                </ion-col>
+            </ion-row>
+        </div>
+        <!-- variant buttons  ||||||||||||||||||||||||||||||||||-->
+
+        <div>
+            <ion-row class="stock-row" *ngIf="isDataLoaded && gProduct?.metaData?.type !== 'DigitalProduct'">
+                <ion-col>
+                    <ion-text class="in-stock">In Stock</ion-text>
+
+                    <!-- <ion-col>
+                <h4 class="in-stock">Out of Stock</h4>
+              </ion-col> -->
+                </ion-col>
+            </ion-row>
+        </div>
+
+        <div class="vendor-div" *ngIf="gProduct?.isDigital == false && gProduct?.metaData?.type !== 'DigitalProduct'">
+            <ion-item class="vendor-item" *ngIf="vendorInfo">
+                <ion-label class="vendor-heading text2">
+                    Sold by
+                    <span class="vendor-name">{{selectVendorProduct?.vendorName | titlecase}} </span><br />
+                    <!-- <span class="vendor-name" >
+              Sold By:</span> -->
+                </ion-label>
+                <ion-icon *ngIf="vendorInfo?.length > 1 && openVendor == false" (click)="vendorOption()"
+                    class="vendor-down" slot="end" name="chevron-down-outline"></ion-icon>
+                <ion-icon *ngIf="vendorInfo?.length > 1 &&  openVendor == true" (click)="vendorOptionClose()"
+                    class="vendor-down" slot="end" name="chevron-up-outline"></ion-icon>
+            </ion-item>
+        </div>
+
+        <ion-label class="desc-lbl d-block">Description</ion-label>
+        <ion-text class="desc-txt d-block">{{gProduct?.longDescription}}</ion-text>
+
+        <div class="vendor-div" *ngIf="gProduct?.isDigital == false && gProduct?.metaData?.type !== 'DigitalProduct'">
+            <div class="vendor-options" *ngIf="vendorInfo?.length > 1 && openVendor == true">
+                <ion-list>
+                    <ion-item *ngFor="let vendor of vendorInfo">
+                        <div class="vendor-info" (click)="selectVendor(vendor)">
+                            <ion-label class="multiple-vendor">{{vendor?.vendorName | titlecase}}
+                                <span style="color: #000; font-weight: 400 !important">
+                                    ₹{{vendor.sellingPrice}}</span>
+                            </ion-label>
+                            <!-- <ion-label class="Price">₹{{vendor.price}} </ion-label> -->
+                        </div>
+                    </ion-item>
+                </ion-list>
+            </div>
+        </div>
+        <div class="variant-card">
+            <ion-row>
+                <!-- {{gProduct.uuid}} -->
+                <ion-col class="variant-col" size="12"
+                    *ngFor="let attributeToShowForVariant of attributesToShowForVariant">
+                    <ion-row>
+                        <ion-col size="2">
+                            <p class="variant-name" style="
+                                margin-top: 6px !important;
+                                margin-bottom: 2px !important;
+                            ">
+                                <b>{{attributeToShowForVariant.attributeName |
+                                    titlecase}}</b>
+                            </p>
+                        </ion-col>
+                        <ion-col size="10" class="variant-btn-col">
+                            <ng-container *ngFor="let attributeValue of attributeToShowForVariant.attributeValues">
+                                <ion-button
+                                    (click)="attributeValue.variantProduct ? onAttributeClick(attributeValue.variantProduct,content) : ''"
+                                    size="small" fill="clear"
+                                    [ngClass]="ifAttributeExists(attributeToShowForVariant.attribute_Id, attributeValue.attributeValue) ?'variant-button' : 'variant-button1'">
+                                    {{attributeValue.attributeValue.attributeKey |
+                                    titlecase}}
+                                </ion-button>
+                            </ng-container>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+            </ion-row>
+        </div>
+        <div *ngIf="!isGrouped">
+            <ion-row *ngIf="!attributes && attributes">
+                <ion-col class="12" class="product-details-head">
+                    Product Details
+                </ion-col>
+            </ion-row>
+
+            <ion-row class="details" *ngFor="let at of attributes; let i= index;">
+                <ion-col size="4" class="attribute-name text3">
+                    {{at.attributeName}}
+                </ion-col>
+                <ion-col size="8" class="attribute-value">
+                    <div *ngFor="let values of at.attributeValues">
+                        <p *ngIf="values.attributeKey !== null">
+                            {{ values.attributeKey }}
+                        </p>
+                        <p *ngIf="values.attributeKey === null && at.attributeType != 'Date'">
+                            {{ values.attributeValue }}
+                        </p>
+                        <p *ngIf="values.attributeKey === null && at.attributeType == 'Date'">
+                            {{ values.attributeValue | date : 'd MMMM y'}}
+                        </p>
+                    </div>
+                </ion-col>
+            </ion-row>
+
+            <ion-row class="details" *ngIf="gProduct?.isDigital == false">
+                <ion-col size="4" class="attribute-name text3"> Size (LxWxH) </ion-col>
+                <ion-col size="8" class="attribute-value">
+                    <div>
+                        <p>
+                            {{ gProduct.length_in_cm }} cm X {{ gProduct.width_in_cm
+                            }} cm X {{ gProduct.height_in_cm }} cm
+                        </p>
+                    </div>
+                </ion-col>
+            </ion-row>
+
+            <ion-row class="details" *ngIf="gProduct?.isDigital == false">
+                <ion-col size="4" class="attribute-name text3"> Weight </ion-col>
+                <ion-col size="8" class="attribute-value">
+                    <div>
+                        <p>{{ gProduct.weight_in_kg }} kg</p>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </div>
+
+        <div *ngIf="!isGrouped">
+            <div *ngFor="let product of productList; let i = index;">
+                <div class="Short-Description"
+                    *ngIf="product?.shortDescription != '' && product?.shortDescription != null && gProduct?.shortDescription != 'NA'">
+                    <span class="product-detail-span"
+                        *ngIf="product?.shortDescription != '' && product?.shortDescription != null && gProduct?.shortDescription != 'NA'">Short
+                        Description
+                    </span>
+                    <p class="less-content" *ngIf="readMoreShort == false">
+                        {{product.shortDescription}}
+                    </p>
+                    <a *ngIf="readMoreShort == false" (click)="readmoreShort()">Show More</a>
+                    <p class="more-content" *ngIf="readMoreShort == true">
+                        {{product.shortDescription}}
+                    </p>
+                    <a class="a" *ngIf="readMoreShort == true" (click)="readlessShort()">Show Less</a>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="isGrouped">
+            <div class="Short-Description"
+                *ngIf="gProduct?.shortDescription != '' && gProduct?.shortDescription != null && gProduct?.shortDescription != 'NA'">
+                <span class="product-detail-span"
+                    *ngIf="gProduct?.shortDescription != '' && gProduct?.shortDescription != null && gProduct?.shortDescription != 'NA'">Short
+                    Description
+                </span>
+                <p class="less-content" *ngIf="readMoreShort == false">
+                    {{gProduct?.shortDescription}}
+                </p>
+                <a *ngIf="readMoreShort == false" (click)="readmoreShort()">Show More</a>
+                <p class="more-content" *ngIf="readMoreShort == true">
+                    {{gProduct?.shortDescription}}
+                </p>
+                <a class="a" *ngIf="readMoreShort == true" (click)="readlessShort()">Show Less</a>
+            </div>
+        </div>
+        <!-- <div *ngIf="isGrouped">
+        <div
+            class="Long-Description"
+            *ngIf="gProduct?.longDescription != '' && gProduct?.longDescription != null && gProduct?.longDescription != 'NA'"
+        >
+            <span
+                class="product-detail-span"
+                *ngIf="gProduct?.longDescription != ' ' && gProduct?.longDescription != null && gProduct?.longDescription != 'NA'"
+            >
+                Long Description</span
+            >
+            <p class="less-content" *ngIf="readMore == false">
+                {{gProduct?.longDescription}}
+            </p>
+            <a *ngIf="readMore == false" (click)="readmore()">Show More</a>
+            <p class="more-content" *ngIf="readMore == true">
+                {{gProduct?.longDescription}}
+            </p>
+            <a class="a" *ngIf="readMore == true" (click)="readless()"
+                >Show Less</a
+            >
+        </div>
+    </div>
+
+    <div *ngIf="!isGrouped">
+        <div *ngFor="let product of productList; let i = index;">
+            <div
+                class="Long-Description"
+                *ngIf="product?.longDescription != '' && product?.longDescription != null && gProduct?.longDescription != 'NA'"
+            >
+                <span
+                    class="product-detail-span"
+                    *ngIf="product?.longDescription != ' ' && product?.longDescription != null && gProduct?.longDescription != 'NA'"
+                >
+                    Long Description</span
+                >
+                <p class="less-content" *ngIf="readMore == false">
+                    {{product.longDescription}}
+                </p>
+                <a *ngIf="readMore == false" (click)="readmore()">Show More</a>
+                <p class="more-content" *ngIf="readMore == true">
+                    {{product.longDescription}}
+                </p>
+                <a class="a" *ngIf="readMore == true" (click)="readless()"
+                    >Show Less</a
+                >
+            </div>
+        </div>
+    </div> -->
+        <div class="reviews" *ngIf="gProduct?.metaData?.type !== 'DigitalProduct'">
+            <!-- FAQ  -->
+
+            <!-- suggested items -->
+            <div class="reviews">
+                <ion-row class="heading-row">
+                    <ion-col size="6" class="rate-col">
+                        <ion-label class="product-detail-span">Ratings</ion-label>
+                    </ion-col>
+                    <ion-col size="6" class="rate-btn-col">
+                        <!-- <p class="rate-link">Rate Product</p> -->
+                        <ion-button size="small" shape="round" class="rate-btn" color="primary"
+                            (click)="rateProduct()">Rate Product</ion-button>
+                    </ion-col>
+                </ion-row>
+                <div class="cusromer-norating-card" *ngIf="averageRate == null ">
+                    No Reviews yet
+                </div>
+                <ion-card class="cusromer-rating-card" *ngIf="averageRate != null">
+                    <ion-row>
+                        <ion-col size="5" class="avg-rate-col">
+                            <ion-badge class="badge" mode="ios" color="primary"><span
+                                    class="rating-span">{{averageRate?.average_stars | number:'1.1-1'}}
+                                </span>
+                                <ion-icon class="star-icon-main" name="star"></ion-icon> </ion-badge><br />
+                            <span class="rating-no">
+                                {{averageRate?.totalRateCount}} Ratings</span>
+                        </ion-col>
+                        <ion-col size="7">
+                            <ion-row *ngFor="let rate of sorted; let i = index;">
+                                <ion-col size="2" class="progress-number">
+                                    {{rate._id}}
+                                    <ion-icon class="star-icon" name="star"></ion-icon>
+                                </ion-col>
+                                <ion-col size="8" class="progress">
+                                    <ion-progress-bar color="success" *ngIf="rate._id  > 2 "
+                                        value="{{rate.numberOfRating/10}}">
+                                    </ion-progress-bar>
+                                    <ion-progress-bar color="warning" *ngIf="rate._id  == 2 "
+                                        value="{{rate.numberOfRating/10}}"></ion-progress-bar>
+                                    <ion-progress-bar color="danger" *ngIf="rate._id  == 1 "
+                                        value="{{rate.numberOfRating/10}}">
+                                    </ion-progress-bar>
+                                </ion-col>
+                                <ion-col size="2" class="progress-number-all">
+                                    {{rate.numberOfRating}}
+                                </ion-col>
+                            </ion-row>
+                        </ion-col>
+                    </ion-row>
+                </ion-card>
+            </div>
+            <div class="faq-div" *ngIf="gProduct && faq !== null">
+                <ion-row class="heading-row-faq">
+                    <ion-col size="12" class="rate-col">
+                        <ion-label class="faq-heading"> FAQs</ion-label>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row *ngFor="let item of faq?.faqs" style="border-bottom: 1px solid #cccccc !important">
+                    <ion-col size="12" class="QA_col">
+                        <p><b>Q.{{item.question}}</b></p>
+                        <p><b>A. </b>{{item.answer}}</p>
+                    </ion-col>
+                </ion-row>
+                <ion-item (click)="allFaq()" class="all-faq-item" style="
+                    border-top: 1px solid #000 !important;
+                    margin: 0px 5px !important;
+                ">
+                    Read all FAQs
+                    <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+                </ion-item>
+            </div>
+
+            <div *ngIf="Suggestedproduct?.length>0">
+                <div class="suggested-item">Suggested Items</div>
+                <div class="option-row">
+                    <div class="wrape">
+                        <div (click)="suggestedProductPage(product,content, 'suggest')"
+                            *ngFor="let product of Suggestedproduct;" class="circle-col">
+                            <div class="image-div">
+                                <img [src]="product?.images.length ? imageApi + product?.images : '/assets/images/default-image.jpg'"
+                                    class="img" />
+                            </div>
+                            <div class="suggested-pro-name">
+                                <ion-label>{{product?.name}}</ion-label>
+                                <p *ngIf="product.sellingprice" class="price-details">
+                                    <span class="price">₹{{product.sellingprice}}
+                                    </span>
+
+                                    <s class="striked" *ngIf="product.mrp > product.sellingprice">
+                                        {{product.mrp}}</s>
+                                    <span class="offer" *ngIf="product.mrp > product.sellingprice">
+                                        {{calculateOfferPercentage(product.mrp,product.sellingprice)}}%
+                                        off</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>
+<ion-footer *ngIf="!gProduct || gProduct !== undefined">
+    <ion-toolbar>
+        <ion-row>
+            <ion-col>
+                <div class="btn-position" *ngIf="gProduct?.metaData?.type !== 'DigitalProduct'">
+                    <ion-button fill="clear" *ngIf="isDataLoaded" shape="round" class="outline-btn mx-5"
+                        (click)="addCart()" [disabled]="!selectedArray.length">
+                        {{ !cartProduct.length && isDataLoaded ||
+                        !isGroupProduct ? 'Add to cart' : 'Go to cart'}}
+                    </ion-button>
+                    <ion-button *ngIf="isDataLoaded" fill="clear" shape="round" class="buy-now mx-5"
+                        (click)="buyNowPage()" [disabled]="!selectedArray.length">Buy Now</ion-button>
+                </div>
+                <div class="btn-position" *ngIf="gProduct?.isDigital && gProduct?.metaData?.type === 'DigitalProduct'">
+                    <ion-button fill="clear" shape="round" class="buy-now"
+                        (click)="openPDf(gProduct.isDigital && gProduct.metaData.path_link)"
+                        [disabled]="!selectedArray.length">
+                        {{isGuest ? 'Login to Download' : 'Download'}}
+                    </ion-button>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
+</ion-footer>

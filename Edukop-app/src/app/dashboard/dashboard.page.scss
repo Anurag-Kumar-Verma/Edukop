@@ -1,0 +1,621 @@
+ion-content {
+    --background: #ffffff !important;
+}
+.header-icon-left {
+    font-size: 23px;
+    padding-left: 8px;
+}
+.header-icon-notification {
+    font-size: 25px !important;
+    margin-right: 6px !important;
+    margin-left: 4px !important;
+}
+.header-icon-right {
+    font-size: 25px !important;
+    margin-right: 8px !important;
+    margin-left: 6px !important;
+}
+.header-icon-right-user {
+    font-size: 22px !important;
+    margin-right: 8px !important;
+    margin-left: 6px !important;
+}
+.header-icon-cart {
+    font-size: 25px !important;
+    margin-right: 17px !important;
+    margin-left: 4px !important;
+}
+
+.cat-row {
+    text-align: center;
+}
+.divider-cls {
+    text-align: center;
+}
+.cat-label {
+    text-align: center !important;
+    color: #000 !important;
+    font-size: 20px;
+    cursor: pointer;
+}
+ion-slides {
+    height: 35%;
+    border-bottom: 1px solid #cccccc;
+}
+
+.swiper-slide {
+    display: block;
+}
+
+.swiper-slide h2 {
+    margin-top: 2.8rem;
+}
+b {
+    font-weight: 500;
+}
+
+p {
+    padding: 0 40px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ion-color-step-600, #60646b);
+}
+
+p b {
+    color: var(--ion-text-color, #000000);
+}
+.cat-col-left {
+    padding: 7px;
+    text-align: center;
+}
+.cat-col-right {
+    padding: 7px;
+    text-align: center;
+}
+.ion-class {
+    font-size: 23px;
+
+    padding-left: 20px;
+}
+.cat-label {
+    font-size: 17px;
+    padding-left: 10px !important;
+    text-align: center !important;
+}
+
+ion-item-divider {
+    --padding-start: 0px !important;
+
+    margin-bottom: 5px !important;
+}
+.select-icon {
+    display: none !important;
+}
+.select-icon-inner {
+    display: none !important;
+}
+
+.card-cls {
+    background-color: #fff !important;
+}
+.slide {
+    height: 170px !important;
+    padding: 0px !important;
+}
+
+.slide-cls {
+    height: 180px !important;
+
+    --bullet-background-active: #fff !important;
+}
+
+.slide-img {
+    width: 100% !important;
+    height: 100% !important;
+}
+.menu-list-icon {
+    color: #484848 !important;
+    margin: 0;
+    margin-right: 7px !important;
+}
+.search-bar {
+    --background: #efefef !important;
+    --border-radius: 8px !important;
+}
+.image-div {
+    margin-bottom: 4px !important;
+    border-radius: 100% !important;
+    padding: 10px !important;
+    text-align: center !important;
+}
+.img {
+    width: 45px !important;
+    height: 45px !important;
+}
+.circle-col {
+    margin: 5px !important;
+    display: inline-block !important;
+    width: 17% !important;
+    white-space: nowrap;
+    text-align: center !important;
+}
+.wrape {
+    height: 90px !important;
+    white-space: nowrap !important;
+}
+ion-label {
+    color: #484848 !important;
+    font-size: 14px !important;
+}
+.nav-item {
+    margin: 0 10px;
+    color: #282828;
+}
+.shop-for-col {
+    font-size: 18px !important;
+    text-align: center;
+    padding-left: 20px !important;
+}
+.deal-col {
+    font-size: 18px;
+
+    text-align: center !important;
+    padding-left: 20px !important;
+    padding-top: 20px !important;
+}
+
+.menu-item {
+    cursor: pointer;
+    border-bottom: 1px solid #f1f1f1;
+    margin: 0 10px 2px;
+    padding: 5px;
+    --min-height: 40px
+}
+ion-segment-button.t1 {
+    height: 100% !important;
+    --padding-top: 0px !important;
+    --indicator-color: #fa8562 !important;
+    --indicator-box-shadow: #adadad1f;
+    --indicator-height: 0px !important;
+    width: 150px !important;
+}
+ion-segment-button.t1::part(native) {
+    font-size: 10px !important;
+    width: 190px !important;
+    min-width: 100px !important;
+}
+.t1 {
+    // --background-checked: url('../../assets/images/over-1.jpg') 0 0/100% 100% no-repeat;
+    // --background: url('../../assets/images/over-1.jpg') 0 0/100% 100% no-repeat;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+.t2 {
+    border: 0.8px solid #60646b !important;
+    width: 150px !important;
+    margin: 5px !important;
+    height: 180px !important;
+}
+
+.b2 {
+    border: 1px solid #efefef !important;
+    width: 120px !important;
+    margin: 5px !important;
+    height: 140px !important;
+    --background: #08a791 !important;
+    --background-checked: #08a791;
+}
+
+.b3 {
+    border: 1px solid #efefef !important;
+    width: 120px !important;
+    margin: 5px !important;
+    height: 140px !important;
+    --background: #5653d4 !important;
+    --background: #5653d4 !important;
+    --background-checked: #5653d4;
+}
+ion-segment-button.brands::part(native) {
+    font-size: 10px !important;
+    width: 100px !important;
+    min-width: 100px !important;
+    padding: 10px !important;
+}
+.b1 {
+    --background: #fff !important;
+    --background-checked: #fff;
+
+    border: 1px solid #efefef !important;
+    width: 120px !important;
+    margin: 5px !important;
+    height: 140px !important;
+}
+
+.b4 {
+    --background: #faa33f !important;
+    --background-checked: #faa33f !important;
+    border: 1px solid #efefef !important;
+    width: 120px !important;
+    margin: 5px !important;
+    height: 140px !important;
+}
+.segment {
+    height: 220px !important;
+    --background: #fff !important;
+    padding: 0px 7px;
+    border-radius: 0px !important;
+}
+.segment-1 {
+    --background: #fff !important;
+}
+.card-img {
+    border-radius: 10px 0px 0px 10px !important;
+    height: 100% !important;
+    width: 100% !important;
+}
+
+.user-name {
+    margin: 10px auto !important;
+}
+.avatar-cls {
+    text-align: center;
+    margin: 0px auto !important;
+    background: #E51545;
+    color: #fff;
+}
+.avatar {
+    margin: 15px auto 10px !important;
+    height: 70px !important;
+    width: 70px;
+}
+.deal {
+    color: #000 !important;
+}
+ion-fab {
+    float: right !important;
+}
+ion-fab-button {
+    margin: 0px !important;
+}
+.category-name {
+    overflow: visible !important;
+}
+.deal-text {
+    text-align: left;
+    font-size: 14px !important;
+    color: #fff !important;
+    margin: 0px !important;
+}
+.deal-text-classmates {
+    text-align: left;
+    font-size: 13px !important;
+    color: #000 !important;
+    margin-bottom: 4px !important;
+}
+.toolbar {
+    --background: rgb(223, 23, 68);
+}
+.option-row {
+    height: 100% !important;
+    overflow-x: scroll !important;
+    width: 100% !important;
+    // margin-top: 10px !important;
+}
+// .overlay{
+//   width: 100% !important;
+//   height: 100% !important;
+//   --background: rgba(223, 23, 68, 0.4) !important;
+// }
+.shop-now {
+    --padding-start: 6px !important;
+    --padding-end: 6px !important;
+    font-size: 10px !important;
+    --color: #000 !important;
+}
+.shop-text {
+    color: #000 !important;
+    margin: 0px !important;
+    font-size: 10px !important;
+}
+.deal-heading {
+    font-size: 16px !important;
+    text-align: left !important;
+    padding-left: 10px !important;
+}
+.item-divider {
+    margin-bottom: 0px !important;
+}
+.recent-product-div {
+    margin: 10px 0px;
+}
+.recent-card {
+    margin: 5px !important;
+}
+.recently-heading {
+    font-weight: 500;
+    color: #000 !important;
+    padding-left: 10px !important;
+    padding-top: 10px !important;
+    font-size: 16px !important;
+}
+.recent-product-img {
+    background-size: cover !important;
+    background: url('../../assets/images/default-image.jpg') center no-repeat !important;
+    text-align: center !important;
+    margin: 0px auto !important;
+    width: 86%;
+    height: 100%;
+}
+.recent-products-col {
+    padding: 0px !important;
+}
+.offer-image {
+    display: block;
+    margin: 0px auto !important;
+    width: 100% !important ;
+    height: 180px !important;
+    border-radius: 0px !important;
+}
+
+ion-card.card-offers {
+    border-radius: 0px !important;
+    // --background: linear-gradient(#DF1744, #f2a2b4);
+    --background: #fff !important;
+    // url('../../assets/images/bg6.png') 0 0/100% 100% no-repeat;
+    margin: 5px auto !important;
+}
+.card-offers ion-card-content {
+    padding: 5px 20px !important;
+    // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 0px auto !important;
+}
+.card-4 {
+    margin: 0px 0px 5px 0px !important;
+    padding: 5px !important;
+    // background-color: #1E90FF !important;
+    // --background: linear-gradient(#DF1744, #f2a2b4);
+    --background: #fff !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 0px !important;
+}
+.card-4 ion-card-content {
+    padding: 0px !important;
+}
+.offer-1 {
+    border-radius: 5px !important;
+    background-color: #fff !important;
+    text-align: center;
+    margin-bottom: 10px !important;
+}
+.offer-2 {
+    text-align: center !important;
+    padding: 0px 3px 8px 3px;
+}
+.img-bg {
+    width: 100% !important;
+    background-color: #f5f5f5 !important;
+}
+.product-name {
+    height: 50px !important;
+    overflow: hidden !important;
+    color: #000 !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    text-align: left !important;
+    padding: 0px !important;
+}
+.st-heading {
+    font-size: 20px !important;
+    font-weight: 500 !important;
+    color: #000 !important;
+    margin-top: 5px !important;
+    margin-bottom: 9px !important;
+}
+.offer-img {
+    height: 120px !important;
+    width: 70% !important;
+    margin: 20px auto 10px !important;
+}
+.school-offer-img {
+    height: 180px !important;
+    width: 100% !important;
+    padding: 20px !important;
+    border: 1px solid #a0a0a0 !important;
+    background-color: #fff !important;
+}
+
+.novel-offer-img {
+    height: 210px !important;
+    width: 100% !important;
+    padding: 20px !important;
+    border: 1px solid #a0a0a0 !important;
+}
+.tenth-offer-img {
+    height: 230px !important;
+    width: 100% !important;
+}
+.lab-offer-img {
+    height: 190px !important;
+    width: 100% !important;
+}
+
+.it-offer-img {
+    height: 190px !important;
+    width: 100% !important;
+    padding: 20px !important;
+    border: 1px solid #a0a0a0 !important;
+}
+.offer-img-uni {
+    width: 70% !important;
+    margin: 20px auto 10px !important;
+}
+.offer-img-school {
+    width: 70% !important;
+    margin: 20px auto 10px !important;
+}
+.pro-img {
+    width: 120px !important;
+    height: 100px !important;
+}
+.topdeals-images {
+    height: 145px !important;
+    vertical-align: top !important;
+}
+.top-img-div {
+    width: 100% !important;
+    height: 100% !important;
+}
+.text {
+    padding-top: 8px !important;
+}
+
+.badge-one {
+    border-radius: 50% !important;
+    position: absolute;
+    top: -5px !important;
+    right: 5px;
+    font-size: 0.6em;
+    margin-right: 5px !important;
+    --padding-start: 5px;
+    --padding-end: 5px;
+    background: #fff !important;
+    color: #df1744 !important;
+}
+ion-badge {
+    padding-top: 3px !important;
+    padding-right: 5px !important;
+}
+
+.ofr-text {
+    font-weight: 400 !important;
+    color: #df1744 !important;
+    font-size: 12px !important;
+    text-transform: none;
+    padding-left: 5px !important;
+}
+.segment-btn {
+    height: 100% !important;
+    margin: 0px !important;
+}
+.price-text {
+    vertical-align: middle !important;
+    display: inline-block !important;
+    margin: 0px !important;
+    text-align: left !important;
+}
+.icon-heart {
+    vertical-align: middle !important;
+    display: inline-block !important;
+    font-size: 20px !important;
+}
+.price {
+    font-weight: 400;
+    font-size: 13px !important;
+}
+.striked {
+    font-size: 12px !important;
+}
+.recent-slide {
+    width: 50% !important;
+}
+ion-segment-button.segment-btn {
+    padding-top: 5px !important;
+    height: 100% !important;
+    width: 155px !important;
+    --background: #fff !important;
+    --background-hover: #fff !important;
+    --background-checked: #fff !important;
+    --background-focused: #fff !important;
+    --indicator-color: #fff !important;
+    --background-focused-opacity: #fff !important;
+    --background-hover-opacity: #fff !important;
+    --color-checked: #fff !important;
+    --color-hover: #fff !important;
+    --indicator-height: 0px !important;
+    --color-focused: #fff !important;
+    --color: #fff !important;
+}
+.load-more {
+    background-color: #fff !important;
+}
+.recent-div {
+    min-height: 200px !important;
+    max-height: 200px !important;
+    padding: 0px !important;
+    width: 155px !important;
+    margin: 10px 5px !important;
+    // box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 8px 0 rgba(0, 0, 0, 0.19);
+}
+ion-segment {
+    --background: #fff !important;
+}
+.price-info {
+    width: 100%;
+    height: 20%;
+    padding-bottom: 5px;
+    text-align: left !important;
+}
+.pro-name {
+    color: #000 !important;
+    width: 100% !important;
+    padding: 0px !important;
+    margin: 5px 0px 2px 0px !important;
+    text-align: left !important;
+    font-size: 15px !important;
+    overflow: hidden;
+    text-transform: none !important;
+}
+.wish-icon {
+    float: right;
+    padding-right: 8px;
+}
+.app-logo {
+    padding-top: 3px !important;
+    width: 65px !important;
+    height: 100%;
+    // padding-bottom: 10px !important;
+}
+.ripple-parent {
+    color: #df1744 !important;
+}
+.recent-div {
+    flex: 1 1 155px;
+    & ion-card {
+        width: 155px;
+        margin: 0;
+        margin-inline: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        & ion-card-header {
+            height: 70%;
+            & .img-div {
+                display: grid;
+                place-items: center;
+                height: 100%;
+            }
+            & .recent-product-img{
+                height: auto;
+                width: auto;
+                max-height: 109px;
+            }
+        }
+        & ion-label, & ion-card-subtitle {
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            display: -webkit-box;
+        }
+        & .wish-icon {
+            float: none;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background: #fff;
+            padding: 5px;
+            border-radius: 20px;
+        }
+    }
+}

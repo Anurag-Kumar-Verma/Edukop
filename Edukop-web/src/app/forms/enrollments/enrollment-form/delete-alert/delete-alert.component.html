@@ -1,0 +1,15 @@
+<section class="px-1">
+    <div class="d-flex align-items-center justify-content-between py-2">
+        <span class="fw-5 heading">{{heading}}</span>
+        <span class="pointer closeDialog" (click)="close()">
+            <i class="mdi mdi-close mdi-18px"></i>
+        </span>
+    </div>
+
+    <p class="message">{{message}}</p>
+
+    <div class="d-flex justify-content-end py-2">
+        <button type="button" class="btn btn-light btn-sm mx-2 cancelBtn" (click)="close()">Cancel</button>
+        <button type="button" class="btn btn-danger bg-danger btn-sm delBtn" (click)="delete('delete')">Delete</button>
+    </div>
+</section>

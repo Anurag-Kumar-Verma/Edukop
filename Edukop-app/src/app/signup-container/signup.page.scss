@@ -1,0 +1,128 @@
+ion-content {
+}
+.form-div {
+    background: url('../../assets/images/login-bg.png');
+    display: table !important;
+    height: 100% !important;
+    background-size: cover;
+}
+.container {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    margin: 0px !important;
+}
+
+.g-login-btn {
+    height: 40px !important;
+    color: #fff !important;
+    --background: #db4437;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    text-transform: none !important;
+}
+.f-login-btn {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    height: 40px !important;
+    color: #fff !important;
+    --background: #4267b2;
+
+    text-transform: none !important;
+}
+
+.form {
+    height: 55% !important;
+}
+.label {
+    color: #fff;
+}
+.input-wrapper {
+    color: #fff;
+}
+.item-inner-highlight {
+    color: #fff !important;
+}
+.logo {
+    width: 25% !important;
+}
+
+.input {
+    width: 100%;
+    padding: 0px 10px;
+    margin: 8px auto;
+    display: inline-block;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    box-sizing: border-box;
+    text-align: left;
+
+    background: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+}
+.input-row {
+    width: 80%;
+    margin: 0px auto;
+}
+.input-btn {
+    text-align: left;
+    padding: 0px !important;
+    --color: #df1744 !important;
+    margin-top: 10px;
+}
+.login-btn {
+    height: 40px !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    --color: #df1744 !important;
+    --border-radius: 5px !important;
+}
+.heading {
+    height: 15% !important;
+    color: #df1744;
+    margin-top: 15px;
+}
+ion-title {
+    font-size: 20px !important;
+    font-weight: 600;
+}
+.for-signup {
+    text-align: center;
+    height: 11% !important;
+    color: #fff;
+}
+.icon-col {
+    padding: 0px !important;
+    margin-top: 0px !important;
+}
+.icon-google {
+    font-size: 26px;
+}
+.icon-fb {
+    color: #4267b2 !important;
+    font-size: 26px;
+}
+.valid-message {
+    color: #fff !important;
+    font-size: 12px !important;
+    padding-left: 10px !important;
+}
+.already-text {
+    margin-top: 5px !important;
+}
+.other-login-row {
+    width: 80% !important;
+    margin: 0px auto !important;
+    height: 15% !important;
+}
+h4 {
+    margin-top: 5px !important;
+}
+p {
+    margin-bottom: 5px !important;
+}
+.eye{
+    color: black;
+    position: absolute;
+    z-index: 3 !important;
+    right: 15px !important;
+    top: 14px;
+}

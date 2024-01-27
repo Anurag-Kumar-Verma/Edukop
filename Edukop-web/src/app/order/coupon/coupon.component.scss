@@ -1,0 +1,40 @@
+.modalType {
+    font-size: 1rem;
+    font-weight: 500;
+}
+.couoponItem {
+    box-shadow: 0 2px 2px rgba($color: #000000, $alpha: 0.25);
+    padding: 10px 10px;
+    border-radius: 5px;
+}
+.couponCode {
+    border: 2px dashed #eb445a;
+    padding: 5px 10px;
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 5px;
+    border-radius: 3px;
+}
+.couoponItem p {
+    font-size: 0.8rem;
+}
+
+input,
+input:focus,
+input:active {
+    border: 0;
+    outline: 0;
+}
+.couponInput {
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+.bottomSec {
+    background-color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+    .couponSec {
+        min-width: 350px;
+    }
+}

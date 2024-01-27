@@ -1,0 +1,36 @@
+<div>
+    <ion-item-divider mode="md">
+        <div class="option-row">
+            <!-- <div class="wrape"> -->
+                <div
+                    size="4"
+                    class="circle-col"
+                    *ngFor="let category of section?.collectionOfProduct"
+                    (click)="openCategory(category)"
+                >
+                    <!-- <div class="image-div"> -->
+                    <ion-avatar class="avatar">
+                        <img
+                            [src]="thumbApi + category.imageUrl"
+                            class="img"
+                        />
+                    </ion-avatar>
+                    <!-- </div> -->
+
+                    <ion-label>{{ category.displayText }}</ion-label>
+                </div>
+                <div size="2.4" class="circle-col" (click)="openAllCategory()">
+                    <ion-avatar class="avatar">
+                        <img
+                            src="assets/images/category.jpg"
+                            class="img"
+                            (click)="openAllCategory()"
+                        />
+                    </ion-avatar>
+
+                    <ion-label>Categories</ion-label>
+                </div>
+            <!-- </div> -->
+        </div>
+    </ion-item-divider>
+</div>

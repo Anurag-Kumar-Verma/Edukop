@@ -1,0 +1,58 @@
+<div class="" infinite-scroll [infiniteScrollDistance]="scrollDistance"
+[infiniteScrollUpDistance]="scrollUpDistance" [infiniteScrollThrottle]="throttle"
+(scrolled)="onScrollDown()">
+
+    <div class="" *ngFor="let section of dynamicSection;">
+        <div class="container-fluid section">
+            <app-scrollable-category-section *ngIf="section.viewType === 'scrollable-circle-section'"
+            [section]="section.data" (openCategoryEmit)="openCategoryEvent($event)"></app-scrollable-category-section>
+        </div>
+
+        <div class="container-fluid section_div banner" *ngIf="section.viewType === 'banner-section'">
+            <app-banner-section [section]="section.data" (openSectionProductEmit)="openSectionProductEvent($event)">
+            </app-banner-section>
+        </div>
+
+        <div class="container-fluid section_div two-column" *ngIf="section.viewType === 'two-column-section'">
+            <app-two-column-section [section]="section.data" (openSectionProductEmit)="openSectionProductEvent($event)">
+            </app-two-column-section>
+        </div>
+
+        <div class="container-fluid section_div singleImage" *ngIf="section.viewType === 'single-image'">
+            <app-single-image [section]="section.data" (openSectionProductEmit)="openSectionProductEvent($event)">
+            </app-single-image>
+        </div>
+
+        <div class="container-fluid section_div scrollable_square" *ngIf="section.viewType === 'scrollable-square-section'">
+            <app-scrollable-square-section [section]="section.data" (openSectionProductEmit)="openSectionProductEvent($event)"></app-scrollable-square-section>
+        </div>
+    </div>
+
+
+    <div class="recentViewedProduct container-fluid" *ngIf="recentProducts">
+        <div class="d-flex flex-wrap">
+            <div class="header d-flex justify-content-between align-items-center justify-content-md-start flex-md-column">
+                <span class="section_name fw-5">Recently Viewed Products</span>
+            </div>
+
+            <div class="content_sec d-flex">
+                <div class="card item_card pointer border-0" *ngFor="let recent of recentProducts.products" (click)="recentlyViewedProducts($event, recent.productUUID)">
+                    <div class="card-header border-0 p-0">
+                        <img [src]="(recent.product.images && recent.product.images.length != 0)  ? thumbApi + recent.product.images[0] : '../../assets/images/download-png.png'" alt="product pic" class="item_pic">
+                    </div>
+
+                    <div class="card-content py-2 px-2">
+                        <h4 class="item_name">{{recent?.product?.name}}</h4>
+                        <p class="price">
+                            <span>₹{{recent?.product?.sellingprice}}</span>&nbsp;
+                            <small><s class="striked color-gray" *ngIf="recent.product.mrp > recent.product.sellingprice">{{recent.product.mrp}}</s></small>&nbsp;
+                            <small class="ofr-text danger" *ngIf="recent.product.mrp > recent.product.sellingprice">{{calculateOfferPercentage(recent.product.mrp, recent.product.sellingprice)}}% off</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ngx-spinner type="ball-scale-multiple" [fullScreen]="true"></ngx-spinner>
+</div>

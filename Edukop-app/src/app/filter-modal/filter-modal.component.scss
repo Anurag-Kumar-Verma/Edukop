@@ -1,0 +1,97 @@
+.header {
+    --background: #df1744;
+    color: #fff !important;
+}
+.heading {
+    text-align: center !important;
+}
+.range {
+    --pin-background: #df1744 !important;
+    --pin-color: #df1744 !important;
+    padding: 25px 0px 0px !important;
+}
+.filter-row {
+    height: 100% !important;
+}
+.filter-option-col {
+    background-color: #eeeeee !important;
+    padding: 0px 0px 0px 0px !important;
+    min-height: 100% !important;
+}
+.filter-option-col-1 {
+    background-color: #eeeeee !important;
+    padding: 25px 0px 0px 0px !important;
+    min-height: 100% !important;
+}
+.check-box {
+    margin-right: 10px !important;
+}
+.buy-now {
+    margin: 0px auto !important;
+    // background-image: linear-gradient(to right, #DF1744, #DD4B16) !important;
+    --background: #df1744;
+    text-decoration: none;
+    --color: #fff;
+    border-radius: 20px !important;
+    text-transform: none;
+}
+.apply-cls {
+    text-align: center !important;
+}
+p {
+    margin: 0px !important;
+    padding: 10px 0px !important;
+}
+.select-btn {
+    padding: 0px;
+    border-bottom: 1px solid #fff !important;
+}
+.btn {
+    --box-shadow: 0px !important;
+    --background: #f7617a;
+
+    --color-activated: #fff !important;
+    text-transform: none !important;
+}
+.btn-2 {
+    --box-shadow: 0px !important;
+    --background: #df2243 !important;
+    --color-activated: #fff !important;
+    text-transform: none !important;
+}
+.btn:target {
+    background-color: aqua !important;
+}
+// .btn:active {
+//     color: #000 !important;
+//     background-color: #fff !important;
+// }
+.toolbar {
+    --background: #df1744;
+    color: #fff !important;
+}
+.heading {
+    font-size: 18px !important;
+    text-align: left !important;
+}
+.clear {
+    padding-top: 5px !important;
+    float: right !important;
+    font-size: 13px !important;
+    text-align: right !important;
+}
+.back-icon {
+    padding-left: 8px !important;
+    font-size: 22px !important;
+}
+
+ion-button:active {
+    background-color: aqua !important;
+}
+.attribute-options {
+    height: 99% !important;
+    overflow-y: scroll !important;
+}
+.attribute-options1 {
+    padding-top: 30px !important;
+}

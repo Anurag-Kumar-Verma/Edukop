@@ -1,0 +1,78 @@
+.input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+ion-input{
+    padding-left: 10px !important;
+}
+.input:hover {
+    border: 1px solid #000;
+}
+.form-div {
+    margin: 15px 15px 5px;
+}
+.card-pay {
+    width: 100% !important;
+    margin: 0px !important;
+}
+.pay-card-content {
+    width: 100% !important;
+    margin: 0px auto !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+.btn-col {
+    text-align: center !important;
+}
+.buy-now {
+    --background: #df1744;
+    --border-color: #df1744;
+    text-decoration: none;
+}
+.item-pay-card {
+    width: 100% !important;
+    bottom: 0 !important;
+    position: fixed;
+}
+.label {
+    font-size: 18px !important;
+    color: #000;
+}
+.toolbar {
+    --background: #df1744;
+    color: #fff;
+}
+.heading {
+    font-size: 18px !important;
+    text-align: left;
+}
+.back-icon {
+    font-size: 20px;
+    padding-left: 8px;
+}
+.validation {
+    color: red;
+    font-size: 12px !important;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+.select {
+    width: 100%;
+    padding: 0px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.select:hover {
+    border: 1px solid #000;
+}
+ion-select {
+    --padding-start: 0px !important;
+}

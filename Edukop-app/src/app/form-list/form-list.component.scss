@@ -1,0 +1,66 @@
+.back-icon {
+    padding-left: 8px !important;
+
+    font-size: 22px !important;
+}
+.toolbar {
+    --background: #df1744;
+    --color: #fff;
+
+    --border-color: #fff;
+    --border-style: none !important;
+    --border-width: 0px !important;
+}
+.heading {
+    font-size: 18px !important;
+    text-align: left !important;
+}
+.completed {
+    font-size: 16px !important;
+    color: #549c37 !important;
+}
+.pending {
+    color: #df1744 !important;
+}
+.form-list {
+    padding: 10px !important;
+}
+.s-name {
+    font-weight: 500;
+    font-size: 18px !important;
+    color: #df1744 !important;
+}
+.no-form {
+    width: 80% !important;
+    margin: 1em auto !important;
+    text-align: center !important;
+}
+
+.form-id{
+    text-align: right !important;
+    float: right;
+    color: black;
+}
+.download-btn{
+    margin-right: 10px !important;
+    float: right !important;
+}
+.title {
+    color: #E51545;
+    font-size: 20px;
+    display: block;
+    text-align: center;
+}
+.file_log {
+    display: block;
+    margin: 2em auto;
+    max-width: 100px;
+}
+.buy_now_btn {
+    background-color: #E51545;
+    height: 30px;
+    text-transform: capitalize;
+    --padding-start: 2em;
+    --padding-end: 2em;
+    --box-shadow: none;
+}

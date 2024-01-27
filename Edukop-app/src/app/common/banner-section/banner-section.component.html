@@ -1,0 +1,24 @@
+<div class="banner-div">
+    <ion-slides autoplay="3000" speed="1000" loop="true" effect="slide" pager="true" class="slide-cls">
+        <ion-slide (click)="
+                openSectionProduct(
+                    banner.action,
+                    banner.typo,
+                    banner.productUUID,
+                    banner.name,
+                    banner?.isRouterLink,
+                    banner?.routerLink,
+                    banner?.orgType
+
+                )
+            " class="slide" *ngFor="let banner of section?.collectionOfProduct">
+            <div class="img-div">
+                <img [src]="
+                        banner.imageUrl
+                            ? imageApi + banner.imageUrl
+                            : '/assets/images/d-img.jpg'
+                    " class="slide-img" />
+            </div>
+        </ion-slide>
+    </ion-slides>
+</div>

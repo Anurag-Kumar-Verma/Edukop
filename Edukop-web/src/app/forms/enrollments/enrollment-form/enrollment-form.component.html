@@ -1,0 +1,292 @@
+<section class="container">
+    <a href="javascript:;" class="btn_link py-2 d-inline-block backBtn" (click)="back()">
+        <i class="mdi mdi-arrow-left"></i> Back
+    </a>
+    <p class="schoolName mb-1 fw-5" *ngIf="schholDetail">{{schholDetail.name}}</p>
+    <small class="formId" *ngIf="formID">Form Id: {{formID}}</small>
+
+    <div class="mb-2" *ngFor="let formGroupField of userFilledForm; index as i;">
+        <div *ngIf="i == currentPage">
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="ques_no mb-1">Question No.: {{i+1}} / {{userFilledForm.length}}</p>
+                    <p class="percentage bg-secondary rounded-2 text-light p-1">{{(i / userFilledForm.length) * 100 | number: '1.0-0'}}%</p>
+                </div>
+                <mat-progress-bar class="example-margin" [color]="'primary'" [mode]="'determinate'"
+                    [value]="i / userFilledForm.length * 100">
+                </mat-progress-bar>
+            </div>
+
+
+            <div class="card my-2">
+                <div class="card-content p-3">
+                    <ng-container *ngIf="!formGroupField.repeatField">
+                        <form [formGroup]="userFilledForm[i].fg" class="form-class">
+                            <div class="question_div">
+                                <h3 class="question_title">{{formGroupField.group.title}}</h3>
+                                <h4 class="question_text">{{formGroupField.field.questionText}}</h4>
+                            </div>
+    
+                            <div *ngIf="formGroupField.field.type == 'Textarea'">
+                                <textarea name="{{formGroupField.field.questionUUID}}"
+                                    id="{{formGroupField.field.questionUUID}}" rows="5" required formControlName="answer"
+                                    class="form-control" (keyup)="keydown($event, i, formGroupField)"
+                                    placeholder="Write here"></textarea>
+                            </div>
+    
+                            <div *ngIf="formGroupField.field.type == 'Number'">
+                                <input type="number" name="{{formGroupField.field.questionUUID}}"
+                                    id="{{formGroupField.field.questionUUID}}" required formControlName="answer"
+                                    class="form-control" (keyup)="keydown($event, i, formGroupField)"
+                                    placeholder="Enter here">
+                            </div>
+    
+                            <div *ngIf="formGroupField.field.type == 'Text'">
+                                <input type="text" name="{{formGroupField.field.questionUUID}}"
+                                    id="{{formGroupField.field.questionUUID}}" required formControlName="answer"
+                                    class="form-control" (keyup)="keydown($event, i, formGroupField)"
+                                    placeholder="Write here">
+                            </div>
+    
+                            <div *ngIf="formGroupField.field.type == 'Email'">
+                                <input type="email" name="{{formGroupField.field.questionUUID}}"
+                                    id="{{formGroupField.field.questionUUID}}" required formControlName="answer"
+                                    class="form-control" (keyup)="keydown($event, i, formGroupField)"
+                                    placeholder="Write here">
+                            </div>
+    
+                            <div *ngIf="formGroupField.field.type == 'Website'">
+                                <input type="url" name="{{formGroupField.field.questionUUID}}"
+                                    id="{{formGroupField.field.questionUUID}}" required formControlName="answer"
+                                    class="form-control" (keyup)="keydown($event, i, formGroupField)"
+                                    placeholder="Write here">
+                            </div>
+
+                            <div *ngIf="formGroupField.field.type == 'CheckBoxes'">
+                                <div *ngFor="let dropDownvalue of formGroupField.field.values; index as n;">
+                                    <mat-checkbox [formControlName]="getFormControlNameForOption(dropDownvalue.value)">{{dropDownvalue.key}}</mat-checkbox>
+                                </div>
+                            </div>
+    
+                            <div *ngIf="formGroupField.field.type == 'Dropdown'">
+                                <mat-select class="form-control" formControlName="answer">
+                                    <mat-option>
+                                        <ngx-mat-select-search [(ngModel)]="stateSearchCtrl"
+                                        [ngModelOptions]="{ standalone: true }" name="search" ngDefaultControl>
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let dropDownvalue of formGroupField
+                                    .field.values| stringFilterBy: stateSearchCtrl: 'key'" [value]="dropDownvalue.value">
+                                        {{dropDownvalue.key}}</mat-option>
+                                </mat-select>
+                            </div>
+    
+                            <div *ngIf="formGroupField.field.type == 'Options'">
+                                <mat-select class="form-control" formControlName="answer" multiple>
+                                    <mat-option>
+                                        <ngx-mat-select-search [(ngModel)]="stateSearchCtrl"
+                                        [ngModelOptions]="{ standalone: true }" name="search" ngDefaultControl>
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let dropDownvalue of formGroupField
+                                    .field.values| stringFilterBy: stateSearchCtrl: 'key'" [value]="dropDownvalue.value">
+                                        {{dropDownvalue.key}}</mat-option>
+                                </mat-select>
+                            </div>
+                        </form>
+                    </ng-container>
+                    <ng-container *ngIf="formGroupField.repeatField?.length">
+                        <form>
+                            <div class="question_div">
+                                <h3 class="question_title">{{formGroupField.group.title}}</h3>
+                            </div>
+
+                            <div class="multiple-form">
+                                <div class="infoCard repeatedGroups d-sm-flex align-items-start justify-content-between pb-2" *ngFor="let detail of repeatSavedAnswers[i]; index as j;">
+                                    <div>
+                                        <div class="subInfoRow d-flex" *ngFor="let value of detail; index as l">
+                                            <div class="subInfo">
+                                                <span class="pe-2 danger">{{value.field.questionText}}:</span>
+                                            </div>
+                                            <div class="subInfo">
+                                                <span *ngIf="value.field.type !== 'Dropdown' && value.field.type !== 'Date'">{{ value.answer }}</span>
+    
+                                                <span *ngIf="value.field.type == 'Date'">{{ value.answer | date: 'mediumDate' }}</span>
+    
+                                                <span *ngIf="value.field.type === 'Dropdown' && value.optionAnswers?.key">{{value.optionAnswers.key}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="subInfoRow btn-group mt-2 mt-sm-0">
+                                        <button type="button" class="btn btn-sm btn-outline-danger" (click)="deleteAlert(i, j)">Delete</button>
+                                        <button type="button" class="btn btn-sm btn-danger" (click)="editAnswers(detail, i, j)">Edit</button>
+                                    </div>
+                                </div>
+
+                                <div>        
+                                    <div class="btn btn-block btn-light d-flex justify-content-between align-items-center repeatRow mb-2 bg-light" (click)="openFormModal()">
+                                        <span>Add More</span>
+                                        <span class="pointer addfield">
+                                            <i class="mdi mdi-plus mdi-18px" *ngIf="openModal == false"></i>
+                                            <i class="mdi mdi-minus mdi-18px" *ngIf="openModal == true"></i>
+                                        </span>
+                                    </div>
+        
+                                    <div *ngIf="openModal == true">
+                                        <div class="repeatField mb-2" *ngFor="let form of formGroupField.repeatField; let k = index" [formGroup]="form.fg">
+                                            <div *ngIf="form.field.type == 'Textarea'">
+                                                <label for="{{form.field.questionUUID}}">{{form.field.questionText}}</label>
+                                                <textarea name="{{form.field.questionUUID}}"
+                                                    id="{{form.field.questionUUID}}" rows="5" required [formControlName]="getFormControlNameForRepeatFields(k)"
+                                                    class="form-control" (keyup)="keydown($event, i, formGroupField)"
+                                                    placeholder="Write here"></textarea>
+                                            </div>
+                    
+                                            <div *ngIf="form.field.type == 'Number'">
+                                                <label for="{{form.field.questionUUID}}">{{form.field.questionText}}</label>
+                                                <input type="number" name="{{form.field.questionUUID}}"
+                                                    id="{{form.field.questionUUID}}" required [formControlName]="getFormControlNameForRepeatFields(k)"
+                                                    class="form-control" (keyup)="keydown($event, i, formGroupField)"
+                                                    placeholder="Enter here">
+                                            </div>
+                    
+                                            <div *ngIf="form.field.type == 'Text'">
+                                                <label for="{{form.field.questionUUID}}">{{form.field.questionText}}</label>
+                                                <input type="text" name="{{form.field.questionUUID}}"
+                                                    id="{{form.field.questionUUID}}" required [formControlName]="getFormControlNameForRepeatFields(k)"
+                                                    class="form-control" (keyup)="keydown($event, i, formGroupField)"
+                                                    placeholder="Write Title here">
+                                            </div>
+                    
+                                            <div *ngIf="form.field.type == 'email'">
+                                                <label for="{{form.field.questionUUID}}">{{form.field.questionText}}</label>
+                                                <input type="email" name="{{form.field.questionUUID}}"
+                                                    id="{{form.field.questionUUID}}" required [formControlName]="getFormControlNameForRepeatFields(k)"
+                                                    class="form-control" (keyup)="keydown($event, i, formGroupField)"
+                                                    placeholder="Write here">
+                                            </div>
+                    
+                                            <div *ngIf="form.field.type == 'Website'">
+                                                <label for="{{form.field.questionUUID}}">{{form.field.questionText}}</label>
+                                                <input type="url" name="{{form.field.questionUUID}}"
+                                                    id="{{form.field.questionUUID}}" required [formControlName]="getFormControlNameForRepeatFields(k)"
+                                                    class="form-control" (keyup)="keydown($event, i, formGroupField)"
+                                                    placeholder="Write here">
+                                            </div>
+
+                                            <div *ngIf="form.field.type == 'CheckBoxes'">
+                                                <p>check </p>
+                                                <div *ngFor="let dropDownvalue of form.field.values; index as n;">
+                                                    <p>check {{n}}</p>
+                                                    <mat-checkbox [checked]="form.fg.controls['answer'].value" [formControlName]="getFormControlNameForOption(dropDownvalue.value)">{{dropDownvalue.key}}</mat-checkbox>
+
+                                                    <label for="{{form.field.questionUUID}}">{{dropDownvalue.key}}</label>
+                                                </div>
+                                            </div>
+                    
+                                            <div *ngIf="form.field.type == 'Dropdown'">
+                                                <label for="{{form.field.questionUUID}}">{{form.field.questionText}}</label>
+                                                <mat-select class="form-control" placeholder="Select" [formControlName]="getFormControlNameForRepeatFields(k)">
+                                                    <mat-option>
+                                                        <ngx-mat-select-search [(ngModel)]="stateSearchCtrl"
+                                                        [ngModelOptions]="{ standalone: true }" name="search" ngDefaultControl>
+                                                        </ngx-mat-select-search>
+                                                    </mat-option>
+                                                    <mat-option *ngFor="let dropDownvalue of form.field.values| stringFilterBy: stateSearchCtrl: 'key'" [value]="dropDownvalue.value">
+                                                        {{dropDownvalue.key}}</mat-option>
+                                                </mat-select>
+                                            </div>
+    
+                                            <div *ngIf="form.field.type == 'Dropdown'">
+                                                <mat-select class="form-control" formControlName="answer">
+                                                    <mat-option>
+                                                        <ngx-mat-select-search [(ngModel)]="stateSearchCtrl"
+                                                        [ngModelOptions]="{ standalone: true }" name="search" ngDefaultControl>
+                                                        </ngx-mat-select-search>
+                                                    </mat-option>
+                                                    <mat-option *ngFor="let dropDownvalue of form.field.values | stringFilterBy: stateSearchCtrl: 'key'" [value]="dropDownvalue.value">
+                                                        {{dropDownvalue.key}}</mat-option>
+                                                </mat-select>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn btn-sm btn-danger addUpdateBtn" (click)="addAnswer(i)">{{ isUpdate ? 'Update' : 'Add'}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </ng-container>
+                </div>
+            </div>
+    
+            <div class="btn-group">
+                <button type="button" class="btn btn-danger btn-sm" [disabled]="currentPage == 0"
+                    (click)="previous(i)">Previous</button>
+                <button type="button" class="btn btn-danger btn-sm"
+                    (click)="next(i, formGroupField)">Next</button>
+                <!-- <button type="submit" *ngIf="currentPage == (userFilledForm.length - 1)" class="btn btn-danger bg-danger SubmitBtn">Submit</button> -->
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="lastSlide">
+        <div class="input-fields py-2">
+            <h3 class="preview-form text-center">Preview form</h3>
+            <div class="div-new mx-auto" *ngFor="let group of values; index as i">
+                <div *ngIf="!group.repeatFields">
+                    <h4 class="group-label">
+                        {{ group.title }}
+                    </h4>
+                    <div class="row preview-row mx-0" *ngFor="let questions of group.fields">
+                        <div class="col-6">
+                            {{ questions.questionText }}
+                        </div>
+                        <div class="col-6">
+                            <span class="field-name">
+                                {{ getPreviewAnswer(questions) }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="group.repeatFields">
+                    <div *ngIf="repeatSavedAnswers.length > 0"></div>
+                    <h4 class="group-label">
+                        {{ group.title }}
+                    </h4>
+                    <div *ngIf="repeatSavedAnswers.length">
+                        <div *ngFor="let detail of repeatSavedAnswers[getReapeatIndex(group.title)]; index as l;">
+                            <div class="row preview-row mx-0" *ngFor="let value of detail; index as m">
+                                <div class="col-6">
+                                    {{ value.field.questionText }}
+                                </div>
+                                <div class="col-6">
+                                    <span *ngIf="value.field.type !== 'Dropdown' && value.field.type !== 'Date'" class="field-name">{{ value.answer }}</span>
+
+                                    <span *ngIf="value.field.type === 'Dropdown'" class="field-name">{{ value.optionAnswers.key }}</span>
+
+                                    <span *ngIf="value.field.type === 'Date'" class="field-name">{{ value.answer | date: 'mediumDate' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons d-flex justify-content-center">
+            <button type="button" class="btn btn-outline-danger btn-sm mx-1" (click)="prev()">Back</button>
+            <button type="button" class="btn btn-danger btn-sm mx-1" (click)="formList()">Done</button>
+        </div>
+    </div>
+</section>
+
+<!-- <mat-select class="form-control">
+    <mat-option>
+        <ngx-mat-select-search [(ngModel)]="stateSearchCtrl" [ngModelOptions]="{ standalone: true }" name="search" ngDefaultControl></ngx-mat-select-search>
+      </mat-option>
+    <mat-option *ngFor="let dropItem of states| stringFilterBy: stateSearchCtrl: 'name'" [value]="dropItem.name">{{dropItem.name}}</mat-option>
+</mat-select> -->
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" type="ball-scale-multiple" [fullScreen]="true"></ngx-spinner>

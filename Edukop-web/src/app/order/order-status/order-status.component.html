@@ -1,0 +1,123 @@
+<section class="order_detail_sec">
+
+    <div class="statusDiv text-center waiting" *ngIf="orderDetails.status == 'Awaiting Fulfillment'">
+        <span class="statusIcons">
+            <i class="mdi mdi-check-circle-outline"></i>
+        </span>
+        <p class="color-gray mb-0 mt-2">Order placed successfully</p>
+        <p class="color-gray">Thank You for your order</p>
+    </div>
+
+    <div class="statusDiv text-center pending" *ngIf="orderDetails.status == 'Pending'">
+        <span class="statusIcons">
+            <i class="mdi mdi-timer-outline"></i>
+        </span>
+        <p class="color-gray mb-0 mt-2">Order Pending</p>
+        <p class="color-gray">Please wait while we confirm your order</p>
+    </div>
+
+    <div class="statusDiv text-center declined" *ngIf="orderDetails.status == 'Declined'">
+        <span class="statusIcons">
+            <i class="mdi mdi-close-circle-outline"></i>
+        </span>
+        <p class="color-gray mb-0 mt-2">Order Failed</p>
+        <p class="color-gray">Please try again. <a href="javascript:;" class="btn_link" (click)="retry()">Retry</a></p>
+    </div>
+
+    <p class="fw-5 section_lbl ">Order Details</p>
+    <div class="product_details mt-2" *ngFor="let item of vendors">
+
+        <div class="d-flex flex-wrap mb-2 productDetail" *ngFor="let product of getProduct(item.vendorId)">
+            <div class="img_div">
+                <img [src]="product.product.images.length > 0 ? imageUrl + product.product.images[0] : '../../../assets/images/download-png.png'" alt="priduct">
+            </div>
+
+            <div class="detail_content">
+                <h3 class="product_name fw-5 mb-1">{{product.product?.name}}</h3>
+                <p class="mb-1 price">
+                    <span class="price">₹ {{product.product.sellingprice * item.quantity}}</span>
+
+                    <span class="price">
+                        <s style="color: red" *ngIf="product?.mrp > product?.sellingprice">
+                            {{product.product.mrp * item.quantity}}
+                        </s>
+                    </span>
+                    <span class="off" *ngIf="product?.mrp > product?.sellingprice">
+                        {{calculateOfferPercentage(product.product.mrp, product.product.sellingprice)}}% off
+                    </span>
+                </p>
+                <p class="fw-3"><span>Qty: </span>&nbsp; {{product?.quantity}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="shipping_details" *ngIf="orderDetails">
+        <p class="section_lbl fw-5">Shipping Details</p>
+
+        <div class="shipping_card" *ngIf="orderDetails.address">
+            <p class="user_name fw-5">{{orderDetails.address.fullName}}</p>
+            <address class="mb-0">{{orderDetails.address.address}},{{orderDetails.address.landmark}},</address>
+            <address class="mb-1">{{orderDetails.address.city}},{{orderDetails.address.state}} {{orderDetails.address.pincode}}</address>
+            <p class="mobile_no">+91-{{orderDetails.address.phone}}</p>
+        </div>
+    </div>
+
+    <div class="price_details" *ngIf="orderDetails">
+        <p class="section_lbl fw-5">Price Details</p>
+
+        <div class="price_card">
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td><span>Price ({{orderDetails.products.length}} item)</span></td>
+                            <td><span class="">&#8377; {{orderDetails.totalMrp}}</span></td>
+                        </tr>
+                        <tr>
+                            <td><span>Discount</span></td>
+                            <td><span class="color-success">&minus; &#8377; {{orderDetails.discount}}</span></td>
+                        </tr>
+                        <tr>
+                            <td><span>Selling Price</span></td>
+                            <td><span>&#8377; {{orderDetails.totalAmount}}</span></td>
+                        </tr>
+                        <tr *ngIf="orderDetails?.applied_coupon?.couponDiscount">
+                            <td><span>Coupon Discount</span></td>
+                            <td><span class="color-success">-&#8377; {{orderDetails.applied_coupon.couponDiscount}}</span></td>
+                        </tr>
+                        <tr>
+                            <td><span>Shipping Fee</span></td>
+                            <td>
+                                <span *ngIf="orderDetails?.shipping_amount">+ {{orderDetails.shipping_amount}}</span>
+                                <span *ngIf="!orderDetails?.shipping_amount">0</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><span class="fw-5">Total Amount</span></td>
+                            <td>
+                                <span class="fw-5" *ngIf="!orderDetails?.applied_coupon">&#8377; {{orderDetails.totalAmount}}</span>
+                                <span class="fw-5" *ngIf="orderDetails?.applied_coupon">&#8377; {{orderDetails.applied_coupon.effectiveAmount}}</span>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <div class="pb-3 pt-2" *ngIf="orderDetails.status != 'Declined'">
+            <p class="d-flex">
+                <span class="fw-5">Order Id:</span>&nbsp;
+                <span class="subText">{{orderDetails.orderId}}</span>
+            </p>
+            <p class="d-flex">
+                <span class="fw-5">Order Placed On:</span>&nbsp;
+                <span class="subText">{{orderDetails.created_date | date}}</span>
+            </p>
+            <p>Track you order <a href="javascript:;" class="btn_link" (click)="trackOrder()">here</a></p>
+        </div>
+    </div>
+</section>
+
+<ngx-spinner type="ball-scale-multiple" [fullScreen]="true"></ngx-spinner>

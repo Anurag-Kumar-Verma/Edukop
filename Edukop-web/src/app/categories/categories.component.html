@@ -1,0 +1,27 @@
+<div class="container">
+    <h2 class="pt-2">Categories</h2>
+
+    <div class="card categories_Card border-0 mb-2" *ngFor="let category of categoryTree; let i = index;">
+        <div class="card-header border-0 d-flex justify-content-between align-items-center">
+            <p class="category_name mb-0 pointer w-75" (click)="openCategory($event, category.id, category.name)">{{category.name}}</p>
+            <span class="pointer expand_btn" *ngIf="category.childs.length > 0" (click)="showChild($event, i)">
+                <i *ngIf="categoryIndex != i" class="mdi mdi-chevron-right mdi-18px"></i>
+                <i *ngIf="categoryIndex === i" class="mdi mdi-chevron-down mdi-18px"></i>
+            </span>
+        </div>
+        <div class="card-content ps-3 pt-1" *ngIf="category.childs.length > 0 && categoryIndex === i">
+            <div class="card child-card border-0 mb-1" *ngFor="let child of category.childs; let j = index;">
+                <div class="card-header border-0 d-flex justify-content-between align-items-center pointer" (click)="showSubChild($event, categoryIndex, j)">
+                    <span class="child_name" (click)="openCategory($event, child.id, child.name)">{{child.name}}</span>
+                    <span class="pointer" *ngIf="child.childs.length > 0">
+                        <i *ngIf="childIndex != j" class="mdi mdi-chevron-right mdi-18px"></i>
+                        <i *ngIf="childIndex === j" class="mdi mdi-chevron-down mdi-18px"></i>
+                    </span>
+                </div>
+                <div class="card-content" *ngIf="child.childs.length > 0 && (categoryIndex === i && childIndex === j)">
+                    <span class="subChild pointer" *ngFor="let subChild of child.childs" (click)="openCategory($event, subChild.id, subChild.name)">{{subChild.name}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,123 @@
+<!-- <ion-header mode="md">
+  <ion-toolbar class="toolbar">
+    <ion-icon class="back-icon" slot="start" name="arrow-back-outline" ></ion-icon>
+    <ion-title class="heading">Payment</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="pay-opt-text">
+    <ion-label>
+      Payment Options
+    </ion-label> <br>
+    <ion-label (click)="backToPay()" *ngIf="payOptionCard === false" class="goback">
+      <a> Go Back</a>
+
+    </ion-label>
+  </div>
+  <ion-card class="pay-option-list-card" *ngIf="payOptionCard === 'true'">
+    <ion-list>
+      <ion-item class="pay-item">
+
+        <p class="pay-option"> Cash On Delivery</p>
+
+        <ion-radio slot="end" (click)="cashOn()"></ion-radio>
+
+
+      </ion-item>
+      <ion-item class="pay-item">
+
+        <p> Credit/Debit Card</p>
+
+        <ion-radio slot="end" (click)="cardOpt()"></ion-radio>
+
+
+      </ion-item>
+      <ion-item class="pay-item">
+
+        <p class="pay-option">UPI</p>
+        <ion-radio slot="end" (click)="cardOpt()"></ion-radio>
+
+
+      </ion-item>
+      <ion-item class="pay-item">
+
+        <p class="pay-option">Net Banking</p>
+        <ion-radio slot="end" (click)="cardOpt()"></ion-radio>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngIf="cashOnDelivery == true" class="cashon-card">
+    <ion-label>
+      Cash on delivery Accepted!.
+    </ion-label>
+  </ion-card>
+
+  <ion-card *ngIf="cardOption == true" class="cashon-card">
+    <ion-item-divider class="item-divider">
+      <ion-label>
+        Credit/Debit Card
+      </ion-label>
+
+    </ion-item-divider>
+
+    <div class="form-div">
+      <form>
+        <ion-input class="input" type="number" placeholder="Card Number"></ion-input>
+        <ion-input class="input" type="Text" placeholder="Name on Card*"></ion-input>
+      </form>
+    </div>
+  </ion-card>
+
+
+  <ion-card class="item-price-card">
+    <ion-card-header class="price-card-header">
+      <ion-item-divider class="item-divider">
+        <ion-label>
+          Price Details
+        </ion-label>
+      </ion-item-divider>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        <ion-col size="6" class="item-col">
+          Price
+        </ion-col>
+        <ion-col size="6" class="price-col">
+          ₹ {{amount?amount:'-'}}
+        </ion-col>
+
+        <ion-col size="6" class="item-col">
+          <ion-label>Delivery</ion-label>
+        </ion-col>
+        <ion-col size="6" class="price-col">
+          <ion-label> ₹ 40</ion-label>
+        </ion-col>
+        <ion-item-divider class="item-divider-price"></ion-item-divider>
+        <ion-col size="6" class="item-col">
+          <ion-label>Amount Payable</ion-label>
+        </ion-col>
+        <ion-col size="6" class="price-col">
+          <ion-label> ₹ {{amount?amount + 40:'-'}}</ion-label>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <div class="item-pay-card">
+    <ion-card class="card-pay">
+      <ion-card-content class="pay-card-content">
+        <ion-row>
+          <ion-col size="12" class="btn-col">
+            <ion-button shape="round" class="buy-now" (click)="payNow()" [disabled]="!cashOnDelivery">Place Order
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+
+    </ion-card>
+  </div>
+</ion-content> -->

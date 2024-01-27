@@ -1,0 +1,7 @@
+<div class="banner_section">
+    <mdb-carousel [isControls]="true" class="banner_img_slider" [interval]="10000">
+        <mdb-carousel-item class="slider_item" *ngFor="let banner of section?.collectionOfProduct; let i = index;">
+          <img [src]="banner.imageUrl ? imageApi + banner.imageUrl : 'https://mdbcdn.b-cdn.net/img/new/slides/041.webp'" alt="Banner" class="pointer" (click)="openSectionProduct(banner.action, banner.typo, banner.productUUID, banner.name, banner?.isRouterLink, banner?.routerLink, banner?.orgType)">
+        </mdb-carousel-item>
+      </mdb-carousel>
+</div>

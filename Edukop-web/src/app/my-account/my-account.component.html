@@ -1,0 +1,124 @@
+<section>
+    <div class="profile_view_section">
+        <div class="card profile_card border-0 pb-3">
+            <div class="card-header border-0">
+                <div class="profile_view_div text-center ">
+                    <div class="profile_big_img">
+                        <img *ngIf="!imagePath" [src]="(userInfo && userInfo.imageUrl) ? (imageApi + userInfo.imageUrl) : '../../assets/images/unknown_user.jpg'" alt="{{(userInfo && userInfo.firstName) ? userInfo.firstName : 'user'}}">
+                        <img [src]="imagePath" *ngIf="imagePath" alt="{{(userInfo && userInfo.firstName) ? userInfo.firstName : 'user'}}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-content px-1">
+                <div class="user_details px-md-3">
+                    <div class="row inputBlock align-items-center justify-content-between"
+                        *ngIf="userInfo?.firstName || userInfo?.lastName">
+                        <div class="col-4 col-sm-6 col-lg-4">
+                            <span class="label">User Name</span>
+                        </div>
+                        <div class="col-7 col-sm-6">
+                            <span class="">{{userInfo.firstName}} </span>
+                            <span class="">{{userInfo.lastName}} </span>
+                        </div>
+                    </div>
+                    <div class="row inputBlock align-items-center justify-content-between" *ngIf="userInfo?.email">
+                        <div class="col-4 col-sm-6 col-lg-4">
+                            <span class="label">Email</span>
+                        </div>
+                        <div class="col-7 col-sm-6">
+                            <span class="">{{userInfo.email}}</span>
+                        </div>
+                    </div>
+                    <div class="row inputBlock align-items-center justify-content-between" *ngIf="userInfo?.phoneNo">
+                        <div class="col-4 col-sm-6 col-lg-4">
+                            <span class="label">Mobile</span>
+                        </div>
+                        <div class="col-7 col-sm-6">
+                            <span class="">+91-{{userInfo.phoneNo}}</span>
+                        </div>
+                    </div>
+                    <div class="row inputBlock align-items-center justify-content-between" *ngIf="userInfo?.city">
+                        <div class="col-4 col-sm-6 col-lg-4">
+                            <span class="label">City</span>
+                        </div>
+                        <div class="col-7 col-sm-6">
+                            <span class="">{{userInfo.city}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="address_sec px-lg-2" *ngIf="!isAddressView">
+
+        <div class="card addressCard border-0 mx-auto rounded-2" *ngIf="myAddressess">
+            <div class="card-header p-0" [ngClass]="myAddressess || allAddresses.length != 0 ? '' : 'border-0'">
+                <div class="d-flex align-items-center justify-content-between pb-1">
+                    <h3 class="danger mb-0">My Address</h3>
+                    <button type="button" class="btn_danger border-0" (click)="addAddress()">Add Address</button>
+                </div>
+            </div>
+            <div class="card-content pt-3" *ngIf="myAddressess || allAddresses.length != 0">
+                <div *ngIf="myAddressess">
+                    <p class="username mb-2">{{myAddressess.fullName}}</p>
+                    <address class="mb-1">{{myAddressess.address}}, {{myAddressess.landmark}}, {{myAddressess.city}},
+                        {{myAddressess.state}} {{myAddressess.pincode}}</address>
+                </div>
+                
+                <div *ngIf="!myAddressess && allAddresses.length != 0">
+                    <p class="username mb-2">{{allAddresses[0].fullName}}</p>
+                    <address class="mb-1">{{allAddresses[0].address}}, {{allAddresses[0].landmark}}, {{allAddresses[0].city}},
+                        {{allAddresses[0].state}} {{allAddresses[0].pincode}}</address>
+                </div>
+
+                <div class="divider"></div>
+                <button class="btn-sm btn_danger rounded-2 viewAddressBtn ms-auto d-block" *ngIf="allAddresses.length > 1" (click)="viewAddress()">View
+                    More</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="allAddresses" *ngIf="!myAddressess || isAddressView">
+        
+        <div class="addressList pt-3">
+            <div class="card addressCard border-0 mx-auto rounded-2">
+                <div class="card-header p-0">
+                    <!-- <button class="btn btn-light btn-sm" (click)="viewAddress()">Back</button>
+                    <h3 class="danger mb-1">My Addresses</h3> -->
+                    <div class="d-flex align-items-center justify-content-between pb-1">
+                        <h3 class="danger mb-0">My Address</h3>
+                        <button type="button" class="btn_danger border-0" (click)="addAddress()">New Address</button>
+                    </div>
+                </div>
+                <div class="card-content pt-3">
+                    <div class="addressItem" *ngFor="let address of allAddresses; let i = index;">
+                        <div class="pointer d-sm-flex justify-content-between">
+                            <div class="detail">
+                                <p class="username mb-2">{{address.fullName}}</p>
+                                <address class="mb-1">{{address.address}}, {{address.landmark}},
+                                    {{address.city}}, {{address.state}} {{address.pincode}}</address>
+                                <div class="divider"></div>
+                            </div>
+
+                            <div class="group_btn pb-2 d-flex align-items-center">
+                                <button class="editAddress_btn btn-light rounded-2 border-0 me-2" *ngIf="address.uuid" (click)="editAddress(address.uuid)" title="Edit">
+                                    <i class="mdi mdi-pencil-outline"></i>
+                                    <!-- <span>Edit</span> -->
+                                </button>
+                                <button class="editAddress_btn btn-light rounded-2 border-0" *ngIf="address.uuid" (click)="removeAddress(address.uuid, i)" title="Remove">
+                                    <i class="mdi mdi-delete danger"></i>
+                                    <!-- <span>Remove</span> -->
+                                </button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-danger d-block mb-2 ms-auto" *ngIf="address.isSelect == false" (click)="setDefault(address.uuid)">Set Default</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<ngx-spinner type="ball-scale-multiple" [fullScreen]="true"></ngx-spinner>

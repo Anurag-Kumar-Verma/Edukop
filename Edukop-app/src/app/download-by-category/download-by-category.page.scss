@@ -1,0 +1,58 @@
+.back-icon {
+    padding-left: 8px !important;
+    font-size: 22px !important;
+}
+.toolbar {
+    --background: #df1744;
+    --color: #fff !important;
+}
+.heading {
+    font-size: 18px !important;
+    text-align: left !important;
+}
+.board-img {
+    background-size: cover !important;
+    // background: url('../../../assets/images/default-image.jpg') center no-repeat !important;
+    margin: 0px auto;
+    height: 85px !important;
+}
+.board-name {
+    color: #df1744;
+    font-size: 18px !important;
+}
+.board-type {
+    height: 35px !important;
+    margin: 5px 0px !important;
+    overflow: hidden !important;
+}
+.city-board-type {
+    height: 20px !important;
+    margin: 5px 0px !important;
+    overflow: hidden !important;
+}
+.exam-type {
+    height: 50px !important;
+    margin: 5px 0px !important;
+    overflow: hidden !important;
+}
+.image-col {
+    text-align: center !important;
+}
+.Download-btn-col {
+    text-align: right !important;
+}
+.download-note {
+    margin: 8px 0px 0px !important;
+    font-size: 15px !important;
+}
+.download-row {
+    border-top: 1px solid #a0a0a0 !important;
+}
+.forms-link {
+    background-color: #df1744;
+    font-weight: 500 !important;
+    color: #fff !important;
+    padding: 10px !important;
+    font-size: 18px !important;
+    text-align: center !important;
+}

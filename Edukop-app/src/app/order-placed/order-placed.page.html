@@ -1,0 +1,251 @@
+<ion-header mode="md">
+    <ion-toolbar class="header">
+        <ion-icon
+            slot="start"
+            name="arrow-back-outline"
+            (click)="back()"
+            class="back-icon"
+        ></ion-icon>
+        <img src="./assets/images/Edukop_logo3.png" class="app-logo" />
+    </ion-toolbar>
+</ion-header>
+<ion-content *ngIf="!isLoading">
+    <!-- condition if order is failed -->
+    <ion-row *ngIf="orderData.status == 'Declined'">
+        <div class="table">
+            <div class="check-box">
+                <ion-icon class="failed" name="close-circle-outline"></ion-icon>
+                <p class="op">Order Failed</p>
+                <p>
+                    Please try again.
+                    <a class="retry" (click)="retry()">Retry</a>
+                </p>
+            </div>
+        </div>
+    </ion-row>
+    <!-- condition if order is in pending state -->
+    <ion-row *ngIf="orderData.status == 'Pending'">
+        <div class="table">
+            <ion-item-divider>
+                <div class="check-box">
+                    <ion-icon
+                        class="pending"
+                        name="stopwatch-outline"
+                    ></ion-icon>
+                    <p class="op">Order Pending</p>
+                    <p>Please wait while we confirm your order</p>
+                </div>
+            </ion-item-divider>
+        </div>
+    </ion-row>
+    <!-- Order Successfull -->
+    <ion-row *ngIf="orderData.status == 'Awaiting Fulfillment'">
+        <div class="table">
+            <div class="check-box">
+                <ion-icon
+                    class="check"
+                    name="checkmark-circle-outline"
+                ></ion-icon>
+                <p class="op">Order placed successfully</p>
+                <p>Thank You for your order</p>
+            </div>
+        </div>
+    </ion-row>
+    <ion-card class="detail-card">
+        <ion-card-header class="price-card-header">
+            <ion-item-divider class="item-divider">
+                <ion-label class="card-head-order"
+                    ><b> Order Details</b></ion-label
+                >
+            </ion-item-divider>
+        </ion-card-header>
+        <ion-card-content class="price-card-content">
+            <ion-row *ngFor="let product of orderData?.products">
+                <ion-col size="8">
+                    <h5 class="product-name">{{product?.product?.name}}</h5>
+                    <h6>
+                        Price:
+                        <span> ₹ {{product?.product?.sellingprice}}</span>
+                        <s class="striked"> {{product?.product?.mrp}}</s>
+                    </h6>
+                    <h6>Quantity:<span> {{product?.quantity}}</span></h6>
+                </ion-col>
+                <ion-col size="4">
+                    <img
+                        [src]="product?.product?.images?.length ? imageApi + product?.product?.images[0] : 'assets/images/default-image.jpg'"
+                        class="img-size"
+                    />
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+    <ion-card class="item-price-card" mode="md">
+        <ion-card-header class="price-card-header">
+            <ion-item-divider class="item-divider">
+                <ion-row class="heading-row">
+                    <ion-col size="6">
+                        <ion-label class="card-head">
+                            <b>Price Details</b>
+                        </ion-label>
+                    </ion-col>
+                    <ion-col size="6" *ngIf="orderData?.applied_coupon">
+                        <ion-label
+                            style="text-align: right !important"
+                            class="card-head-coupon"
+                            ><b>
+                                Coupon:
+                                {{orderData?.applied_coupon?.coupon_code}}</b
+                            ></ion-label
+                        >
+                    </ion-col>
+                </ion-row>
+            </ion-item-divider>
+        </ion-card-header>
+
+        <ion-card-content class="price-card-content">
+            <ion-item-divider class="price-divider-top" mode="md">
+                <ion-row class="bill-row">
+                    <ion-col
+                        size="6"
+                        class="price-text"
+                        *ngIf="orderData?.products.length > 1"
+                    >
+                        Price ({{orderData?.products.length}} items)
+                    </ion-col>
+                    <ion-col
+                        size="6"
+                        class="price-text"
+                        *ngIf="orderData?.products.length == 1"
+                    >
+                        Price ({{orderData?.products.length}} item)
+                    </ion-col>
+
+                    <ion-col size="6" class="price-amount"
+                        >₹ {{orderData.totalAmount}}
+                    </ion-col>
+                    <ion-col
+                        size="6"
+                        class="price-text"
+                        *ngIf="orderData?.applied_coupon?.couponDiscount"
+                        >Coupon Discount
+                    </ion-col>
+                    <ion-col
+                        size="6"
+                        class="price-amount"
+                        *ngIf="orderData?.applied_coupon?.couponDiscount"
+                    >
+                        <p style="color: green">
+                            ₹ {{orderData?.applied_coupon?.couponDiscount}}
+                        </p>
+                    </ion-col>
+                    <!-- <ion-col size="6" class="price-text">
+                        Special price
+                    </ion-col>
+                    <ion-col size="6" class="price-amount">
+                        ₹ 320
+                    </ion-col> -->
+                    <ion-col size="6" class="price-text">
+                        Shipping fee
+                    </ion-col>
+                    <ion-col size="6" class="price-amount">+ {{orderData?.shipping_amount}} </ion-col>
+                </ion-row>
+            </ion-item-divider>
+
+            <ion-row class="total-maount-row">
+                <ion-col size="6" class="price-text">
+                    <b>Total Amount</b>
+                </ion-col>
+                <ion-col
+                    size="6"
+                    class="price-amount"
+                    *ngIf="!orderData?.applied_coupon"
+                >
+                    <b>₹ {{orderData?.totalAmount}}</b>
+                </ion-col>
+                <ion-col
+                    size="6"
+                    class="price-amount"
+                    *ngIf="orderData?.applied_coupon"
+                >
+                    <b>₹ {{orderData?.applied_coupon?.effectiveAmount}}</b>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card class="detail-card">
+        <ion-card-header class="price-card-header">
+            <ion-item-divider class="item-divider">
+                <ion-label><b>Address</b></ion-label>
+            </ion-item-divider>
+        </ion-card-header>
+        <ion-card-content class="price-card-content">
+            <ion-row>
+                <ion-col size="12">
+                    <h5><span>{{orderData?.address?.fullName}}</span></h5>
+                    <h6>
+                        <span>
+                            {{orderData?.address?.address}}
+                            {{orderData?.address?.landmark}}</span
+                        >
+                    </h6>
+                    <h6>
+                        <span>
+                            {{orderData?.address?.city}} -
+                            {{orderData?.address?.pincode}}
+                            {{orderData?.address?.state}}</span
+                        >
+                    </h6>
+                    <h6><span>+91- {{orderData?.address?.phone}}</span></h6>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+    <!-- condition if and only if order is confirmed -->
+    <ion-card class="detail-card" *ngIf="orderData.status != 'Declined'">
+        <ion-card-content class="id-card-content">
+            <ion-row>
+                <ion-col size="6" class="price-text"
+                    ><b> Order Id :</b></ion-col
+                >
+                <ion-col size="6" class="price-amount">
+                    <b>{{orderData?.orderId}}</b>
+                </ion-col>
+                <ion-col size="6" class="price-text">
+                    <b>Order Placed On :</b>
+                </ion-col>
+                <ion-col size="6" class="price-amount">
+                    <b> {{orderData?.created_date | date}} </b>
+                </ion-col>
+
+                <ion-col size="12">
+                    Track your order
+                    <a (click)="trackOrder()" class="here-click">here</a>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+
+        <ion-row>
+            <ion-col size="12">
+                <!-- <h6>Rate your experience</h6>
+                <ion-icon
+                    name="star"
+                    *ngFor="let num of [1,2,3,4,5]"
+                    style="zoom: 2; color: #ffdb4d"
+                ></ion-icon> -->
+            </ion-col>
+        </ion-row>
+    </ion-card>
+    <!-- <ion-row>
+    <ion-col size="1">
+      </ion-col>
+      <ion-col size="5">
+        <ion-button color="primary" (click)="openProduct(uuid)">Order Details</ion-button>
+      </ion-col>
+      <ion-col size="5">
+        <ion-button color="primary" (click)="shopMore()">Shop More</ion-button>
+      </ion-col>
+      <ion-col size="1">
+      </ion-col>
+    </ion-row> -->
+</ion-content>

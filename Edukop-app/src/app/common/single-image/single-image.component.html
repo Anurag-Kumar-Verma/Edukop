@@ -1,0 +1,27 @@
+<div>
+    <div
+        *ngFor="let banner of section?.collectionOfProduct"
+        (click)="
+            openSectionProduct(
+                banner.action,
+                banner.typo,
+                banner.productUUID,
+                banner.name,
+                banner?.isRouterLink,
+                banner?.routerLink,
+                banner?.orgType
+            )
+        "
+    >
+        <!-- <p> {{banner.product.name}}
+        </p> -->
+        <img
+            [src]="
+                banner.imageUrl
+                    ? imageApi + banner.imageUrl
+                    : '/assets/images/aptnovel4.jpg'
+            "
+            class="offer-image"
+        />
+    </div>
+</div>

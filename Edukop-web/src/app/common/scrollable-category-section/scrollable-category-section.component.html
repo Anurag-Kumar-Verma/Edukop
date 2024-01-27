@@ -1,0 +1,10 @@
+<div class="section_div d-flex text-center">
+    <div class="categroy_col pointer" *ngFor="let category of section?.collectionOfProduct" (click)="openCategory(category)">
+        <img [src]="thumbApi + category.imageUrl" class="img" />
+        <p class="text">{{ category.displayText }}</p>
+    </div>
+    <div class="categroy_col pointer" (click)="openAllCategory()">
+        <img src="../../../assets/images/category.jpg" class="img" />
+        <p class="text">Categories</p>
+    </div>
+</div>

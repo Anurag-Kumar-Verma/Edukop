@@ -1,0 +1,282 @@
+<ion-header mode="md">
+    <ion-toolbar class="toolbar">
+        <ion-icon
+            slot="start"
+            name="arrow-back-outline"
+            (click)="goback()"
+            class="back-icon"
+        ></ion-icon>
+        <ion-title class="heading" *ngIf="chipArray?.length == 0">
+            {{params?.abbreviation}} {{className | titlecase }}
+            Products</ion-title
+        >
+        <ion-title class="heading" *ngIf="chipArray?.length>0">
+            {{chipArray[0]}}
+        </ion-title>
+
+        <ion-buttons slot="end">
+            <ion-icon
+                slot="end"
+                name="search-outline"
+                class="search-icon"
+                (click)="presentModal()"
+            ></ion-icon>
+            <ion-icon
+                slot="end"
+                color="light"
+                class="search-icon"
+                name="heart-outline"
+                (click)="openWishList()"
+            >
+            </ion-icon>
+            <ion-icon
+                (click)="myCart()"
+                name="cart-outline"
+                class="cart-icon"
+            ></ion-icon>
+            <ion-badge *ngIf="cartBadge > 0" class="badge-one"
+                >{{cartBadge}}</ion-badge
+            >
+        </ion-buttons>
+    </ion-toolbar>
+    <ion-toolbar class="sort-filter-bar">
+        <ion-row>
+            <ion-col size="6" class="filter-col" (click)="filter()">
+                <ion-button fill="clear">
+                    <ion-icon slot="start" name="filter-outline"></ion-icon>
+                    Filter
+                    <ion-badge
+                        color="danger"
+                        class="filter-badge"
+                        *ngIf="selectedFilter?.length > 0"
+                    >
+                        {{selectedFilter?.length}}
+                    </ion-badge>
+                </ion-button>
+            </ion-col>
+            <ion-col size="6" (click)="presentActionSheet()">
+                <ion-button fill="clear">
+                    <ion-icon slot="start" name="list-outline"></ion-icon>
+                    Sort
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-row class="product-row">
+        <ion-col
+            size="12"
+            class="no-products"
+            *ngIf="productList?.length === 0 && isDataLoaded"
+        >
+            <p>No products found</p>
+            <h4>Make a product request and we will try our best to fulfill your requirment.  </h4>
+            <ion-button shape="round" (click)="requestProduct()">
+                Request Product
+            </ion-button>
+        </ion-col>
+
+        <ng-container *ngFor="let product of productList; let i = index;">
+            <ion-col size="5.6" class="product-col">
+                <!-- <ion-badge   color="primary">Group Product</ion-badge> -->
+                <div class="img-bg">
+                    <ion-fab
+                        *ngIf="product.is_grouped == true"
+                        vertical="top"
+                        horizontal="start"
+                        slot="fixed"
+                    >
+                        <ion-fab-button>
+                            <span style="font-size: 10px !important">
+                                Group
+                            </span>
+                        </ion-fab-button>
+                    </ion-fab>
+                    <ion-fab
+                        *ngIf="!isWishListed(product.uuid)"
+                        horizontal="end"
+                        vertical="top"
+                        (click)="addWishList(product.uuid, 'add')"
+                    >
+                        <ion-fab-button color="light">
+                            <ion-icon
+                                color="medium"
+                                name="heart-outline"
+                            ></ion-icon>
+                        </ion-fab-button>
+                    </ion-fab>
+                    <ion-fab
+                        *ngIf="isWishListed(product.uuid)"
+                        horizontal="end"
+                        vertical="top"
+                        (click)="addWishList(product.uuid, 'remove')"
+                    >
+                        <ion-fab-button color="light">
+                            <ion-icon color="primary" name="heart"></ion-icon>
+                        </ion-fab-button>
+                    </ion-fab>
+                    <div class="div-image">
+                        <img *ngIf="product.isDigital === false"
+                            (click)="productPage(product)"
+                            [src]="product.images?.length ? thumbApi + product.images[0] : '/assets/images/default-image.jpg'"
+                            class="pro-img"
+                        />
+                        <img *ngIf="product.isDigital === true"
+                            (click)="productPage(product)"
+                            src="/assets/images/download-png.png"
+                            class="pro-img-digital"
+                        />
+                    </div>
+                </div>
+                <div class="product-info">
+                    <p (click)="productPage(product)" class="proName">
+                        {{product.name | titlecase}}
+                    </p>
+                    <p
+                        class="free-price"
+                        *ngIf="product?.metaData?.type === 'DigitalProduct'"
+                    >
+                        Free Download
+                    </p>
+                    <p
+                        *ngIf="product.sellingprice && product?.metaData?.type !== 'DigitalProduct'"
+                        class="price-details"
+                    >
+                        <span class="price">₹{{product.sellingprice}} </span>
+
+                        <s
+                            class="striked"
+                            *ngIf="product.mrp > product.sellingprice"
+                        >
+                            {{product.mrp}}</s
+                        >
+                        <span
+                            class="offer"
+                            *ngIf="product.mrp > product.sellingprice"
+                        >
+                            {{calculateOfferPercentage(product.mrp,product.sellingprice)}}%
+                            off</span
+                        >
+                    </p>
+                </div>
+            </ion-col>
+            <ion-col
+                size="12"
+                *ngIf="(i+1)%4==0 && i>0 && dynamicSection[((i+1)/4)-1]"
+                class="section-div"
+            >
+                <div>
+                    <app-single-image
+                        [section]="dynamicSection[((i+1)/4)-1]?.data"
+                        *ngIf="dynamicSection[((i+1)/4)-1].viewType == 'single-image'"
+                        (openSectionProductEmit)="openSectionProductEvent($event)"
+                    >
+                    </app-single-image>
+                    <app-scrollable-square-section
+                        [section]="dynamicSection[((i+1)/4)-1]?.data"
+                        *ngIf="dynamicSection[((i+1)/4)-1].viewType == 'scrollable-square-section'"
+                        (openSectionProductEmit)="openSectionProductEvent($event)"
+                    >
+                    </app-scrollable-square-section>
+                    <app-banner-section
+                        [section]="dynamicSection[((i+1)/4)-1]?.data"
+                        *ngIf="dynamicSection[((i+1)/4)-1].viewType == 'banner-section'"
+                        (openSectionProductEmit)="openSectionProductEvent($event)"
+                    >
+                    </app-banner-section>
+                    <app-two-column-section
+                        [section]="dynamicSection[((i+1)/4)-1]?.data"
+                        *ngIf="dynamicSection[((i+1)/4)-1].viewType == 'two-column-section'"
+                        (openSectionProductEmit)="openSectionProductEvent($event)"
+                    ></app-two-column-section>
+                </div>
+            </ion-col>
+        </ng-container>
+    </ion-row>
+
+    <ion-row class="product-row" *ngIf="relaventData?.length != 0">
+        <ion-col size="12" class="relevant-head"> Relevant Products </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col *ngFor="let product of relaventData" size="6">
+            <div class="relevant-image-div">
+                <img
+                    (click)="productPage(product)"
+                    [src]="product.images.length ? thumbApi + product.images[0] : '/assets/images/default-image.jpg'"
+                    class="relevent-img"
+                />
+            </div>
+            <div class="product-info">
+                <p (click)="productPage(product)" class="proName">
+                    {{product.name}}
+                </p>
+                <p *ngIf="product.sellingprice" class="price-details">
+                    <span class="relevent-price"
+                        >₹{{product.sellingprice}}
+                    </span>
+
+                    <s
+                        class="striked"
+                        *ngIf="product.mrp > product.sellingprice"
+                    >
+                        {{product.mrp}}</s
+                    >
+                    <span
+                        class="offer"
+                        *ngIf="product.mrp > product.sellingprice"
+                    >
+                        {{calculateOfferPercentage(product.mrp,product.sellingprice)}}%
+                        off</span
+                    >
+                </p>
+            </div>
+        </ion-col>
+        <ion-col size="6"> </ion-col>
+    </ion-row>
+
+    <div class="square-section" *ngIf="relaventData?.length > 1">
+        <ion-item-divider mode="md">
+            <!-- <div class="option-row">
+                <div class="wrape">
+                    <div *ngFor="let product of relaventData" class="circle-col">
+                        <div class="relevant-image-div">
+                            <img (click)="productPage(product)"
+                                [src]="product.images.length ? thumbApi + product.images[0] : '/assets/images/default-image.jpg'"
+                                class="relevent-img" />
+                        </div>
+                        <div class="product-info">
+                            <p (click)="productPage(product)" class="proName">
+                                {{product.name}}
+                            </p>
+                            <p *ngIf="product.sellingprice" class="price-details">
+                                <span class="relevent-price">₹{{product.sellingprice}}
+                                </span>
+                                
+                                <s class="striked" *ngIf="product.mrp > product.sellingprice">
+                                    {{product.mrp}}</s>
+                                <span class="offer" *ngIf="product.mrp > product.sellingprice">
+                                    {{calculateOfferPercentage(product.mrp,product.sellingprice)}}%
+                                    off</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </ion-item-divider>
+    </div>
+    <ion-infinite-scroll position="bottom" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content
+            loadingSpinner="circles"
+            loadingText="Loading more data..."
+        >
+        </ion-infinite-scroll-content>
+        <ion-infinite-scroll-content
+            class="noData"
+            *ngIf="noData && noRelavantData"
+            loadingSpinner="none"
+            loadingText="No more data found!"
+        >
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

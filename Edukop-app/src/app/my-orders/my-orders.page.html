@@ -1,0 +1,87 @@
+<ion-header mode="md">
+    <ion-toolbar class="header">
+        <ion-icon slot="start" name="arrow-back-outline" (click)="goback()" class="back-icon"></ion-icon>
+        <ion-title class="heading">My Orders</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="myOrders">
+    <div *ngIf="myOrders.length == 0" class="no-order">No orders yet</div>
+    <div *ngFor="let item of myOrders" class="card" button="true" (click)="openProduct(item)">
+
+        <ion-row class="align-center">
+            <ion-col size="10" class="order">
+                <div class="custom-row align-center">
+                    <img [src]="(item.products[0].product?.images != null && item.products[0].product.images.length > 0) ? imageUrl + item.products[0].product.images[0] : 'assets/images/default-image.png'" class="prodcut-img" />
+                    <ion-text class="product-name">{{item.products[0].product.name}}</ion-text>
+                </div>
+            </ion-col>
+            <ion-col size="2" class="order-rupees">
+                <ion-label class="rupees">₹{{item.totalAmount}}</ion-label>
+            </ion-col>
+        </ion-row>
+        <ion-row class="my-10">
+            <ion-col size="6">
+                <ion-text class="product-id">Order Id : {{item.orderId}}</ion-text>
+                <ion-text class="status">Status: <span>{{item.status}}</span></ion-text>
+            </ion-col>
+            <ion-col size="6" class="text-right">
+                <ion-text class="created-date">Date: {{item.created_date | date : 'dd/MM/yyyy'}}</ion-text>
+            </ion-col>
+        </ion-row>
+        <!-- <ion-card class="ripple-parent" button="true">
+            <ion-card-content>
+                <ion-row (click)="openProduct(item)">
+                    <ion-col size="10" class="order">
+                        <ion-label class="product-name"
+                            >Order Id : {{item.orderId}}</ion-label
+                        ><br />
+
+                        <ion-label class="product-name"
+                            >{{item.created_date | date :
+                            'dd/MM/yyyy'}}</ion-label
+                        ><br />
+                        <ion-label class="status">
+                            Status: {{item.status}}
+                        </ion-label> -->
+        <!-- <ion-label
+                            class="status"
+                            *ngIf="item.products[0]?.product?.isDigital == true"
+                        >
+                            Status: Delivered
+                        </ion-label> -->
+        <!-- </ion-col>
+                    <ion-col size="2" class="order-rupees">
+                        <ion-label class="rupees"
+                            >₹{{item.totalAmount}}</ion-label
+                        >
+                    </ion-col>
+                </ion-row>
+                <ion-row
+                    style="
+                        border-top: 0.5px solid #000 !important;
+                        margin-top: 10px;
+                    "
+                >
+                    <ion-col size="6" style="padding-left: 0px !important">
+                        <div style="width: 129px !important"> -->
+        <!-- <rating  mode="ios"
+                            readonly="false" 
+                            size="3" 
+                            (rateChange)="onRateChange($event, item.uuid)"
+                           > 
+                           </rating> -->
+        <!-- </div>
+                    </ion-col>
+                    <ion-col *ngIf="item.status == 'Delivered'" size="6" class="review" (click)="reviewPage(item)">
+                        <h4>Write review</h4>
+                    </ion-col>
+                </ion-row>
+            </ion-card-content>
+        </ion-card> -->
+    </div>
+    <ion-infinite-scroll threshold="15%" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

@@ -1,0 +1,63 @@
+<div class="dialog-section">
+    <div class="product_form_section">
+        <button class="float-end pointer format_btn closeBtn border-0" (click)="close()">
+            <i class="mdi mdi-close mdi-18px"></i>
+        </button>
+
+        <h2 class="danger text-md-center">Request Product</h2>
+
+
+        <form class="mt-2 form">
+
+            <div class="input_fields">
+                <div class="input_div">
+                    <label for="name" class="d-block form_label">Product Name <sup class="danger">*</sup></label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Product Name"
+                        [(ngModel)]="name">
+                </div>
+                <div class="input_div">
+                    <label for="description" class="d-block form_label">Description <sup class="danger">*</sup></label>
+                    <textarea name="description" id="description" rows="2" class="form-control"
+                        placeholder="Description" [(ngModel)]="desc"></textarea>
+                </div>
+            </div>
+        </form>
+
+        <div class="mt-2 form">
+            <div class="uploadMedia">
+                <div draggable="true" ngClass="{{dragAreaClass}}">
+                    <div class="row">
+                        <div class="col-12 color-gray text-center" *ngIf="!upload">
+                            <p class="mb-0">Drag files here</p>
+                            <small>Or</small>
+                            <div>
+                                <button class="btn_danger rounded-1 btn-sm py-1 mt-1 uploadBtn" (click)="file.click()">
+                                    Upload Media
+                                </button>
+                            </div>
+                            <input type="file" #file [multiple]="false" (change)="uploadImage($event)" accept="image/png*, image/*"
+                                style="display:none" />
+                        </div>
+
+                        <div class="col-12 text-center" *ngIf="upload">
+                            <div class="d-flex align-items-end">
+                                <img [src]="imagePath ? imagePath : '../../assets/images/default-image.jpg'" alt="Upload Picture">
+                                <button class="btn py-0" (click)="deleteImage()">
+                                    <i class="mdi mdi-delete mdi-18px"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="error" *ngIf="error">
+                    Only one file at time allow
+                </div>
+            </div>
+
+            <div class="groups_btn d-flex align-items-center justify-content-center flex-wrap">
+                <button class="btn btn-light btn_danger cancel_btn mx-1" (click)="close()">Cancel</button>
+                <button class="btn btn-danger submit_btn mx-1" (click)="submit()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

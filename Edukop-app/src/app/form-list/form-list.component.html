@@ -1,0 +1,57 @@
+<ion-header mode="md">
+    <ion-toolbar class="toolbar">
+        <ion-icon
+            class="back-icon"
+            slot="start"
+            name="arrow-back-outline"
+            (click)="back()"
+        ></ion-icon>
+        <ion-title class="heading">My Forms</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="no-form" *ngIf="myEnrollments?.length == 0 && isDataLoaded">
+        <ion-text class="title">No form purchased</ion-text>
+        <img src="../../assets/images/file_logo.png" class="file_log" alt="">
+        <ion-button
+            class="buy_now_btn"
+            color="primary"
+            style="border-radius: 50px; overflow: hidden"
+            (click)="back()"
+            >Purchase Now</ion-button
+        >
+    </div>
+    <ng-container *ngIf="isDataLoaded">
+        <ion-card *ngFor="let myEnrollment of myEnrollments; let i = index">
+            <div class="form-list" (click)="openForm(myEnrollments[i])">
+                <span class="s-name">
+                    {{
+                        getSchoolInfo(myEnrollment.enrollmentData.school_id)?.name
+                    }} </span
+                ><br />
+                <span class="s-name-add">
+                    {{ getSchoolInfo(myEnrollment.enrollmentData.org_id)?.address }}
+                </span>
+                <br />
+                <div>
+                    <span class="completed">
+                        <b>Status - {{ myEnrollment?.formStatus }}</b></span
+                    >
+                    <span class="form-id">
+                        <b>Form Id - {{ myEnrollment?.myEnrollmentId }}</b>
+                    </span>
+                </div>
+            </div>
+            <ion-button
+                size="small"
+                class="download-btn"
+                (click)="
+                downloadDoc(myEnrollments[i], myEnrollment.enrollmentData)
+                "
+            >
+                Download Pdf
+            </ion-button>
+        </ion-card>
+    </ng-container>
+</ion-content>

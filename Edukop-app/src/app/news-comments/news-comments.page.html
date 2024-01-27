@@ -1,0 +1,64 @@
+<ion-header mode="md">
+  <ion-toolbar class="toolbar">
+    <ion-icon class="back-icon" slot="start" name="arrow-back-outline" (click)="back()"></ion-icon>
+    <ion-title class="heading">Comments</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="none" *ngFor="let comments of allComments; let i = index;" class="item-padding comment-list">
+    <ion-avatar slot="start" class="img-sec">
+      <img [src]="comments?.userInfo?.imageUrl ? imageUrl+comments.userInfo.imageUrl : 'assets/images/avatar.png'" class="user-img" />
+    </ion-avatar>
+    <div class="detail">
+      <div class="d-flex align-items-center justify-between">
+        <ion-text *ngIf="comments.userInfo?.firstName text2" ><b>{{comments.userInfo?.firstName}}</b></ion-text>
+        <ion-text *ngIf="!comments.userInfo?.firstName text2" ><b>Random User</b></ion-text>
+        <ion-text class="text">{{comments.created_date | date: 'EEE, MMM d'}}, {{comments.created_date | date: 'h:mm a'}}</ion-text>
+      </div>
+      <ion-text class="comment text">{{comments.comment_text}}</ion-text>
+    </div>
+  </ion-item>
+
+  <!-- <ion-row class="comment-row" *ngFor="let comments of allComments; let i = index;">
+    <ion-col size="2" class="avatar-col">
+      <ion-avatar>
+        <img [src]="comments?.userInfo?.imageUrl ? imageUrl+comments.userInfo.imageUrl : 'assets/images/avatar.png'"
+          class="img" />
+      </ion-avatar>
+    </ion-col>
+    <ion-col size="7.5" class="comment-col">
+      <p class="comments"><b>{{comments.userInfo?.firstName}}</b></p>
+      <p class="comments" *ngIf="!comments.userInfo?.firstName" ><b>Random User</b></p>
+      <p class="comments"> {{comments.comment_text}}
+      </p>
+    </ion-col>
+    <ion-col size="2.5">
+      <p class="comment-date">
+        {{comments.created_date | date: 'EEE, MMM d'}}<br>
+        {{comments.created_date | date: 'h:mm a'}}
+      </p>
+    </ion-col>
+  </ion-row> -->
+  <div class="spin" *ngIf="isLoading">
+    <ion-spinner name="bubbles"></ion-spinner>
+</div>
+
+  <ion-infinite-scroll position="bottom" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="circles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+    <ion-infinite-scroll-content class="noData" *ngIf="
+        noData" loadingSpinner="none" loadingText="No more data found!">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>
+<ion-footer class="foot">
+  <div class="input">
+    <ion-input class="input-box" [(ngModel)]="comment" placeholder="Comment">
+    </ion-input>
+    <ion-button fill="clear" class="post-btn" (click)="addComment()">
+      Post
+    </ion-button>
+  </div>
+</ion-footer>

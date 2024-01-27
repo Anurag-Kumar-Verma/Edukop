@@ -1,0 +1,76 @@
+// header
+ion-content{
+    --background:#f5f5f5 !important;
+}
+ion-checkbox{
+   
+    margin-right:10px !important
+}
+h6{
+    margin:0px !important;
+}
+ion-item{
+    --padding-start: 0px !important;
+    --border-color: #fff !important;
+}
+ion-card p{
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #df1744 !important;
+    padding:5px 10px !important;
+    border-radius: 4px !important;
+    border: 1.2px dashed #df1744 !important;
+}
+ion-card-content{
+    padding: 10px 12px!important;
+}
+.back-icon {
+    padding-left: 8px !important;
+    font-size: 22px !important;
+}
+.toolbar {
+    --background: #df1744;
+    --color: #fff !important;
+}
+.heading {
+    font-size: 18px !important;
+    text-align: left !important;
+}
+
+//input
+ion-col {
+    padding: 0px !important;
+}
+.apply-coupon-row {
+    margin: 10px !important;
+    border-radius: 5px !important;
+    border: 1px solid rgb(212, 212, 212) !important;
+}
+.apply-coupon-button-col {
+    font-weight: 600 !important;
+    vertical-align: middle !important;
+    margin: auto !important;
+    text-align: center !important;
+    color: #df1744 !important;
+}
+.invalid-msg-div {
+    margin-bottom: 10px !important;
+    margin-left: 12px !important;
+    color: red !important;
+    font-size: 12px !important;
+}
+.savings-col {
+    padding-top: 10px !important;
+    padding-left: 10px !important;
+}
+.saving-text {
+    font-size: 14px !important;
+}
+.rupees {
+    font-weight: 600 !important;
+}
+.card{
+    color :#000 !important;
+    margin: 10px 0px !important;
+    border-radius: 0px !important;
+}

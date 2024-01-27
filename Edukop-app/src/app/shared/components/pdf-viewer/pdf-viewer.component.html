@@ -1,0 +1,39 @@
+<ion-header mode="md">
+    <ion-toolbar class="toolbar">
+        <ion-icon
+            class="back-icon"
+            slot="start"
+            name="arrow-back-outline"
+            (click)="goback()"
+        ></ion-icon>
+        <ion-title class="heading">{{ info.name }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <!-- <pinch-zoom> -->
+        <pdf-viewer
+        [show-borders]="true"
+        [src]="path"
+        [original-size]="true"
+        [zoom-scale]="zoomScale"
+        [zoom]="zoom_to"
+        [fit-to-page]="true"
+        [autoresize]="true"
+        [render-text]="true"
+        style="overflow: scroll !important"
+    >
+    </pdf-viewer>
+    <!-- </pinch-zoom> -->
+    <!-- <ion-fab vertical="bottom" horizontal="end">
+        <ion-fab-button
+            style="margin-bottom: 5px !important"
+            ion-fab
+            (click)="zoom_in()"
+        >
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button ion-fab (click)="zoom_out()">
+            <ion-icon name="remove"></ion-icon>
+        </ion-fab-button>
+    </ion-fab> -->
+</ion-content>

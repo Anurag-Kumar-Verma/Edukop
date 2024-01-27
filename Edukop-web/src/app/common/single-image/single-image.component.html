@@ -1,0 +1,14 @@
+<div class="singleImageSec" *ngFor="let banner of section?.collectionOfProduct"
+(click)="
+    openSectionProduct(
+        banner.action,
+        banner.typo,
+        banner.productUUID,
+        banner.name,
+        banner?.isRouterLink,
+        banner?.routerLink,
+        banner?.orgType
+    )
+">
+    <img [src]="banner.imageUrl ? imageApi + banner.imageUrl : '/assets/images/aptnovel4.jpg'" class="d-block w-100 offer-image" />
+</div>

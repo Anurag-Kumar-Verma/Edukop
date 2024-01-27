@@ -1,0 +1,198 @@
+.account-section {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img {
+    width: 100%;
+}
+
+// profile section
+.profile_card,
+.profile_card .card-header {
+    background-color: #fff;
+}
+.profile_card .card-header{
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+}
+.user_content {
+    margin-left: 10px;
+}
+
+.profile_div {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.profile_img {
+    width: 50px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50px;
+}
+.profile_view_div {
+    margin-bottom: 30px;
+}
+.profile_big_img {
+    width: 100px;
+    aspect-ratio: 1 / 1;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    border: 2px solid #fff;
+    box-shadow: 5px 5px 10px rgba($color: #000000, $alpha: 0.09);
+    border-radius: 50%;
+    position: relative;
+}
+.profile_big_img img,
+.profile_img img {
+    border-radius: 50px;
+    object-fit: contain;
+    height: 100%;
+    background-color: #f4f4f4;
+}
+.username {
+    margin-bottom: 0px;
+    line-height: normal;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    display: -webkit-box;
+}
+
+.user_activity_list .nav-link {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.control-icons {
+    font-size: 20px;
+    margin-right: 10px;
+}
+.user_activity_list .nav-link.active,
+.user_activity_list .nav-link:hover {
+    background-color: rgba($color: #eb445a, $alpha: 0.052);
+}
+.user_activity_list .nav-link span:last-child {
+    color: #484848;
+}
+
+
+// content section 
+
+.content-section {
+    height: fit-content;
+    box-shadow: 0 0 20px -2px rgba($color: #000000, $alpha: 0.09);
+    min-height: 100vh;
+    border-radius: 10px;
+}
+.loginDetail {
+    margin-top: 20px;
+}
+
+// form style
+.form-section {
+    max-width: 600px;
+    margin: 20px auto;
+    display: grid;
+}
+form .btn_group{
+    margin-top: 20px;
+}
+.cancel_btn,
+.submit_btn {
+    margin: 5px;
+    min-width: 100px;
+}
+
+
+.groups_btn{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.user-pannel::-webkit-scrollbar {
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+    .user-pannel {
+        margin-right: 20px;
+        max-width: 250px;
+        max-height: calc(100vh - 60px);
+        overflow-y: auto;
+        position: sticky;
+        top: 60px;
+        box-shadow: 0 0 20px -2px rgba($color: #000000, $alpha: 0.09);
+        min-height: 100vh;
+        border-radius: 10px;
+    }
+    .content-section {
+        width: calc(100% - 270px);
+        flex: 1 0 0;
+    }
+    .loginDetail {
+        margin-top: 25px;
+    }
+    .form-section {
+        max-width: 600px;
+        margin: 20px auto 50px;
+        display: grid;
+    }
+    .profile_view_div {
+        margin-bottom: 40px;
+    }
+    .profile_big_img {
+        width: 150px;
+    }
+    .profile_big_img img {
+        border-radius: 50%;
+    }
+
+    .btn_group {
+        margin-top: 40px;
+    }
+    .cancel_btn,
+    .submit_btn {
+        min-width: 150px;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .user-pannel {
+        max-width: 280px;
+    }
+    .user_content {
+        margin-left: 15px;
+    }
+    .content-section {
+        width: calc(100% - 300px);
+    }
+}
+
+
+@media screen and (max-width: 750px) and (min-width: 480px) {
+    .cancel_btn,
+    .submit_btn {
+        margin: 5px auto;
+    }
+
+    p, span, address {
+        font-size: 12px;
+    }
+}
+
+
+@media screen and (max-width: 540px) {
+    .profile_card {
+        box-shadow: 0 0 20px -2px rgba($color: #000000, $alpha: 0.09);
+        border-radius: 10px;
+    }
+
+    .form-control {
+        font-size: 12px !important
+    }
+    p, span, address {
+        font-size: 12px;
+    }
+}

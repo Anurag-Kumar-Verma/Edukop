@@ -1,0 +1,106 @@
+.product-name {
+  font-size: 15px;
+  margin: 0 10px;
+  max-height: 55px;
+  overflow: hidden;
+}
+.heading {
+  font-size: 18px !important;
+  text-align: left !important;
+}
+.header {
+  --background: #df1744;
+  --color: #fff !important;
+}
+.back-icon {
+  padding-left: 10px !important;
+  font-size: 22px !important;
+}
+.order-img {
+  height: 65px !important;
+  padding-top: 6px !important;
+}
+.no-order {
+  margin-top: 50px !important;
+  text-align: center !important;
+}
+ion-item-divider {
+  --inner-padding-start: 0px !important;
+  --padding-start: 0px !important;
+  margin-bottom: 10px !important;
+}
+
+.order-rupees {
+  margin: 0px 0px 00px 0px !important;
+  padding: 0px !important;
+}
+.rupees {
+  margin: 0px !important;
+  font-size: 18px !important;
+//   color: #063278 !important ;
+  float: right !important;
+}
+.order {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+.failed {
+  color: rgb(241, 0, 0) !important;
+  text-decoration: underline !important;
+  font-size: 20px !important;
+}
+.button {
+  --padding-start: 3px !important;
+  --padding-end: 3px !important;
+}
+.review {
+  text-align: right !important;
+}
+.review h4 {
+  font-size: 15px !important;
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+  color: #df1744;
+  font-weight: 600;
+}
+ion-card-content {
+  padding-bottom: 10px !important;
+}
+h4 {
+  margin: 0px !important;
+}
+.ripple-parent {
+  color: #df1744 !important;
+}
+
+.align-center {
+  align-items: center;
+}
+.content-between {
+  justify-content: space-between;
+}
+.custom-row {
+  display: flex;
+}
+
+.card {
+  color: #484848;
+  margin: 20px;
+  border-bottom: 2px solid #cfcfcf;
+}
+.prodcut-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  object-fit: fill;
+}
+.product-id,
+.product-status {
+  display: block;
+}
+.text-right {
+  text-align: end;
+}
+.my-10{
+    margin: 10px 0;
+}

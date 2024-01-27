@@ -1,0 +1,20 @@
+{
+	"appId": "com.edukop.app",
+	"appName": "edukop-app",
+	"webDir": "www",
+	"bundledWebRuntime": false,
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 0
+		},
+		"GoogleAuth": {
+			"scopes": [
+				"email"
+			],
+			"serverClientId": "417760524574-hcikj4idscun7g3u6dki88n23els9qsc.apps.googleusercontent.com"
+		}
+	},
+	"linuxAndroidStudioPath": "/snap/android-studio/current/android-studio/bin/studio.sh",
+	"cordova": {},
+	"iosClientId":"573502294744-dvqn961tgueb78kpc7t1sjjaqis04tlc.apps.googleusercontent.com"
+}

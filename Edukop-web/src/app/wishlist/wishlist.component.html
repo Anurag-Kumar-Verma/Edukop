@@ -1,0 +1,54 @@
+<div class="">
+    <div class="wishlist-section">
+        <h1 class="danger">Wishlist</h1>
+        <p>Find your saved items and get ready to order them.</p>
+        <div class="text-center noData" *ngIf="wishList.length == 0">
+            <img src="../../../assets/images/default-image.png" alt="No Data" style="max-width: 200px;">
+            <p class="color-gray">Wishlist is empty</p>
+        </div>
+
+        <div class="row pb-3 mx-sm-0 item_list">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 p-0" *ngFor="let list of wishList; let i = index;">
+                <div class="card item_card pointer border-0">
+                    <div class="card-header border-0 p-0" (click)="viewDetail($event, list.product.uuid)">
+                        <img *ngIf="!list.product.isDigital" [src]="list.product.images ? imageApi + list.product.images[0] : '../../assets/images/default-image.jpg'" alt="product pic" class="item_pic">
+                        <img *ngIf="list.product.isDigital" [src]="'../../assets/images/download-png.png'" alt="product pic" class="item_pic">
+
+                        <span class="pointer closeBtn" (click)="addWishList($event, list.product.uuid)">
+                            <i class="mdi mdi-close mdi-18px"></i>
+                        </span>
+                    </div>
+                    <div class="card-content py-2 px-2" (click)="viewDetail($event, list.product.uuid)">
+                        <h4 class="item_name">{{list?.product?.name}}</h4>
+                        <p class="price">
+                            <span class="fw-5 product-price">₹{{list?.product?.sellingprice}}</span>
+                            <span class="color-gray">
+                                <s class="striked" *ngIf="list.product.mrp > list.product.sellingprice">{{list?.product?.mrp}}</s>
+                            </span>&nbsp;
+                            <span
+                                class="offer danger"
+                                *ngIf="list.product.mrp > list.product.sellingprice"
+                                >{{calculateOfferPercentage(list.product.mrp, list.product.sellingprice)}}%
+                                off</span
+                            >
+                        </p>
+                        <!-- <div class="card-rating">
+                            <bar-rating [rate]="rate" [theme]="'stars'" [max]="5"></bar-rating>
+                        </div> -->
+                    </div>
+                    <div class="card-footer text-center">
+                        <button *ngIf="!isInCart(list.productUUID)" type="button" class="danger addBtn" (click)="addToCart($event, list.product)">
+                            <i class="mdi mdi-cart-outline"></i>
+                            Add to cart
+                        </button>
+                        <button *ngIf="isInCart(list.productUUID)" type="button" class="danger addBtn" routerLink="/my-cart">
+                            Go to cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner type="ball-scale-multiple" [fullScreen]="true"></ngx-spinner>

@@ -1,0 +1,111 @@
+.search-bar {
+    --background: #efefef !important;
+    --border-radius: 8px !important;
+}
+.re-search-icon {
+    height: 17px;
+    width: 16px !important;
+    margin-right: 10px !important;
+}
+.historyList {
+    margin-top: 100px !important;
+}
+.deal-image {
+    height: 80px !important;
+    width: 80px !important;
+    border-radius: 100% !important;
+}
+.search-result {
+    width: 100% !important;
+    display: block;
+}
+
+.top-deals {
+    margin: 10px !important;
+}
+.deals {
+    width: 100% !important;
+    display: block !important;
+}
+.parent {
+    overflow: hidden;
+}
+
+.search {
+    height: auto !important;
+    width: 100% !important;
+}
+
+.autocomplete {
+    width: 100%;
+}
+
+ion-searchbar {
+    // padding: 1px !important;
+    --background: #efefef !important;
+    --border-radius: 8px !important;
+}
+.search-bar {
+    width: 90% !important;
+}
+
+ion-label {
+    font-size: 20px !important;
+    padding-top: 5px !important;
+}
+
+.suggestion-item {
+  border-bottom: 1px solid #a0a0a0 !important;
+}
+.avatar {
+    margin: 0px auto !important;
+    height: 50px !important;
+    width: 40px !important;
+}
+h6 {
+   
+    margin: 6px 0px 7px 0px !important;
+}
+
+
+ion-item:hover {
+    cursor: pointer;
+    background: #f1f1f1;
+}
+
+.categoryClass {
+    color: blue;
+    font-size: medium;
+}
+.image-col { 
+text-align: center !important;   
+}
+.search-suggetion-div {
+    width: 100% !important;
+}
+.spin {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+ion-spinner {
+    width: 28px;
+    height: 28px;
+    stroke: #444;
+    fill: #222;
+}
+
+.block-ellipsis {
+    display: block;
+    display: -webkit-box;
+    max-width: 98%;
+    // height: 43px;
+    margin: 0 auto;
+    font-size: 17px;
+    line-height: 1.2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }

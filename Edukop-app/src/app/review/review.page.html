@@ -1,0 +1,68 @@
+<ion-header mode="md">
+    <ion-toolbar class="toolbar">
+        <ion-icon
+            class="back-icon"
+            slot="start"
+            name="arrow-back-outline"
+            (click)="goback()"
+        ></ion-icon>
+        <ion-title class="heading">Review</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div *ngFor="let product of orderData;let i = index;">
+        <ion-card>
+            <ion-card-content>
+                <ion-row>
+                    <ion-col size="9" class="review-pro-name">
+                        <ion-label> {{product.name}} </ion-label>
+                        <div style="width: 128px !important; text-align: left">
+                            <rating
+                                mode="ios"
+                                [rate]="product.rate"
+                                [readonly]="false"
+                                (rateChange)="onRateChange($event, i)"
+                            >
+                            </rating>
+                        </div>
+                    </ion-col>
+                    <ion-col size="3" class="pro-image">
+                        <img
+                            [src]="product?.images.length > 0 ? imageUrl+product?.images[0] : 'assets/images/default-image.png'"
+                            class="img"
+                        />
+                    </ion-col>
+                    <ion-col size="12" class="text-area-col">
+                        <!-- <div class="review-input" *ngIf="review == null">
+              <ion-textarea [(ngModel)]="product.comment" rows="3" placeholder="Write a review..."></ion-textarea>
+            </div> -->
+                        <div class="review-input">
+                            <ion-textarea
+                                [(ngModel)]="product.comment"
+                                rows="3"
+                                placeholder="Write a review..."
+                            ></ion-textarea>
+                        </div>
+                    </ion-col>
+                    <ion-col size="12" class="btn-ftr">
+                        <ion-button
+                            size="small"
+                            (click)="addReview(product.uuid,product.comment)"
+                            class="submit-btn"
+                            color="primary"
+                            >Submit</ion-button
+                        >
+                        <!-- <ion-button size="small" 
+                   *ngIf ="reviewUUID"
+                  (click)="updatereview()"
+              class="submit-btn"
+                      color="primary"
+                      >Update</ion-button
+                  > -->
+                    </ion-col>
+                </ion-row>
+            </ion-card-content>
+        </ion-card>
+    </div>
+</ion-content>

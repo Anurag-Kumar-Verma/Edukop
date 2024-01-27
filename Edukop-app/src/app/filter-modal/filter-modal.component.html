@@ -1,0 +1,68 @@
+<ion-header>
+    <ion-toolbar class="toolbar">
+        <ion-icon class="back-icon" slot="start" name="arrow-back-outline" (click)="dismiss()"></ion-icon>
+        <ion-title class="heading">Filter </ion-title>
+        <ion-button color="light" slot="end" fill="clear" (click)="onClearFilter()">
+            Clear All
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-row *ngIf="categoryFilter?.length" class="filter-row">
+        <ion-col size="4" class="filter-option-col">
+            <div class="select-btn" *ngFor="let filter of categoryFilter; let i = index"
+                (click)="showAttributeValues(filter, i)">
+                <ion-button expand="full" class="btn" *ngIf="!isClicked[i]">
+                    {{ filter.attributeName }}
+                </ion-button>
+                <ion-button expand="full" class="btn-2" *ngIf="isClicked[i]">
+                    {{ filter.attributeName }}
+                </ion-button>
+            </div>
+            <div (click)="showRange()" size="4" class="filter-option-col">
+                <ion-button expand="full" class="btn" *ngIf="!isRange">
+                    Price Range
+                </ion-button>
+                <ion-button expand="full" class="btn-2" *ngIf="isRange">
+                    Price Range
+                </ion-button>
+            </div>
+        </ion-col>
+
+        <ion-col size="8" class="attribute-options">
+            <div>
+                <ion-item *ngFor="let attribute of attributeValue; let i = index">
+                    <ion-checkbox class="check-box" slot="start" color="primary" [checked]="isChecked(attribute, i)"
+                        (ionChange)="
+                            selectedAttribute($event, attribute)
+                        "></ion-checkbox>
+                    <ion-label>{{ attribute.attributeKey }}</ion-label>
+                </ion-item>
+            </div>
+            <ion-range *ngIf="isRange" class="range" snaps="true" [(ngModel)]="knobValues" dual-knobs min="10"
+                max="2000" step="50" color="primary" pin="true" (ionChange)="
+                    onPriceChange($event)">
+                <ion-icon slot="start" size="small" name="remove-outline"></ion-icon>
+                <ion-icon slot="end" size="medium" name="add-outline"></ion-icon>
+            </ion-range>
+            <p style="padding: 0px !important" *ngIf="isRange">
+                {{ knobValues.lower }}
+                <span style="
+                        text-align: right !important;
+                        float: right !important;
+                    ">{{ knobValues.upper }}</span>
+            </p>
+        </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="!categoryFilter?.length"> No Filter available </ion-row>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <div class="apply-cls">
+            <ion-button fill="clear" shape="round" class="buy-now" (click)="applyFilter()">Apply</ion-button>
+        </div>
+    </ion-toolbar>
+</ion-footer>

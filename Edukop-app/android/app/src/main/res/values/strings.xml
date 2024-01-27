@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Edukop</string>
+    <string name="title_activity_main">Edukop</string>
+    <string name="package_name">com.edukop.app</string>
+    <string name="fb_app_id">5101584633234492</string>
+    <string name="facebook_client_token">37f30b246172fbabe91fa4c6113470aa</string>
+    <string name="fb_app_name">edukop-app</string>
+    <bool name="fb_auto_log_app_events_enabled">false</bool>
+    <bool name="fb_advertiser_id_collection_enabled">false</bool>
+    <string name="custom_url_scheme">https://edukop.com/app</string>
+    <string name="server_client_id">417760524574-hcikj4idscun7g3u6dki88n23els9qsc.apps.googleusercontent.com</string>
+</resources>
